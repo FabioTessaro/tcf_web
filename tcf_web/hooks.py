@@ -21,6 +21,16 @@ app_license = "agpl-3.0"
 # 	}
 # ]
 
+# Fixtures
+# ------------
+
+fixtures = [
+	{
+		"dt": "Website Settings",
+	}
+]
+
+
 # Includes in <head>
 # ------------------
 
@@ -57,12 +67,16 @@ app_license = "agpl-3.0"
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+# home_page = "index"
 
 # website user home page (by Role)
 # role_home_page = {
-# 	"Role": "home_page"
+# 	"Guest": "index"
 # }
+
+# Renderer
+# ----------
+page_renderer = "tcf_web.patches.portal_gate.TCFPortalGate"
 
 # Generators
 # ----------
@@ -255,4 +269,3 @@ app_license = "agpl-3.0"
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TCF Group{% endblock %}</title>
+
+    <script type="text/javascript" src="/assets/frappe/js/frappe-web.bundle.js"></script>
+    <meta name="csrf_token" content="{{ frappe.session.csrf_token }}">
+
+    <style>
+        {% include "tcf_web/www/base.css" %}
+    </style>
+    <script>
+        {% include "tcf_web/www/base.js" %}
+    </script>
+</head>
+<body>
+
+    {% include "tcf_web/templates/components/splash/splash.html" %}
+
+    <div id="page-container">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>
