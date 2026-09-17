@@ -5,3 +5,8 @@ frappe.ready_events = [];
 frappe.ready = function (fn) {
 	frappe.ready_events.push(fn);
 };
+$(function () {
+	frappe.ready_events.forEach(function (fn) {
+		fn();
+	});
+});

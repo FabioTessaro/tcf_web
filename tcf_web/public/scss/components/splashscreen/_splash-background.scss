@@ -1,0 +1,18 @@
+@use "../../config/palette";
+
+.cls-5 {
+	@media screen and (prefers-color-scheme: dark) {
+		fill: palette.$dark-background;
+		stroke: palette.$dark-background;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		fill: palette.$light-background;
+		stroke: palette.$light-background;
+	}
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.5px;
+	opacity: 1;
+	transform-origin: center;
+	transform-box: fill-box;
+}

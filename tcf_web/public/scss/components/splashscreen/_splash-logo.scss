@@ -1,0 +1,48 @@
+@use "../../config/palette";
+
+.cls-1 {
+	@media screen and (prefers-color-scheme: dark) {
+		fill: palette.$dark-primary-medium;
+		stroke: palette.$dark-primary-medium;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		fill: palette.$light-primary-medium;
+		stroke: palette.$light-primary-medium;
+	}
+}
+
+.cls-1,
+.cls-2,
+.cls-3 {
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.5px;
+	transform-origin: center;
+	transform-box: fill-box;
+}
+
+.cls-4 {
+	opacity: 1;
+}
+
+.cls-2 {
+	@media screen and (prefers-color-scheme: dark) {
+		fill: palette.$dark-primary-deep;
+		stroke: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		fill: palette.$light-primary-deep;
+		stroke: palette.$light-primary-deep;
+	}
+}
+
+.cls-3 {
+	@media screen and (prefers-color-scheme: dark) {
+		fill: palette.$dark-primary-light;
+		stroke: palette.$dark-primary-light;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		fill: palette.$light-primary-light;
+		stroke: palette.$light-primary-light;
+	}
+}

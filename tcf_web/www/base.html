@@ -8,18 +8,17 @@
     <script type="text/javascript" src="/assets/frappe/js/frappe-web.bundle.js"></script>
     <meta name="csrf_token" content="{{ frappe.session.csrf_token }}">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
-    <style>
-        {% include "tcf_web/www/base.css" %}
-    </style>
-    <script>
-        {% include "tcf_web/www/base.js" %}
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.umd.min.js"></script>
+
+    <link rel="stylesheet" href="/assets/tcf_web/scss/base.css"/>
+    <script src="/assets/tcf_web/js/base.js"></script>
 </head>
 <body>
 
-    {% include "tcf_web/templates/components/splash/splash.html" %}
+    {% include "tcf_web/components/splashscreen/splash.html" %}
+    <script src="/assets/tcf_web/js/components/splashscreen/splash.js"></script>
 
     <div id="page-container">
         {% block content %}{% endblock %}

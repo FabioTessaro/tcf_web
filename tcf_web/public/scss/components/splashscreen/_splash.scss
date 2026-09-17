@@ -1,0 +1,38 @@
+@use "../../config/palette";
+
+#splash-container {
+	position: fixed;
+	inset: 0;
+	z-index: 9998;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 100vw;
+	height: 100vh;
+}
+
+#splash-logo {
+	width: 20vmin;
+	max-width: 320px;
+	z-index: 9999;
+
+	svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+}
+
+#splash-background {
+	width: 100vmax;
+	height: 100vmax;
+	position: absolute;
+
+	svg {
+		display: block;
+		width: auto;
+		height: 100%;
+	}
+}
