@@ -1,5 +1,5 @@
 /* global anime */
-$(function () {
+$(document).ready(function () {
 	var animate = anime.animate;
 	var utils = anime.utils;
 
@@ -35,12 +35,18 @@ $(function () {
 		var logoTriaRevealDuration = opts.logoTriaRevealDuration || 200;
 
 		// These configs are for the loop animation
-		var logoLoopDuration = opts.logoLoopDuration || 800;
-		var logoLoopDelay = opts.logoLoopDelay || 1000;
-		var logoTriaInDuration = opts.logoTriaInDuration || 150;
-		var logoTriaOutDuration = opts.logoTriaOutDuration || 300;
+		var logoLoopDuration = opts.logoLoopDuration || 600;
+		var logoLoopDelay = opts.logoLoopDelay || 800;
+		var logoTriaInDuration = opts.logoTriaInDuration || 100;
+		var logoTriaOutDuration = opts.logoTriaOutDuration || 100;
 
-		var outroDuration = opts.outroDuration || 300;
+		// These config are for the intro animation
+		var backgroundHideDuration = opts.backgroundHideDuration || 600;
+		var backgroundHideDelay = opts.backgroundHideDelay || 250;
+		var backgroundTriaHideDuration = opts.backgroundTriaHideDuration || 200;
+		var logoHideDuration = opts.logoHideDuration || 500;
+		var logoHideDelay = opts.logoHideDelay || 0;
+		var logoTriaHideDuration = opts.logoTriaHideDuration || 200;
 
 		// These are the user defined callback functions
 		var onStart = opts.onStart || function () {};
@@ -57,9 +63,30 @@ $(function () {
 				scale: 1.5,
 			},
 		};
-		const loopCentralState = {
+		const neutralState = {
+			background: {
+				opacity: 1,
+				scale: 1,
+			},
 			logo: {
+				opacity: 1,
+				scale: 1,
+			},
+		};
+		const loopState = {
+			logo: {
+				opacity: 1,
 				scale: 0.65,
+			},
+		};
+		const outroEndState = {
+			background: {
+				opacity: 0,
+				scale: 1,
+			},
+			logo: {
+				opacity: 0,
+				scale: 1.5,
 			},
 		};
 
@@ -155,15 +182,19 @@ $(function () {
 				loop: 0,
 				autoplay: false,
 				onBegin: () => {
-					exitRequested = false;
-					running = true;
 					$container.css("display", visibleDisplay);
-					utils.set($backgroundTria.toArray(), introStartState.background);
-					utils.set($logoTria.toArray(), introStartState.logo);
+					utils.set($backgroundTriaArray, introStartState.background);
+					utils.set($logoTriaArray, introStartState.logo);
 				},
 				onLoop: null,
-				onComplete: (anim) => {
-					playLoop();
+				onComplete: () => {
+					utils.set($backgroundTriaArray, neutralState.background);
+					utils.set($logoTriaArray, neutralState.logo);
+					if (exitRequested) {
+						playOutro();
+					} else {
+						playLoop();
+					}
 				},
 			})
 			.add(
@@ -171,13 +202,22 @@ $(function () {
 				{
 					opacity: [
 						{ to: introStartState.background.opacity, duration: 0 },
-						{ to: 1, duration: backgroundTriaRevealDuration, ease: "outSine" },
+						{
+							to: neutralState.background.opacity,
+							duration: backgroundTriaRevealDuration,
+							ease: "outSine",
+						},
 					],
 					scale: [
 						{ to: introStartState.background.scale, duration: 0 },
-						{ to: 1, duration: backgroundTriaRevealDuration, ease: "outSine" },
+						{
+							to: neutralState.background.scale,
+							duration: backgroundTriaRevealDuration,
+							ease: "outSine",
+						},
 					],
 					delay: (e, i) => backgroundTriaRevealDelay[i],
+					composition: 1,
 				},
 				backgroundRevealDelay
 			)
@@ -186,13 +226,22 @@ $(function () {
 				{
 					opacity: [
 						{ to: introStartState.logo.opacity, duration: 0 },
-						{ to: 1, duration: logoTriaRevealDuration, ease: "outSine" },
+						{
+							to: neutralState.logo.opacity,
+							duration: logoTriaRevealDuration,
+							ease: "outSine",
+						},
 					],
 					scale: [
 						{ to: introStartState.logo.scale, duration: 0 },
-						{ to: 1, duration: logoTriaRevealDuration, ease: "outSine" },
+						{
+							to: neutralState.logo.scale,
+							duration: logoTriaRevealDuration,
+							ease: "outSine",
+						},
 					],
 					delay: (e, i) => logoTriaRevealDelay[i],
+					composition: 1,
 				},
 				logoRevealDelay
 			);
@@ -204,40 +253,110 @@ $(function () {
 		);
 		var loopTimeline = anime
 			.createTimeline({
-				loop: true,
-				loopDelay: logoLoopDelay,
+				loop: 0,
 				autoplay: false,
-				onBegin: (anim) => {
+				onBegin: null,
+				onLoop: null,
+				onComplete: function (anim) {
 					if (exitRequested) {
-						anim.cancel();
-						// Settare i parametri al default per sicurezza
 						playOutro();
+					} else {
+						playLoop(true);
 					}
 				},
-				onLoop: function (anim) {
-					if (exitRequested) {
-						anim.cancel();
-						// Settare i parametri al default per sicurezza
-						playOutro();
-					}
-				},
-				onComplete: null,
 			})
 			.add(
 				$logoTriaArray,
 				{
 					scale: [
-						{ to: 1, duration: 0 },
+						{ to: neutralState.logo.scale, duration: 0 },
 						{
-							to: loopCentralState.logo.scale,
+							to: loopState.logo.scale,
 							duration: logoTriaInDuration,
 							ease: "outSine",
 						},
-						{ to: 1, duration: logoTriaOutDuration, ease: "inSine" },
+						{
+							to: neutralState.logo.scale,
+							duration: logoTriaOutDuration,
+							ease: "inSine",
+						},
 					],
 					delay: (e, i) => logoTriaLoopDelay[i],
 				},
-				0
+				logoLoopDelay
+			);
+
+		var backgroundTriaHideDelay = getDelays(
+			backgroundStagger,
+			backgroundHideDuration,
+			backgroundTriaHideDuration
+		);
+		var logoTriaHideDelay = getDelays(logoStagger, logoHideDuration, logoTriaHideDuration);
+		var outroTimeline = anime
+			.createTimeline({
+				loop: 0,
+				autoplay: false,
+				delay: logoLoopDelay,
+				onBegin: () => {
+					utils.set($backgroundTriaArray, neutralState.background);
+					utils.set($logoTriaArray, neutralState.logo);
+				},
+				onLoop: null,
+				onComplete: () => {
+					utils.set($backgroundTriaArray, outroEndState.background);
+					utils.set($logoTriaArray, outroEndState.logo);
+					$container.css("display", hiddenDisplay);
+					running = false;
+					onFinish();
+				},
+			})
+			.add(
+				$backgroundTriaArray,
+				{
+					opacity: [
+						{ to: neutralState.background.opacity, duration: 0 },
+						{
+							to: outroEndState.background.opacity,
+							duration: backgroundTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					scale: [
+						{ to: neutralState.background.scale, duration: 0 },
+						{
+							to: outroEndState.background.scale,
+							duration: backgroundTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					delay: (e, i) => backgroundTriaHideDelay[i],
+					composition: 1,
+				},
+				backgroundHideDelay
+			)
+			.add(
+				$logoTriaArray,
+				{
+					opacity: [
+						{ to: neutralState.logo.opacity, duration: 0 },
+						{
+							to: outroEndState.logo.opacity,
+							duration: logoTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					scale: [
+						{ to: neutralState.logo.scale, duration: 0 },
+						{
+							to: outroEndState.logo.scale,
+							duration: logoTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					delay: (e, i) => logoTriaHideDelay[i],
+					composition: 1,
+				},
+				logoHideDelay
 			);
 
 		function requestExit() {
@@ -248,43 +367,45 @@ $(function () {
 			introTimeline.play();
 		}
 
-		function playLoop() {
+		function playLoop(restart) {
+			if (restart) {
+				loopTimeline.restart();
+				return;
+			}
 			loopTimeline.play();
 		}
 
 		function playOutro() {
-			animate($container[0], {
-				opacity: [1, 0],
-				rotateY: [0, 90],
-				duration: outroDuration,
-				ease: "inSine",
-				onComplete: function () {
-					running = false;
-					$container.css("display", hiddenDisplay);
-					onFinish();
-				},
-			});
+			outroTimeline.play();
 		}
 
 		return {
 			start: function () {
 				if (running) return;
+				exitRequested = false;
+				running = true;
 				onStart();
 				playIntro();
 			},
 
 			startFromLoop: function () {
 				if (running) return;
+				exitRequested = false;
+				running = true;
 				onStart();
 				playLoop();
 			},
 
 			finish: function () {
-				exitRequested = true;
+				requestExit();
 			},
 
 			isRunning: function () {
 				return running;
+			},
+
+			exitRequested: function () {
+				return exitRequested;
 			},
 		};
 	};
@@ -294,7 +415,11 @@ $(function () {
 		onFinish: function () {},
 	});
 
-	$(document).ready(function () {
-		$.loader.start();
-	});
+	$.loader.startFromLoop();
+
+	if (document.readyState === "complete") {
+		$.loader.finish();
+	} else {
+		$(window).on("load", $.loader.finish);
+	}
 });
