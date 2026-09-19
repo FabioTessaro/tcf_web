@@ -3,3 +3,7 @@
 @use "components/splashscreen/splash";
 @use "components/splashscreen/splash-logo";
 @use "components/splashscreen/splash-background";
+
+body {
+	margin: 0;
+}

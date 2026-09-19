@@ -48,51 +48,12 @@ $(document).ready(function () {
 		var logoHideDelay = opts.logoHideDelay || 0;
 		var logoTriaHideDuration = opts.logoTriaHideDuration || 200;
 
-		// These are the user defined callback functions
-		var onStart = opts.onStart || function () {};
-		var onFinish = opts.onFinish || function () {};
-		var onCancel = opts.onCancel || function () {};
-
-		// These are the css states for before intro, between loops, and after outro.
-		const introStartState = {
-			background: {
-				opacity: 0,
-				scale: 1,
-			},
-			logo: {
-				opacity: 0,
-				scale: 0.2,
-			},
-		};
-		const neutralState = {
-			background: {
-				opacity: 1,
-				scale: 1,
-			},
-			logo: {
-				opacity: 1,
-				scale: 1,
-			},
-		};
-		const loopState = {
-			logo: {
-				opacity: 1,
-				scale: 0.6,
-			},
-		};
-		const outroEndState = {
-			background: {
-				opacity: 0,
-				scale: 1,
-			},
-			logo: {
-				opacity: 0,
-				scale: 0.2,
-			},
-		};
+		// This config is for the minimum logo splash duration if there is no loop.
+		var minSplashDuration = opts.minSplashDuration || logoLoopDelay / 2;
 
 		// Here we create the main state variables for the loader
 		var exitRequested = false;
+		var startedFromLoop = false;
 		var running = false;
 		var phase = 0; // 0 = idle, 1 = intro, 2 = loop, 3 = outro
 		var introPromises = [];
@@ -170,6 +131,58 @@ $(document).ready(function () {
 		);
 		var logoStagger = getNormalizedDistances(logoCenter, logoTriaCenter, logoWave);
 
+		// These are the css states for before intro, between loops, and after outro.
+		const introStartState = {
+			background: {
+				opacity: 0,
+				scale: 0.5,
+				rotateX: 90 * backgroundWave.vx,
+				rotateY: 90 * backgroundWave.vy,
+			},
+			logo: {
+				opacity: 0,
+				scale: 0.2,
+				rotateX: 90 * logoWave.vx,
+				rotateY: 90 * logoWave.vy,
+			},
+		};
+		const neutralState = {
+			background: {
+				opacity: 1,
+				scale: 1,
+				rotateX: 0,
+				rotateY: 0,
+			},
+			logo: {
+				opacity: 1,
+				scale: 1,
+				rotateX: 0,
+				rotateY: 0,
+			},
+		};
+		const loopState = {
+			logo: {
+				opacity: 1,
+				scale: 0.6,
+				rotateX: 0,
+				rotateY: 0,
+			},
+		};
+		const outroEndState = {
+			background: {
+				opacity: 0,
+				scale: 0.5,
+				rotateX: 90 * backgroundWave.vx,
+				rotateY: 90 * backgroundWave.vy,
+			},
+			logo: {
+				opacity: 0,
+				scale: 0.2,
+				rotateX: 90 * logoWave.vx,
+				rotateY: 90 * logoWave.vy,
+			},
+		};
+
 		// Here we create the timeline for the intro animation by superimposing the background and logo animations
 		var backgroundTriaRevealDelay = getDelays(
 			backgroundStagger,
@@ -197,7 +210,9 @@ $(document).ready(function () {
 					utils.set($logoTriaArray, neutralState.logo);
 					settleIntroPromises();
 					if (exitRequested) {
-						playOutro();
+						setTimeout(function () {
+							playOutro();
+						}, minSplashDuration);
 					} else {
 						phase = 2;
 						playLoop();
@@ -219,6 +234,22 @@ $(document).ready(function () {
 						{ to: introStartState.background.scale, duration: 0 },
 						{
 							to: neutralState.background.scale,
+							duration: backgroundTriaRevealDuration,
+							ease: "outSine",
+						},
+					],
+					rotateX: [
+						{ to: introStartState.background.rotateX, duration: 0 },
+						{
+							to: neutralState.background.rotateX,
+							duration: backgroundTriaRevealDuration,
+							ease: "outSine",
+						},
+					],
+					rotateY: [
+						{ to: introStartState.background.rotateY, duration: 0 },
+						{
+							to: neutralState.background.rotateY,
 							duration: backgroundTriaRevealDuration,
 							ease: "outSine",
 						},
@@ -247,6 +278,22 @@ $(document).ready(function () {
 							ease: "outSine",
 						},
 					],
+					rotateX: [
+						{ to: introStartState.logo.rotateX, duration: 0 },
+						{
+							to: neutralState.logo.rotateX,
+							duration: logoTriaRevealDuration,
+							ease: "outSine",
+						},
+					],
+					rotateY: [
+						{ to: introStartState.logo.rotateY, duration: 0 },
+						{
+							to: neutralState.logo.rotateY,
+							duration: logoTriaRevealDuration,
+							ease: "outSine",
+						},
+					],
 					delay: (e, i) => logoTriaRevealDelay[i],
 					composition: 1,
 				},
@@ -263,7 +310,12 @@ $(document).ready(function () {
 			.createTimeline({
 				loop: 0,
 				autoplay: false,
-				onBegin: null,
+				onBegin: function (anim) {
+					if (exitRequested && !startedFromLoop) {
+						anim.cancel();
+						playOutro();
+					}
+				},
 				onLoop: null,
 				onComplete: function () {
 					if (exitRequested) {
@@ -310,7 +362,6 @@ $(document).ready(function () {
 				loop: 0,
 				autoplay: false,
 				onBegin: () => {
-					settleOutroPromises();
 					utils.set($backgroundTriaArray, neutralState.background);
 					utils.set($logoTriaArray, neutralState.logo);
 					phase = 3;
@@ -320,9 +371,10 @@ $(document).ready(function () {
 					utils.set($backgroundTriaArray, outroEndState.background);
 					utils.set($logoTriaArray, outroEndState.logo);
 					$container.css("display", hiddenDisplay);
+					settleOutroPromises();
 					running = false;
+					startedFromLoop = false;
 					phase = 0;
-					onFinish();
 				},
 			})
 			.add(
@@ -340,6 +392,22 @@ $(document).ready(function () {
 						{ to: neutralState.background.scale, duration: 0 },
 						{
 							to: outroEndState.background.scale,
+							duration: backgroundTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					rotateX: [
+						{ to: neutralState.background.rotateX, duration: 0 },
+						{
+							to: outroEndState.background.rotateX,
+							duration: backgroundTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					rotatey: [
+						{ to: neutralState.background.rotateY, duration: 0 },
+						{
+							to: outroEndState.background.rotateY,
 							duration: backgroundTriaHideDuration,
 							ease: "outSine",
 						},
@@ -364,6 +432,22 @@ $(document).ready(function () {
 						{ to: neutralState.logo.scale, duration: 0 },
 						{
 							to: outroEndState.logo.scale,
+							duration: logoTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					rotateX: [
+						{ to: neutralState.logo.rotateX, duration: 0 },
+						{
+							to: outroEndState.logo.rotateX,
+							duration: logoTriaHideDuration,
+							ease: "outSine",
+						},
+					],
+					rotateY: [
+						{ to: neutralState.logo.rotateY, duration: 0 },
+						{
+							to: outroEndState.logo.rotateY,
 							duration: logoTriaHideDuration,
 							ease: "outSine",
 						},
@@ -445,7 +529,6 @@ $(document).ready(function () {
 				running = true;
 				phase = 1;
 				var prom = endOfIntroPromise();
-				onStart();
 				playIntro();
 				return prom;
 			},
@@ -455,9 +538,9 @@ $(document).ready(function () {
 					return Promise.reject(new Error("Loader is already running"));
 				}
 				exitRequested = false;
+				startedFromLoop = true;
 				running = true;
 				phase = 2;
-				onStart();
 				playLoop();
 				return Promise.resolve();
 			},
@@ -474,13 +557,13 @@ $(document).ready(function () {
 
 				running = false;
 				exitRequested = false;
+				startedFromLoop = false;
 				phase = 0;
 
 				var err = createCancelError();
 				settleIntroPromises(err);
 				settleOutroPromises(err);
 
-				onCancel();
 				return true;
 			},
 
