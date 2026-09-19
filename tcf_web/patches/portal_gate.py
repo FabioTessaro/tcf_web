@@ -6,8 +6,6 @@ from frappe.website.page_renderers.base_renderer import BaseRenderer
 # Add to this one prefix at a time as you build real pages.
 ALLOWED_PREFIXES = {
 	"",
-	"/",
-	"index",
 	"desk",
 	"drive",
 	"meet",
@@ -26,6 +24,9 @@ ALLOWED_PREFIXES = {
 	"files",
 	"private",
 	"backups",
+	"/",
+	"index",
+	"second",
 }
 
 

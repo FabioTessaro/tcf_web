@@ -51,6 +51,7 @@ $(document).ready(function () {
 		// These are the user defined callback functions
 		var onStart = opts.onStart || function () {};
 		var onFinish = opts.onFinish || function () {};
+		var onCancel = opts.onCancel || function () {};
 
 		// These are the css states for before intro, between loops, and after outro.
 		const introStartState = {
@@ -60,7 +61,7 @@ $(document).ready(function () {
 			},
 			logo: {
 				opacity: 0,
-				scale: 1.5,
+				scale: 0.2,
 			},
 		};
 		const neutralState = {
@@ -76,7 +77,7 @@ $(document).ready(function () {
 		const loopState = {
 			logo: {
 				opacity: 1,
-				scale: 0.65,
+				scale: 0.6,
 			},
 		};
 		const outroEndState = {
@@ -86,13 +87,16 @@ $(document).ready(function () {
 			},
 			logo: {
 				opacity: 0,
-				scale: 1.5,
+				scale: 0.2,
 			},
 		};
 
 		// Here we create the main state variables for the loader
 		var exitRequested = false;
 		var running = false;
+		var phase = 0; // 0 = idle, 1 = intro, 2 = loop, 3 = outro
+		var introPromises = [];
+		var outroPromises = [];
 
 		// Here we define math functions for parsing the background and logo svgs and calculating animation timings
 		function getSVGCoordinates(el) {
@@ -166,7 +170,7 @@ $(document).ready(function () {
 		);
 		var logoStagger = getNormalizedDistances(logoCenter, logoTriaCenter, logoWave);
 
-		// Here we create the timeline for the intro animation by superimposing the background and logo animations with their individual staggers
+		// Here we create the timeline for the intro animation by superimposing the background and logo animations
 		var backgroundTriaRevealDelay = getDelays(
 			backgroundStagger,
 			backgroundRevealDuration,
@@ -185,14 +189,17 @@ $(document).ready(function () {
 					$container.css("display", visibleDisplay);
 					utils.set($backgroundTriaArray, introStartState.background);
 					utils.set($logoTriaArray, introStartState.logo);
+					phase = 1;
 				},
 				onLoop: null,
 				onComplete: () => {
 					utils.set($backgroundTriaArray, neutralState.background);
 					utils.set($logoTriaArray, neutralState.logo);
+					settleIntroPromises();
 					if (exitRequested) {
 						playOutro();
 					} else {
+						phase = 2;
 						playLoop();
 					}
 				},
@@ -246,6 +253,7 @@ $(document).ready(function () {
 				logoRevealDelay
 			);
 
+		// Here we create the timeline for the loop animation, for now just the logo animates, but we can add other timelines in the future
 		var logoTriaLoopDelay = getDelays(
 			logoStagger,
 			logoLoopDuration,
@@ -257,11 +265,11 @@ $(document).ready(function () {
 				autoplay: false,
 				onBegin: null,
 				onLoop: null,
-				onComplete: function (anim) {
+				onComplete: function () {
 					if (exitRequested) {
 						playOutro();
 					} else {
-						playLoop(true);
+						playLoop();
 					}
 				},
 			})
@@ -280,12 +288,17 @@ $(document).ready(function () {
 							duration: logoTriaOutDuration,
 							ease: "inSine",
 						},
+						{
+							to: neutralState.logo.scale,
+							duration: logoLoopDelay / 2,
+						},
 					],
 					delay: (e, i) => logoTriaLoopDelay[i],
 				},
-				logoLoopDelay
+				logoLoopDelay / 2
 			);
 
+		// Here we create the timeline for the outro animationby superimposing the background and logo animations
 		var backgroundTriaHideDelay = getDelays(
 			backgroundStagger,
 			backgroundHideDuration,
@@ -296,10 +309,11 @@ $(document).ready(function () {
 			.createTimeline({
 				loop: 0,
 				autoplay: false,
-				delay: logoLoopDelay,
 				onBegin: () => {
+					settleOutroPromises();
 					utils.set($backgroundTriaArray, neutralState.background);
 					utils.set($logoTriaArray, neutralState.logo);
+					phase = 3;
 				},
 				onLoop: null,
 				onComplete: () => {
@@ -307,6 +321,7 @@ $(document).ready(function () {
 					utils.set($logoTriaArray, outroEndState.logo);
 					$container.css("display", hiddenDisplay);
 					running = false;
+					phase = 0;
 					onFinish();
 				},
 			})
@@ -359,45 +374,121 @@ $(document).ready(function () {
 				logoHideDelay
 			);
 
+		// Here we create the methods that play the timelines and requests the exit.
 		function requestExit() {
-			exitRequested = true;
+			if (running) {
+				exitRequested = true;
+				return;
+			}
 		}
 
 		function playIntro() {
-			introTimeline.play();
+			introTimeline.restart();
 		}
 
-		function playLoop(restart) {
-			if (restart) {
-				loopTimeline.restart();
-				return;
-			}
-			loopTimeline.play();
+		function playLoop() {
+			loopTimeline.restart();
 		}
 
 		function playOutro() {
-			outroTimeline.play();
+			outroTimeline.restart();
+		}
+
+		// Here we create the promises that can be fired when intro finishes and outro starts
+		function endOfIntroPromise() {
+			return new Promise(function (resolveFunc, rejectFunc) {
+				introPromises.push({
+					resolve: resolveFunc,
+					reject: rejectFunc,
+				});
+			});
+		}
+
+		function startOfOutroPromise() {
+			return new Promise(function (resolveFunc, rejectFunc) {
+				outroPromises.push({
+					resolve: resolveFunc,
+					reject: rejectFunc,
+				});
+			});
+		}
+
+		function settleIntroPromises(error) {
+			introPromises.splice(0).forEach(function (p) {
+				if (error) p.reject(error);
+				else p.resolve();
+			});
+		}
+
+		function settleOutroPromises(error) {
+			outroPromises.splice(0).forEach(function (p) {
+				if (error) p.reject(error);
+				else p.resolve();
+			});
+		}
+
+		// Here we create the cancel error
+		function createCancelError() {
+			var err = new Error("Loader cancelled");
+			err.name = "LoaderCancelled";
+			err.cancelled = true;
+			return err;
 		}
 
 		return {
 			start: function () {
-				if (running) return;
+				if (running) {
+					if (phase === 1) return endOfIntroPromise();
+					return Promise.reject(new Error("Loader is not playing the intro"));
+				}
 				exitRequested = false;
 				running = true;
+				phase = 1;
+				var prom = endOfIntroPromise();
 				onStart();
 				playIntro();
+				return prom;
 			},
 
 			startFromLoop: function () {
-				if (running) return;
+				if (running) {
+					return Promise.reject(new Error("Loader is already running"));
+				}
 				exitRequested = false;
 				running = true;
+				phase = 2;
 				onStart();
 				playLoop();
+				return Promise.resolve();
+			},
+
+			cancel: function () {
+				if (!running) return false;
+				introTimeline.pause();
+				loopTimeline.pause();
+				outroTimeline.pause();
+
+				utils.set($backgroundTriaArray, outroEndState.background);
+				utils.set($logoTriaArray, outroEndState.logo);
+				$container.css("display", hiddenDisplay);
+
+				running = false;
+				exitRequested = false;
+				phase = 0;
+
+				var err = createCancelError();
+				settleIntroPromises(err);
+				settleOutroPromises(err);
+
+				onCancel();
+				return true;
 			},
 
 			finish: function () {
+				if (phase === 3) return Promise.resolve();
+				if (!running) return Promise.reject(new Error("Loader is not running"));
 				requestExit();
+				return startOfOutroPromise();
 			},
 
 			isRunning: function () {
@@ -407,19 +498,21 @@ $(document).ready(function () {
 			exitRequested: function () {
 				return exitRequested;
 			},
+
+			getPhase: function () {
+				switch (phase) {
+					case 0:
+						return "idle";
+					case 1:
+						return "intro";
+					case 2:
+						return "loop";
+					case 3:
+						return "outro";
+					default:
+						return null;
+				}
+			},
 		};
 	};
-
-	$.loader = $.createLoader("#splash-container", "#splash-logo", "#splash-background", {
-		onStart: function () {},
-		onFinish: function () {},
-	});
-
-	$.loader.startFromLoop();
-
-	if (document.readyState === "complete") {
-		$.loader.finish();
-	} else {
-		$(window).on("load", $.loader.finish);
-	}
 });
