@@ -17,6 +17,10 @@
  *        $.confirmationDialog.show(question) -> Promise. Resolves (anything but `false`)
  *                                    on confirm. Rejects or resolves `false` on cancel.
  *        $.errorDialog.show(message) -> shows an error message. The return value is ignored.
+ *   4. Optional: the i18n layer (window.AppI18n from i18n-master.js). If present, swapped-in
+ *      content and restored history pages are localized while the splash still covers the
+ *      page, and the initial intro waits for the translations. If absent, this file works
+ *      unchanged.
  *
  * REQUIRED HTML
  *   <body>
@@ -102,6 +106,23 @@ $(function () {
 	// jQuery 3 exposes evt.detail; older versions need originalEvent
 	const detail = (evt) => evt.detail || (evt.originalEvent && evt.originalEvent.detail) || {};
 
+	// Localization (optional). Synchronous; a no-op if the i18n layer is not on the page.
+	// The forced layout starts loading the font slices the new text needs, so that
+	// assetsReady() waits for them before the outro.
+	const localize = () =>
+		window.AppI18n &&
+		AppI18n.onReady(() => {
+			AppI18n.translate();
+			void document.body.offsetHeight;
+		});
+
+	// Resolves once translations are applied. Gives up after ASSET_WAIT_MS so a failed i18n
+	// init can never keep the initial splash up.
+	const i18nReady = () =>
+		window.AppI18n
+			? Promise.race([new Promise((r) => AppI18n.onReady(r)), sleep(ASSET_WAIT_MS)])
+			: Promise.resolve();
+
 	// Resolves when fonts and pending (non-lazy) images are loaded, or after a timeout
 	const assetsReady = () =>
 		Promise.race([
@@ -132,6 +153,7 @@ $(function () {
 			? Promise.resolve()
 			: new Promise((r) => $(window).one("load", r));
 	loaded
+		.then(i18nReady)
 		.then(assetsReady)
 		.then(() => $.loader.finish())
 		.catch(console.error);
@@ -262,6 +284,7 @@ $(function () {
 	);
 
 	$(document).on("htmx:historyRestore", function () {
+		localize(); // a snapshot can contain text from another language
 		log("historyRestore", { session: s && s.kind, replayed: s && s.replayed });
 		if (s && s.kind === "history" && s.replayed) end();
 	});
@@ -269,6 +292,12 @@ $(function () {
 		log("historyCacheMissLoadError", { session: s && s.kind, replayed: s && s.replayed });
 		if (s && s.kind === "history" && s.replayed) end("The previous page could not be loaded.");
 	});
+
+	// ---------- localization of swapped-in content ----------
+	// htmx:afterSwap fires synchronously inside the swap: while the splash still covers the
+	// page and before htmx:afterRequest lets end() start the outro. It also covers
+	// data-splash="off" requests, which have no splash session.
+	$(document).on("htmx:afterSwap", localize);
 
 	// ---------- normal requests, optional confirmation (hx-confirm), opt-out (data-splash="off") ----------
 	$(document).on("htmx:confirm", function (evt) {
