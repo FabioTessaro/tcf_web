@@ -4,7 +4,7 @@
  * Master localization controller. Initialises i18next once, collects the strings
  * that every component registers, translates the DOM, and owns the language choice.
  * Everything else (component strings, the language switcher) talks to it through
- * window.AppI18n.
+ * $.localization.
  *
  * DEPENDENCIES (all with `defer`, in <head>, in this order, before this file)
  *   1. jQuery 3.x
@@ -16,18 +16,18 @@
  *
  * THE RULE: WHAT MAKES TEXT TRANSLATABLE
  *   Text is translated only if BOTH are true:
- *     (a) its namespace is registered with AppI18n.register(), and
+ *     (a) its namespace is registered with $.localization.register(), and
  *     (b) the element that shows it has a data-i18n attribute.
  *   A namespace comes from one of two places:
  *     - a component's own <name>.i18n.js file (one namespace per component), or
- *     - the "common" namespace registered at the bottom of THIS file, for strings
+ *     - the "common" namespace that you can register at the bottom of THIS file, for strings
  *       shared across the site (no separate file needed).
  *   Text without data-i18n is never touched. Text rendered by Jinja stays as it is
  *   unless you add data-i18n to its element.
  *
  * ADDING A COMPONENT (3 steps)
  *   1. js/component/<name>/<name>.i18n.js registers the namespace, named after the folder:
- *          AppI18n.register('pricing-card', {
+ *          $.localization.register('pricing-card', {
  *              'en-GB': { title: 'Our plans', cta: { buy: 'Buy now' } },
  *              'de-DE': { title: 'Unsere Tarife', cta: { buy: 'Jetzt kaufen' } },
  *              // ...one block per supported language
@@ -49,7 +49,7 @@
  *   (zh-CN and ja-JP only need _other). Formatting such as {{amount, currency(EUR)}}
  *   follows the active language.
  *
- * PUBLIC API (window.AppI18n)
+ * PUBLIC API ($.localization)
  *   register(ns, bundles)   Adds a namespace: { 'en-GB': {...}, 'de-DE': {...} }.
  *                           Idempotent: registering twice overwrites. Works before and
  *                           after init; after init it re-translates the page.
@@ -72,7 +72,7 @@
  *
  * CONTENT LOADED LATER (ajax, htmx, injected markup)
  *   New markup keeps its default text until it is translated:
- *       $('#box').html(html).localize();      // or AppI18n.translate(el)
+ *       $('#box').html(html).localize();      // or $.localization.translate(el)
  *   With htmx this is done for you by navigation.js (htmx:afterSwap and
  *   htmx:historyRestore). Set counts with .attr('data-i18n-options', ...), NOT .data(),
  *   because the plugin reads the attribute.
@@ -80,7 +80,7 @@
  * BEHAVIOUR SUMMARY
  *   - Init:        runs on DOMContentLoaded, which fires after every deferred script, so all
  *                  .i18n.js files on the initial page have registered by then.
- *   - Language:    saved choice (localStorage "app.lang") -> browser languages, matched on the
+ *   - Language:    saved choice (localStorage "tcfgroup.lang") -> browser languages, matched on the
  *                  base language (en-US -> en-GB, de-AT -> de-DE, zh-TW -> zh-CN) ->
  *                  fallback language.
  *   - Switch:      setLanguage() changes the i18next language, saves it, sets <html lang>
@@ -98,7 +98,7 @@
  *   4. $languages in scss/config/_typography.scss (script group for the typefaces)
  *
  * DEBUGGING (browser console)
- *   AppI18n.language                              current language
+ *   $.localization.language                              current language
  *   i18next.exists('pricing-card:title')          is the key found in the current language?
  *   i18next.hasResourceBundle('de-DE', 'pricing-card')   was the namespace registered?
  *   i18next.getResourceBundle('de-DE', 'pricing-card')   what strings did it register?
