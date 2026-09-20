@@ -11,12 +11,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/i18next@25/dist/umd/i18next.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next@25/dist/umd/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
 
-    <script src="/assets/tcf_web/js/base.js" defer></script>
-    <script src="/assets/tcf_web/js/components/localization/localization.js" defer></script>
-    <script src="/assets/tcf_web/js/components/navigation/navigation.js" defer></script>
+    <script src="/assets/tcf_web/js/components/localization/localization.js"></script>
 
     <link rel="stylesheet" href="/assets/tcf_web/scss/base.css"/>
 </head>
@@ -27,6 +25,9 @@
     <div id="page-container" hx-history-elt>
         {% block content %}{% endblock %}
     </div>
+
+    <script src="/assets/tcf_web/js/base.js"></script>
+    <script src="/assets/tcf_web/js/components/navigation/navigation.js"></script>
 
 </body>
 </html>

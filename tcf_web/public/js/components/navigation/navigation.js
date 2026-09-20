@@ -110,16 +110,16 @@ $(function () {
 	// The forced layout starts loading the font slices the new text needs, so that
 	// assetsReady() waits for them before the outro.
 	const localize = () =>
-		window.AppI18n &&
-		AppI18n.onReady(() => {
-			AppI18n.translate();
+		$.localization &&
+		$.localization.onReady(() => {
+			$.localization.translate();
 			void document.body.offsetHeight;
 		});
 
 	// Resolves once translations are applied. Gives up after ASSET_WAIT_MS so a failed i18n
 	// init can never keep the initial splash up.
 	const i18nReady = () =>
-		window.AppI18n
+		$.localization
 			? Promise.race([new Promise((r) => AppI18n.onReady(r)), sleep(ASSET_WAIT_MS)])
 			: Promise.resolve();
 
