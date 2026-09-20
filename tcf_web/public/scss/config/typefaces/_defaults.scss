@@ -1,0 +1,31 @@
+// Font stacks (one per script group) and the default value of every
+// typeface property. Every typeface starts from $typeface-defaults; the
+// script files only list what differs.
+//
+// Font family names must match the @font-face names served by the Google
+// Fonts <link> in base.html.
+//
+// Axes available (variable fonts):
+//   weight: 100-900, any number          (all three fonts)
+//   width : 62.5-100, any number         (Noto Sans only; SC/JP ignore it)
+
+// Each stack puts its own script's font first, so shared Han characters
+// get the correct regional glyph shapes.
+
+$stack-latin: "Noto Sans", "Noto Sans SC", "Noto Sans JP", system-ui, -apple-system, "Segoe UI",
+	Roboto, Arial, sans-serif !default;
+$stack-chinese: "Noto Sans SC", "Noto Sans", "Noto Sans JP", system-ui, "PingFang SC",
+	"Microsoft YaHei", sans-serif !default;
+$stack-japanese: "Noto Sans JP", "Noto Sans", "Noto Sans SC", system-ui, "Hiragino Sans", Meiryo,
+	sans-serif !default;
+
+$typeface-defaults: (
+	stack: $stack-latin,
+	weight: 400,
+	width: 100,
+	style: normal,
+	size: 1rem,
+	line-height: 1.5,
+	letter-spacing: normal,
+	text-transform: none,
+) !default;

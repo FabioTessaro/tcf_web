@@ -1,0 +1,46 @@
+// Latin script: en-GB, de-DE, it-IT.
+// This is the BASE set: it defines every typeface name that exists on the
+// site. Chinese and Japanese may only override names listed here.
+//
+// Only list what differs from $typeface-defaults (see _defaults.scss).
+
+@use "defaults";
+
+$typefaces: (
+	body: (
+		stack: defaults.$stack-latin,
+	),
+	body-strong: (
+		stack: defaults.$stack-latin,
+		weight: 600,
+	),
+	heading-1: (
+		stack: defaults.$stack-latin,
+		weight: 800,
+		width: 87.5,
+		size: 3rem,
+		line-height: 1.05,
+		letter-spacing: -0.02em,
+	),
+	heading-2: (
+		stack: defaults.$stack-latin,
+		weight: 700,
+		size: 2rem,
+		line-height: 1.15,
+		letter-spacing: -0.01em,
+	),
+	caption: (
+		stack: defaults.$stack-latin,
+		weight: 350,
+		width: 75,
+		size: 0.8125rem,
+		letter-spacing: 0.02em,
+	),
+	label: (
+		stack: defaults.$stack-latin,
+		weight: 600,
+		size: 0.75rem,
+		letter-spacing: 0.08em,
+		text-transform: uppercase,
+	),
+);

@@ -1,8 +1,16 @@
 @use "config/palette";
+@use "config/typography" as type;
 
 @use "components/splashscreen/splash";
 @use "components/splashscreen/splash-logo";
 @use "components/splashscreen/splash-background";
+@use "components/navbar/navbar";
+
+:root {
+	@include type.tokens;
+}
+@include type.language-tokens;
+@include type.utilities;
 
 body {
 	margin: 0;

@@ -1,0 +1,132 @@
+// scss/config/_typography.scss
+//
+// The typography engine. Data lives in typefaces/*; this file merges it and
+// exposes four things:
+//
+//   tokens           emit every typeface as CSS custom properties (:root)
+//   language-tokens  emit per-script overrides under :lang(...)
+//   typeface($name)  apply a typeface to a selector
+//   utilities        emit .tf-<name> classes
+//
+// Usage:   @use 'config/typography' as type;   (path relative to the file)
+
+@use "sass:list";
+@use "sass:map";
+@use "typefaces/defaults";
+@use "typefaces/latin";
+@use "typefaces/chinese";
+@use "typefaces/japanese";
+
+// ---------------------------------------------------------------------------
+// Configuration
+// ---------------------------------------------------------------------------
+
+// Script group -> its overrides. Latin is the base, so it has none.
+$script-overrides: (
+	latin: (),
+	chinese: chinese.$typefaces,
+	japanese: japanese.$typefaces,
+);
+
+// Language code -> script group.
+// Codes must match the i18next supported languages and the <html lang> value.
+$languages: (
+	"en-GB": latin,
+	"de-DE": latin,
+	"it-IT": latin,
+	"zh-CN": chinese,
+	"ja-JP": japanese,
+);
+
+// Fail the build if a language points at a script group that doesn't exist.
+@each $lang, $script in $languages {
+	@if not map.has-key($script-overrides, $script) {
+		@error "Language '#{$lang}' points to unknown script group '#{$script}'. Available: #{map.keys($script-overrides)}";
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Internals
+// ---------------------------------------------------------------------------
+
+// A typeface's full property map: defaults + Latin definition, plus the
+// overrides of one script group when $script is given.
+@function -resolve($name, $script: null) {
+	@if not map.has-key(latin.$typefaces, $name) {
+		@error "Unknown typeface '#{$name}'. Available: #{map.keys(latin.$typefaces)}";
+	}
+	$tf: map.merge(defaults.$typeface-defaults, map.get(latin.$typefaces, $name));
+	@if $script {
+		$override: map.get($script-overrides, $script, $name);
+		@if $override {
+			$tf: map.merge($tf, $override);
+		}
+	}
+	@return $tf;
+}
+
+// Writes one typeface's custom properties.
+@mixin -vars($name, $tf) {
+	--tf-#{$name}-stack: #{map.get($tf, stack)};
+	--tf-#{$name}-weight: #{map.get($tf, weight)};
+	--tf-#{$name}-width: #{map.get($tf, width) * 1%};
+	--tf-#{$name}-style: #{map.get($tf, style)};
+	--tf-#{$name}-size: #{map.get($tf, size)};
+	--tf-#{$name}-line-height: #{map.get($tf, line-height)};
+	--tf-#{$name}-letter-spacing: #{map.get($tf, letter-spacing)};
+	--tf-#{$name}-transform: #{map.get($tf, text-transform)};
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+// Base (Latin) values. Include once inside :root.
+@mixin tokens {
+	@each $name, $_ in latin.$typefaces {
+		@include -vars($name, -resolve($name));
+	}
+}
+
+// Per-script overrides, one :lang() rule per script group listing every
+// language that uses it. Include AFTER tokens (same specificity, later wins).
+@mixin language-tokens {
+	@each $script, $overrides in $script-overrides {
+		@if list.length(map.keys($overrides)) > 0 {
+			$selectors: ();
+			@each $lang, $s in $languages {
+				@if $s == $script {
+					$selectors: list.append($selectors, ":lang(#{$lang})", comma);
+				}
+			}
+			#{$selectors} {
+				@each $name, $_ in $overrides {
+					@include -vars($name, -resolve($name, $script));
+				}
+			}
+		}
+	}
+}
+
+// Apply a typeface. Values come from the custom properties, so they follow
+// the active language automatically.
+@mixin typeface($name) {
+	$_: -resolve($name); // compile-time check that the name exists
+	font-family: var(--tf-#{$name}-stack);
+	font-weight: var(--tf-#{$name}-weight);
+	font-stretch: var(--tf-#{$name}-width);
+	font-style: var(--tf-#{$name}-style);
+	font-size: var(--tf-#{$name}-size);
+	line-height: var(--tf-#{$name}-line-height);
+	letter-spacing: var(--tf-#{$name}-letter-spacing);
+	text-transform: var(--tf-#{$name}-transform);
+}
+
+// .tf-body, .tf-heading-1, ... for use directly in HTML.
+@mixin utilities {
+	@each $name, $_ in latin.$typefaces {
+		.tf-#{$name} {
+			@include typeface($name);
+		}
+	}
+}

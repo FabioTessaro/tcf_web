@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +8,21 @@
     <script type="text/javascript" src="/assets/frappe/js/frappe-web.bundle.js"></script>
     <meta name="csrf_token" content="{{ frappe.session.csrf_token }}">
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next@25/dist/umd/i18next.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js" defer></script>
+
+    <script src="/assets/tcf_web/js/base.js" defer></script>
+    <script src="/assets/tcf_web/js/components/localization/localization.js" defer></script>
+    <script src="/assets/tcf_web/js/components/navigation/navigation.js" defer></script>
 
     <link rel="stylesheet" href="/assets/tcf_web/scss/base.css"/>
-    <script src="/assets/tcf_web/js/base.js"></script>
 </head>
 <body hx-boost="true" hx-target="#page-container" hx-select="#page-container">
 
     {% include "tcf_web/components/splashscreen/splash.html" %}
-    <script src="/assets/tcf_web/js/components/splashscreen/splash.js"></script>
-    <script src="/assets/tcf_web/js/components/navigation/navigation.js"></script>
 
     <div id="page-container" hx-history-elt>
         {% block content %}{% endblock %}

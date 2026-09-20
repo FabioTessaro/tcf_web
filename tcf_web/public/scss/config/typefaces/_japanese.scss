@@ -1,0 +1,31 @@
+// Japanese script: ja-JP.
+// OVERRIDES ONLY. Names must exist in _latin.scss.
+// The values below are starting points; tune them to your design.
+
+@use "defaults";
+
+$typefaces: (
+	body: (
+		stack: defaults.$stack-japanese,
+		weight: 350,
+		line-height: 1.8,
+	),
+	heading-1: (
+		stack: defaults.$stack-japanese,
+		weight: 900,
+		size: 2.75rem,
+		line-height: 1.25,
+		letter-spacing: 0,
+	),
+	heading-2: (
+		stack: defaults.$stack-japanese,
+		weight: 700,
+		line-height: 1.35,
+		letter-spacing: 0,
+	),
+	label: (
+		stack: defaults.$stack-japanese,
+		letter-spacing: 0.02em,
+		text-transform: none,
+	),
+);

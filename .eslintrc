@@ -13,6 +13,7 @@
 		"brace-style": "off",
 		"no-mixed-spaces-and-tabs": "off",
 		"no-useless-escape": "off",
+		"no-undef": "off",
 		"space-unary-ops": ["error", { "words": true }],
 		"linebreak-style": "off",
 		"quotes": ["off"],
