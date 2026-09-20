@@ -17,7 +17,7 @@
  *        $.confirmationDialog.show(question) -> Promise. Resolves (anything but `false`)
  *                                    on confirm. Rejects or resolves `false` on cancel.
  *        $.errorDialog.show(message) -> shows an error message. The return value is ignored.
- *   4. Optional: the i18n layer (window.AppI18n from i18n-master.js). If present, swapped-in
+ *   4. Optional: the i18n layer ($.localization from i18n-master.js). If present, swapped-in
  *      content and restored history pages are localized while the splash still covers the
  *      page, and the initial intro waits for the translations. If absent, this file works
  *      unchanged.
@@ -120,7 +120,7 @@ $(function () {
 	// init can never keep the initial splash up.
 	const i18nReady = () =>
 		$.localization
-			? Promise.race([new Promise((r) => AppI18n.onReady(r)), sleep(ASSET_WAIT_MS)])
+			? Promise.race([new Promise((r) => $.localization.onReady(r)), sleep(ASSET_WAIT_MS)])
 			: Promise.resolve();
 
 	// Resolves when fonts and pending (non-lazy) images are loaded, or after a timeout
