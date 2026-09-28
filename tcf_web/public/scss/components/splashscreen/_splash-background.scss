@@ -1,6 +1,6 @@
-@use "../../config/palette";
+@use "../../config/palette" as palette;
 
-.cls-5 {
+.splash-cls-5 {
 	@media screen and (prefers-color-scheme: dark) {
 		fill: palette.$dark-background;
 		stroke: palette.$dark-background;

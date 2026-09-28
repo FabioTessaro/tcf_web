@@ -1,1 +1,96 @@
-@use "../../config/palette";
+@use "../../config/palette" as palette;
+@use "../../config/typography" as type;
+@use "../../config/layout" as layout;
+
+@use "navbar-logo";
+
+.navbar-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	max-height: 100vh;
+	z-index: 1000;
+	&.is-scrolled {
+		@media screen and (prefers-color-scheme: dark) {
+			background-color: palette.$dark-background;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			background-color: palette.$dark-background;
+		}
+	}
+	@include layout.flex-container(
+		column,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: center,
+		$vertical: start
+	);
+}
+
+.navbar-topbar-container {
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: center,
+		$vertical: center
+	);
+	@include layout.flex-self(stretch);
+}
+
+.navbar-content-container {
+	@include layout.flex-mobile {
+		max-width: 100vw;
+	}
+	@include layout.flex-desktop {
+		max-width: 70vw;
+	}
+	width: 100%;
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: between,
+		$vertical: center
+	);
+}
+
+.navbar-logo-container {
+	@include layout.flex-mobile {
+		min-height: 5rem;
+		margin-left: 0.5rem;
+	}
+	@include layout.flex-desktop {
+		min-height: 5rem;
+	}
+	height: 5rem;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	.navbar-logo-wrapper {
+		height: 100%;
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+.navbar-separator {
+	@include layout.flex-fill;
+	@include layout.flex-container(
+		column,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: stretch,
+		$vertical: center
+	);
+}
+
+.navbar-mobile-actions-container {
+	@include layout.flex-hide-desktop;
+}
+
+.navbar-desktop-actions-container {
+	@include layout.flex-hide-mobile;
+}

@@ -1,6 +1,24 @@
 @use "../../config/palette" as palette;
 
-.splash-cls-1 {
+.navbar-cls-1 {
+	fill: palette.$accent-white;
+}
+
+.navbar-cls-2,
+.navbar-cls-3 {
+	@media screen and (prefers-color-scheme: dark) {
+		fill: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		fill: palette.$light-primary-deep;
+	}
+}
+
+.navbar-cls-4 {
+	fill: palette.$accent-green;
+}
+
+.navbar-cls-5 {
 	@media screen and (prefers-color-scheme: dark) {
 		fill: palette.$dark-primary-medium;
 		stroke: palette.$dark-primary-medium;
@@ -11,32 +29,28 @@
 	}
 }
 
-.splash-cls-1,
-.splash-cls-2,
-.splash-cls-3 {
+.navbar-cls-5,
+.navbar-cls-3,
+.navbar-cls-6 {
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	stroke-width: 1.5px;
-	transform-origin: center;
-	transform-box: fill-box;
+	stroke-width: 0.5px;
 }
 
-.splash-cls-4 {
-	opacity: 1;
+.navbar-cls-7 {
+	fill: palette.$accent-red;
 }
 
-.splash-cls-2 {
+.navbar-cls-3 {
 	@media screen and (prefers-color-scheme: dark) {
-		fill: palette.$dark-primary-deep;
 		stroke: palette.$dark-primary-deep;
 	}
 	@media screen and (prefers-color-scheme: light) {
-		fill: palette.$light-primary-deep;
 		stroke: palette.$light-primary-deep;
 	}
 }
 
-.splash-cls-3 {
+.navbar-cls-6 {
 	@media screen and (prefers-color-scheme: dark) {
 		fill: palette.$dark-primary-light;
 		stroke: palette.$dark-primary-light;

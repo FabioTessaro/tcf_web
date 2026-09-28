@@ -1,0 +1,109 @@
+// =============================================================================
+// _debug.scss: layout debugging overlay
+//
+// USAGE
+//   @use "debug";
+//   @include debug.layout;                    // always on (remove when done)
+//   @include debug.layout(".debug-layout");   // toggleable: put the class on <body>
+//                                             // e.g. document.body.classList.toggle('debug-layout')
+//
+// WHAT YOU GET
+//   - Every element gets a random hue (picked at COMPILE time, recompile to reroll).
+//   - Solid colour = content box, lighter tint of the same colour = padding.
+//   - 1px outline in a darker shade marks each element's border box.
+//     Margins show up as the gaps between outlines / collapsed edges.
+//   - Lightness shifts with nesting depth so a wrapper and its only child
+//     never look identical.
+//   - A badge in the bottom-right corner shows the active breakpoint.
+//
+// NOTES
+//   - Overrides existing backgrounds/outlines with !important.
+//   - Add data-debug-ignore to any element you want left alone.
+//   - If you use a scope class, it must be on <body>.
+// =============================================================================
+
+@use "sass:math";
+
+$debug-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+) !default;
+
+$debug-palette-size: 24 !default; // how many sibling positions get a distinct hue
+$debug-max-depth: 14 !default; // nesting levels that get lightness variation
+$debug-show-badge: true !default;
+$debug-exclude: "script, style, link, meta, head, title, br, [data-debug-ignore]" !default;
+
+@mixin layout($scope: null) {
+	$root: "";
+	$base: "body";
+	@if $scope {
+		$root: "#{$scope} ";
+		$base: $scope;
+	}
+
+	// Base look ----------------------------------------------------------------
+	#{$root}*:not(#{$debug-exclude}) {
+		--dbg-h: 200;
+		--dbg-s: 70%;
+		--dbg-l: 55%;
+
+		outline: 1px solid hsl(var(--dbg-h) var(--dbg-s) 25%) !important;
+		outline-offset: -1px !important;
+
+		// Layer 1 (top): solid colour clipped to the content box
+		// Layer 2 (bottom): lighter background colour across border box (= padding shows)
+		background-image: linear-gradient(
+			hsl(var(--dbg-h) var(--dbg-s) var(--dbg-l) / 0.6),
+			hsl(var(--dbg-h) var(--dbg-s) var(--dbg-l) / 0.6)
+		) !important;
+		background-clip: content-box, border-box !important;
+		background-color: hsl(var(--dbg-h) var(--dbg-s) var(--dbg-l) / 0.25) !important;
+	}
+
+	// Random hue by sibling position -------------------------------------------
+	@for $i from 1 through $debug-palette-size {
+		#{$root}*:not(#{$debug-exclude}):nth-child(#{$debug-palette-size}n + #{$i}) {
+			--dbg-h: #{math.random(360)};
+		}
+	}
+
+	// Lightness by nesting depth -----------------------------------------------
+	$sel: $base;
+	@for $d from 1 through $debug-max-depth {
+		$sel: "#{$sel} > *";
+		#{$sel} {
+			--dbg-l: #{35% + ($d % 5) * 8%};
+		}
+	}
+
+	// Breakpoint badge ---------------------------------------------------------
+	@if $debug-show-badge {
+		#{$base}::after {
+			content: "xs";
+			position: fixed;
+			right: 8px;
+			bottom: 8px;
+			z-index: 2147483647;
+			padding: 4px 8px;
+			font: 600 12px/1 monospace;
+			color: #fff;
+			background: #000;
+			border-radius: 4px;
+			pointer-events: none;
+		}
+
+		@each $name, $min in $debug-breakpoints {
+			@if $min > 0 {
+				@media (min-width: $min) {
+					#{$base}::after {
+						content: "#{$name} ≥ #{$min}";
+					}
+				}
+			}
+		}
+	}
+}

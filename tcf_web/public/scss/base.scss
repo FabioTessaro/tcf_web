@@ -1,9 +1,8 @@
-@use "config/palette";
+@use "config/palette" as palette;
 @use "config/typography" as type;
+@use "config/debug";
 
 @use "components/splashscreen/splash";
-@use "components/splashscreen/splash-logo";
-@use "components/splashscreen/splash-background";
 @use "components/navbar/navbar";
 
 :root {
@@ -15,3 +14,5 @@
 body {
 	margin: 0;
 }
+
+// @include debug.layout;

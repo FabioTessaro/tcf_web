@@ -1,0 +1,432 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+
+// -----------------------------------------------------------------------------
+//  Configuration
+// -----------------------------------------------------------------------------
+// Where these numbers come from: they are common, conventional values (not
+// measured from this site's own traffic). They mix two well-known frameworks:
+//   sm  576px    Bootstrap 5 "sm"
+//   md  768px    Bootstrap 5 "md" = Tailwind "md" (the two agree)
+//   lg  1024px   Tailwind "lg"      (Bootstrap 5 uses 992px)
+//   xl  1280px   Tailwind "xl"      (Bootstrap 5 uses 1200px)
+//   xxl 1536px   Tailwind "2xl"     (Bootstrap 5 uses 1400px)
+// Change them to fit your own design or analytics. See the user guide.
+$flex-breakpoints: (
+	sm: 576px,
+	md: 768px,
+	lg: 1024px,
+	xl: 1280px,
+	xxl: 1536px,
+) !default;
+
+// Below this breakpoint = "mobile", from this breakpoint up = "desktop".
+$flex-desktop-breakpoint: md !default;
+
+// -----------------------------------------------------------------------------
+//  Internal helpers (private: not exported by @use)
+// -----------------------------------------------------------------------------
+$_align-keywords: (
+	start: flex-start,
+	end: flex-end,
+	left: flex-start,
+	right: flex-end,
+	top: flex-start,
+	bottom: flex-end,
+	center: center,
+	between: space-between,
+	around: space-around,
+	evenly: space-evenly,
+	stretch: stretch,
+	baseline: baseline,
+);
+
+@function _align($value) {
+	@if $value == null {
+		@return null;
+	}
+	@if map.has-key($_align-keywords, $value) {
+		@return map.get($_align-keywords, $value);
+	}
+	@return $value;
+}
+
+@function _wrap($value) {
+	@if $value == true {
+		@return wrap;
+	}
+	@if $value == false {
+		@return nowrap;
+	}
+	@if $value == reverse {
+		@return wrap-reverse;
+	}
+	@return $value;
+}
+
+@function _is-vertical($direction) {
+	@return $direction == column or $direction == column-reverse;
+}
+
+// True for null / 0 / 0px / 0rem ... (a number equals itself times zero)
+@function _is-zero($value) {
+	@return $value == null or $value == $value * 0;
+}
+
+// Size of one of $count equal parts of 100%, gaps between them included.
+@function _share($count, $gap: 0) {
+	@if _is-zero($gap) {
+		@return math.percentage(math.div(1, $count));
+	}
+	@return calc((100% - #{$gap * ($count - 1)}) / #{$count});
+}
+
+// Breakpoint name (sm, md...) or number (768 / 768px) -> length
+@function _bp($value) {
+	@if meta.type-of($value) == number {
+		@if math.is-unitless($value) {
+			@return $value * 1px;
+		}
+		@return $value;
+	}
+	@if not map.has-key($flex-breakpoints, $value) {
+		@error "flex: unknown breakpoint `#{$value}`. Available: #{map.keys($flex-breakpoints)}";
+	}
+	@return map.get($flex-breakpoints, $value);
+}
+
+// Upper bound just below a breakpoint, so that `max-width: X` never overlaps
+// `min-width: <breakpoint>` on fractional viewport widths (zoomed / high-DPI
+// screens). Same trick Bootstrap uses (it subtracts 0.02px, not 0.01px, to
+// work around a Safari rounding bug). px is reduced by 0.02px; em / rem by the
+// equivalent 0.00125 (0.02px at a 16px base font size).
+@function _bp-max($value) {
+	$bp: _bp($value);
+	@if math.unit($bp) == "px" {
+		@return $bp - 0.02px;
+	}
+	@if math.unit($bp) == "em" or math.unit($bp) == "rem" {
+		@return $bp - 0.00125;
+	}
+	@error "flex: breakpoint `#{$value}` must be in px, em or rem to be used as an upper bound.";
+}
+
+// =============================================================================
+//  1. MEDIA HELPERS
+// =============================================================================
+
+// From this breakpoint and up.   @include flex-from(lg) { ... }
+@mixin flex-from($breakpoint) {
+	@media (min-width: _bp($breakpoint)) {
+		@content;
+	}
+}
+
+// Strictly below this breakpoint.   @include flex-below(md) { ... }
+@mixin flex-below($breakpoint) {
+	@media (max-width: _bp-max($breakpoint)) {
+		@content;
+	}
+}
+
+// From $from (inclusive) up to $to (exclusive).
+@mixin flex-between($from, $to) {
+	@media (min-width: _bp($from)) and (max-width: _bp-max($to)) {
+		@content;
+	}
+}
+
+@mixin flex-mobile {
+	@include flex-below($flex-desktop-breakpoint) {
+		@content;
+	}
+}
+
+@mixin flex-desktop {
+	@include flex-from($flex-desktop-breakpoint) {
+		@content;
+	}
+}
+
+// =============================================================================
+//  2. PARENT (CONTAINER) MIXINS
+// =============================================================================
+
+// All-in-one container.
+//   @include flex-container(column, $wrap: true, $gap: 1rem,
+//                           $horizontal: center, $vertical: start);
+@mixin flex-container(
+	$direction: row,
+	$wrap: null,
+	$gap: null,
+	$horizontal: null,
+	$vertical: null,
+	$inline: false
+) {
+	@if $inline {
+		display: inline-flex;
+	} @else {
+		display: flex;
+	}
+	flex-direction: $direction;
+	@if $wrap != null {
+		flex-wrap: _wrap($wrap);
+	}
+	@if $gap != null {
+		@include flex-gap($gap);
+	}
+	@include flex-align($horizontal, $vertical, $direction);
+}
+
+// Direction, with an optional different value on desktop.
+//   @include flex-direction(row);            // always row
+//   @include flex-direction(column, row);    // column on mobile, row on desktop
+@mixin flex-direction($mobile: row, $desktop: null) {
+	display: flex;
+	flex-direction: $mobile;
+	@if $desktop != null and $desktop != $mobile {
+		@include flex-desktop {
+			flex-direction: $desktop;
+		}
+	}
+}
+
+// true | false | wrap | nowrap | reverse
+@mixin flex-wrap($wrap: true) {
+	flex-wrap: _wrap($wrap);
+}
+
+// One value = both directions.   flex-gap(1rem)   flex-gap(2rem, 0.5rem)
+@mixin flex-gap($column-gap, $row-gap: $column-gap) {
+	column-gap: $column-gap;
+	row-gap: $row-gap;
+}
+
+// Horizontal / vertical alignment of the items, independent of direction:
+// pass the direction so the right CSS property is used for each axis.
+//   @include flex-align(center, center);
+//   @include flex-align(between, center, $direction: column);
+// NB: between / around / evenly only make sense on the main axis.
+@mixin flex-align($horizontal: null, $vertical: null, $direction: row) {
+	@if _is-vertical($direction) {
+		justify-content: _align($vertical);
+		align-items: _align($horizontal);
+	} @else {
+		justify-content: _align($horizontal);
+		align-items: _align($vertical);
+	}
+}
+
+// Distribution of multiple lines when wrapping (align-content).
+@mixin flex-align-lines($value) {
+	align-content: _align($value);
+}
+
+// Dead-centre the items.
+@mixin flex-center($direction: row) {
+	display: flex;
+	flex-direction: $direction;
+	justify-content: center;
+	align-items: center;
+}
+
+// =============================================================================
+//  3. COLUMNS & ROWS
+// =============================================================================
+
+// Fixed number of columns (wraps into rows), optional gap and column max width.
+//   @include flex-columns(3, $gap: 1rem, $max-width: 400px);
+// Extra items flow to new rows; the last row keeps the same column width.
+// Use flex-align(center) to centre columns that hit their max width.
+@mixin flex-columns($count, $gap: 0, $max-width: null) {
+	@include flex-grid($count, null, $gap, $max-width: $max-width);
+}
+
+// Fixed number of rows, filled top-to-bottom, then a new column starts.
+//   @include flex-rows(3, $gap: 1rem);
+// The container needs a definite height (height / min-height / a sized parent).
+@mixin flex-rows($count, $gap: 0) {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	@include flex-gap($gap);
+	> * {
+		flex: 0 0 _share($count, $gap);
+		min-height: 0;
+	}
+}
+
+// Columns AND rows.  Rows share the container height equally, so the
+// container needs a definite height (height / min-height / a sized parent).
+//   @include flex-grid(3, 2, $gap: 1rem);
+@mixin flex-grid($columns, $rows: null, $gap: 0, $row-gap: $gap, $max-width: null) {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	@include flex-gap($gap, $row-gap);
+	> * {
+		flex: 0 0 _share($columns, $gap);
+		min-width: 0;
+		max-width: $max-width;
+		@if $rows != null {
+			height: _share($rows, $row-gap);
+		}
+	}
+}
+
+// Different number of columns per breakpoint (list them in ascending order).
+// `base` (or 0) = no media query.
+//   @include flex-columns-at((base: 1, md: 2, lg: 4), $gap: 1rem);
+@mixin flex-columns-at($counts, $gap: 0, $max-width: null) {
+	@each $breakpoint, $count in $counts {
+		@if $breakpoint == base or $breakpoint == 0 {
+			@include flex-columns($count, $gap, $max-width);
+		} @else {
+			@include flex-from($breakpoint) {
+				@include flex-columns($count, $gap, $max-width);
+			}
+		}
+	}
+}
+
+// Columns that wrap by themselves: as many as fit, each at least $min-width,
+// growing to share the row (up to $max-width if given). No breakpoints needed.
+//   @include flex-auto-columns(16rem, $gap: 1rem);
+@mixin flex-auto-columns($min-width, $gap: 0, $max-width: null) {
+	display: flex;
+	flex-wrap: wrap;
+	@include flex-gap($gap);
+	> * {
+		flex: 1 1 $min-width;
+		max-width: $max-width;
+	}
+}
+
+// =============================================================================
+//  4. RELATIVE SIZES & CHILD TARGETING
+// =============================================================================
+
+// Relative size of each child, in order. Numbers are ratios, `auto` (or 0) =
+// size to content, a length or % = fixed size. Applied to the direct children.
+//   @include flex-ratios(1, 2, 1);        // 25% / 50% / 25% (gaps respected)
+//   @include flex-ratios(auto, 1);        // sidebar to content + fluid main
+//   @include flex-ratios(300px, 1);       // fixed 300px + fluid main
+//   @include flex-desktop { @include flex-ratios(1, 3); }
+@mixin flex-ratios($ratios...) {
+	display: flex;
+	> * {
+		min-width: 0;
+	}
+	@for $i from 1 through list.length($ratios) {
+		$ratio: list.nth($ratios, $i);
+		> :nth-child(#{$i}) {
+			@if $ratio == auto or $ratio == 0 {
+				flex: 0 0 auto;
+			} @else if not math.is-unitless($ratio) {
+				flex: 0 0 $ratio;
+			} @else {
+				flex: $ratio 1 0%;
+			}
+		}
+	}
+}
+
+// Maximum size of every direct child.
+//   @include flex-children-max(400px);
+@mixin flex-children-max($width, $height: null) {
+	> * {
+		max-width: $width;
+		max-height: $height;
+	}
+}
+
+// Style one specific child (1-based) from the parent's scss.
+//   @include flex-child(2) { @include flex-fill; max-width: 30rem; }
+@mixin flex-child($n) {
+	> :nth-child(#{$n}) {
+		@content;
+	}
+}
+
+// Style all direct children.
+@mixin flex-children {
+	> * {
+		@content;
+	}
+}
+
+// =============================================================================
+//  5. CHILD (ITEM) MIXINS  — include these in the child's own scss
+// =============================================================================
+
+@mixin flex-item($grow: 0, $shrink: 1, $basis: auto) {
+	flex: $grow $shrink $basis;
+}
+
+// Takes all the space left over by its siblings.
+@mixin flex-fill {
+	flex: 1 1 0%;
+	min-width: 0;
+	min-height: 0;
+}
+
+// "Full" element: takes the whole line along the main axis and stretches to
+// the full cross size of its parent. In a wrapping row it sits alone on its line.
+@mixin flex-full {
+	flex: 0 0 100%;
+	align-self: stretch;
+	min-width: 0;
+	min-height: 0;
+}
+
+// Sized by its content, never grows or shrinks.
+@mixin flex-auto {
+	flex: 0 0 auto;
+}
+
+// N of $of columns (12-column style), gap-aware.
+//   @include flex-span(4);                 // 4/12
+//   @include flex-span(6, 12, $gap: 1rem); // must match the parent's gap
+@mixin flex-span($span, $of: 12, $gap: 0) {
+	$size: null;
+	@if _is-zero($gap) {
+		$size: math.percentage(math.div($span, $of));
+	} @else {
+		$size: calc((100% - #{$gap * ($of - 1)}) / #{$of} * #{$span} + #{$gap * ($span - 1)});
+	}
+	flex: 0 0 $size;
+	max-width: $size;
+}
+
+// Own cross-axis alignment.
+@mixin flex-self($value) {
+	align-self: _align($value);
+}
+
+// Visual order, with an optional different value on desktop.
+//   @include flex-order(-1, 0);   // first on mobile, natural order on desktop
+@mixin flex-order($mobile, $desktop: null) {
+	order: $mobile;
+	@if $desktop != null {
+		@include flex-desktop {
+			order: $desktop;
+		}
+	}
+}
+
+// =============================================================================
+//  6. VISIBILITY
+// =============================================================================
+@mixin flex-hide-mobile {
+	@include flex-mobile {
+		display: none;
+	}
+}
+
+@mixin flex-hide-desktop {
+	@include flex-desktop {
+		display: none;
+	}
+}

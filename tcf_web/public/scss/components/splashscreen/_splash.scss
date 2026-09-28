@@ -1,4 +1,8 @@
-@use "../../config/palette";
+@use "../../config/palette" as palette;
+@use "../../config/typography" as type;
+
+@use "splash-logo";
+@use "splash-background";
 
 #splash-container {
 	position: fixed;
