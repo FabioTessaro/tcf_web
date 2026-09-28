@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @media screen and (prefers-color-scheme: dark) {
   .splash-cls-1 {
     fill: #e6e7e8;
@@ -110,12 +111,14 @@
 }
 
 @media screen and (prefers-color-scheme: dark) {
-  .navbar-cls-2, .navbar-cls-3 {
+  .navbar-cls-2,
+  .navbar-cls-3 {
     fill: #f1f2f2;
   }
 }
 @media screen and (prefers-color-scheme: light) {
-  .navbar-cls-2, .navbar-cls-3 {
+  .navbar-cls-2,
+  .navbar-cls-3 {
     fill: #3b3b3b;
   }
 }
@@ -137,7 +140,9 @@
   }
 }
 
-.navbar-cls-5, .navbar-cls-3, .navbar-cls-6 {
+.navbar-cls-5,
+.navbar-cls-3,
+.navbar-cls-6 {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 0.5px;
@@ -175,7 +180,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   max-height: 100vh;
   z-index: 1000;
 }
@@ -214,12 +219,12 @@
 
 @media (max-width: 767.98px) {
   .navbar-content-container {
-    max-width: 100vw;
+    max-width: 100%;
   }
 }
 @media (min-width: 768px) {
   .navbar-content-container {
-    max-width: 70vw;
+    max-width: 90rem;
   }
 }
 .navbar-content-container {
@@ -473,4 +478,202 @@
 
 body {
   margin: 0;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]) {
+  --dbg-h: 200;
+  --dbg-s: 70%;
+  --dbg-l: 55%;
+  outline: 1px solid hsl(var(--dbg-h), var(--dbg-s), 25%) !important;
+  outline-offset: -1px !important;
+  background-image: linear-gradient(hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.6), hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.6)) !important;
+  background-clip: content-box, border-box !important;
+  background-color: hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.25) !important;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+1) {
+  --dbg-h: 338;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+2) {
+  --dbg-h: 27;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+3) {
+  --dbg-h: 154;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+4) {
+  --dbg-h: 284;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+5) {
+  --dbg-h: 226;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+6) {
+  --dbg-h: 224;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+7) {
+  --dbg-h: 49;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+8) {
+  --dbg-h: 341;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+9) {
+  --dbg-h: 103;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+10) {
+  --dbg-h: 87;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+11) {
+  --dbg-h: 149;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+12) {
+  --dbg-h: 183;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+13) {
+  --dbg-h: 210;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+14) {
+  --dbg-h: 222;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+15) {
+  --dbg-h: 329;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+16) {
+  --dbg-h: 19;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+17) {
+  --dbg-h: 293;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+18) {
+  --dbg-h: 173;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+19) {
+  --dbg-h: 244;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+20) {
+  --dbg-h: 251;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+21) {
+  --dbg-h: 26;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+22) {
+  --dbg-h: 293;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+23) {
+  --dbg-h: 62;
+}
+
+*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+24) {
+  --dbg-h: 26;
+}
+
+body > * {
+  --dbg-l: 43%;
+}
+
+body > * > * {
+  --dbg-l: 51%;
+}
+
+body > * > * > * {
+  --dbg-l: 59%;
+}
+
+body > * > * > * > * {
+  --dbg-l: 67%;
+}
+
+body > * > * > * > * > * {
+  --dbg-l: 35%;
+}
+
+body > * > * > * > * > * > * {
+  --dbg-l: 43%;
+}
+
+body > * > * > * > * > * > * > * {
+  --dbg-l: 51%;
+}
+
+body > * > * > * > * > * > * > * > * {
+  --dbg-l: 59%;
+}
+
+body > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 67%;
+}
+
+body > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 35%;
+}
+
+body > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 43%;
+}
+
+body > * > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 51%;
+}
+
+body > * > * > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 59%;
+}
+
+body > * > * > * > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 67%;
+}
+
+body::after {
+  content: "xs";
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2147483647;
+  padding: 4px 8px;
+  font: 600 12px/1 monospace;
+  color: #fff;
+  background: #000;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+@media (min-width: 576px) {
+  body::after {
+    content: "sm ≥ 576px";
+  }
+}
+@media (min-width: 768px) {
+  body::after {
+    content: "md ≥ 768px";
+  }
+}
+@media (min-width: 992px) {
+  body::after {
+    content: "lg ≥ 992px";
+  }
+}
+@media (min-width: 1200px) {
+  body::after {
+    content: "xl ≥ 1200px";
+  }
 }
