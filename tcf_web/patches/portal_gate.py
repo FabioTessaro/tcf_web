@@ -26,6 +26,9 @@ ALLOWED_PREFIXES = {
 	"backups",
 	"/",
 	"index",
+	"first",
+	"second",
+	"third",
 }
 
 

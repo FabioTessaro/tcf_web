@@ -28,7 +28,7 @@
  *           <div id="splash-background"></div>
  *           <div id="splash-logo"></div>
  *       </div>
- *       <main id="content" hx-history-elt>   <!-- htmx snapshots/restores ONLY this -->
+ *       <main id="page-container" hx-history-elt>   <!-- htmx snapshots/restores ONLY this -->
  *           ...your page...
  *       </main>
  *   </body>
@@ -96,7 +96,7 @@ $(function () {
 	const WATCHDOG_MS = 20000; // max lifetime of one splash before it is force-ended
 	const ASSET_WAIT_MS = 5000; // max wait for fonts/images before the outro
 
-	$.loader = $.createLoader("#splash-container", "#splash-logo", "#splash-background");
+	$.loader = document.getElementById("splash");
 	$.loader.startFromLoop();
 
 	// ---------- helpers ----------

@@ -1,0 +1,15 @@
+@use "palette/palette" as palette;
+@use "typography/typography" as type;
+@use "debug/debug";
+
+:root {
+	@include type.tokens;
+}
+@include type.language-tokens;
+@include type.utilities;
+
+body {
+	margin: 0;
+}
+
+@include debug.layout;

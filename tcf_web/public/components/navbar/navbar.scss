@@ -1,8 +1,8 @@
-@use "../../config/palette" as palette;
-@use "../../config/typography" as type;
-@use "../../config/layout" as layout;
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
 
-@use "navbar-logo";
+@use "scss/navbar-logo";
 
 .navbar-container {
 	position: fixed;
@@ -47,6 +47,7 @@
 		max-width: 90rem;
 	}
 	width: 100%;
+	padding: 0.5rem;
 	@include layout.flex-container(
 		row,
 		$wrap: false,
@@ -59,14 +60,14 @@
 .navbar-logo-container {
 	@include layout.flex-mobile {
 		min-height: 5rem;
-		margin-left: 0.5rem;
+		// margin-left: 0.5rem;
 	}
 	@include layout.flex-desktop {
 		min-height: 5rem;
 	}
 	height: 5rem;
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+	// margin-top: 0.5rem;
+	// margin-bottom: 0.5rem;
 	.navbar-logo-wrapper {
 		height: 100%;
 		svg {

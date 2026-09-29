@@ -1,10 +1,10 @@
-@use "../../config/palette" as palette;
-@use "../../config/typography" as type;
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
 
-@use "splash-logo";
-@use "splash-background";
+@use "scss/splash-logo";
+@use "scss/splash-background";
 
-#splash-container {
+splash-screen {
 	position: fixed;
 	inset: 0;
 	z-index: 9998;
@@ -17,7 +17,7 @@
 	height: 100vh;
 }
 
-#splash-logo {
+splash-logo {
 	width: 20vmin;
 	max-width: 320px;
 	z-index: 9999;
@@ -29,7 +29,7 @@
 	}
 }
 
-#splash-background {
+splash-background {
 	width: 100vmax;
 	height: 100vmax;
 	position: absolute;

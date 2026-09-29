@@ -8,27 +8,34 @@
     <script type="text/javascript" src="/assets/frappe/js/frappe-web.bundle.js"></script>
     <meta name="csrf_token" content="{{ frappe.session.csrf_token }}">
 
+    <!-- Import of the global dependency libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/i18next@25/dist/umd/i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
 
-    <script src="/assets/tcf_web/js/components/localization/localization.js"></script>
+    <!-- Import of the non-component modules-->
+    <script src="/assets/tcf_web/components/localization/localization.js"></script>
+    <script src="/assets/tcf_web/components/navigation/navigation.js" defer></script>
 
+    <!-- Import of the custom components definitions -->
+    <script type="module" src="/assets/tcf_web/components/splash/splash.js"></script>
+    <script type="module" src="/assets/tcf_web/components/navbar/navbar.js"></script>
+
+    <!-- Import of stylesheets -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/assets/tcf_web/scss/base.css"/>
+    <link rel="stylesheet" href="/assets/tcf_web/components/base.css"/>
 </head>
 <body hx-boost="true" hx-target="#page-container" hx-select="#page-container">
 
-    {% include "tcf_web/components/splashscreen/splash.html" %}
+    {% include "tcf_web/public/components/splash/splash.html" %}
 
     <div id="page-container" hx-history-elt>
         {% block content %}{% endblock %}
     </div>
 
     <script src="/assets/tcf_web/js/base.js"></script>
-    <script src="/assets/tcf_web/js/components/navigation/navigation.js"></script>
 
 </body>
 </html>
