@@ -4,6 +4,11 @@
 
 @use "scss/navbar-logo";
 
+@use "../debug/debug";
+:host {
+	@include debug.layout;
+}
+
 .navbar-container {
 	position: fixed;
 	top: 0;

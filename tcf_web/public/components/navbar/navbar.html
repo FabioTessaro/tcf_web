@@ -1,29 +1,61 @@
-<nav class="navbar-container">
-    <div class="navbar-topbar-container">
-        <div class="navbar-content-container">
-            <div class="navbar-logo-container">
-                <div class="navbar-logo-wrapper">
-                    {% include "tcf_web/public/components/navbar/assets/navbar-logo.svg" %}
-                </div>
-            </div>
-            <div class="navbar-separator"></div>
-            <div class="navbar-mobile-actions-container">
+<!--
+	<nav-bar> structure. Fetched by navbar.js and placed inside the component's Shadow DOM.
+	A plain fragment: no <html>/<head>, no Jinja.
 
-            </div>
-            <div class="navbar-desktop-actions-container">
-                <div class="navbar-desktop-actions-top">
+	- Every <slot name="..."> is where navbar.js projects a button. Keep the names.
+	- `part` attributes make each region stylable from the page:  nav-bar::part(topbar) { ... }
+	- Class names are the styling hooks used by navbar.css / navbar.theme.css.
+	- The logo is injected from navbar-logo.svg into .navbar-logo-wrapper.
 
-                </div>
-                <div class="navbar-desktop-actions-bottom">
+	Desktop:  [ logo ................ top row:    language · portal ]
+	          [                       bottom row: menu buttons      ]
+	Mobile:   [ logo ................................ toggle icon ]
+	          [ underbar: menu buttons (vertical) ... footer: language · portal ]
+-->
+<nav class="navbar-container" part="container">
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="navbar-mobile-underbar-container">
+	<div class="navbar-topbar-container" part="topbar">
+		<div class="navbar-content-container" part="content">
 
-    </div>
-    <div class="navbar-desktop-underbar-container">
+			<div class="navbar-logo-container" part="logo">
+				<div class="navbar-logo-wrapper"></div>
+			</div>
 
-    </div>
+			<div class="navbar-separator" part="separator"></div>
+
+			<!-- desktop only -->
+			<div class="navbar-desktop-actions-container" part="desktop-actions">
+				<div class="navbar-desktop-actions-top" part="desktop-top">
+					<slot name="desktop-top"></slot>
+				</div>
+				<div class="navbar-desktop-actions-bottom" part="desktop-bottom">
+					<slot name="desktop-bottom"></slot>
+				</div>
+			</div>
+
+			<!-- mobile only: the two icons sit on top of each other, CSS swaps them -->
+			<div class="navbar-toggle-container" part="toggle">
+				<div class="navbar-toggle-open" part="toggle-open">
+					<slot name="toggle-open"></slot>
+				</div>
+				<div class="navbar-toggle-close" part="toggle-close" inert>
+					<slot name="toggle-close"></slot>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- mobile only: grows from height 0 to fill the rest of the screen -->
+	<div class="navbar-mobile-underbar-container" part="underbar" inert>
+		<div class="navbar-mobile-underbar-content" part="underbar-content">
+			<div class="navbar-mobile-underbar-main" part="underbar-main">
+				<slot name="mobile-underbar"></slot>
+			</div>
+			<div class="navbar-mobile-underbar-footer" part="underbar-footer">
+				<slot name="mobile-underbar-footer"></slot>
+			</div>
+		</div>
+	</div>
+
 </nav>

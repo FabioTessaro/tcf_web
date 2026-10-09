@@ -49,6 +49,163 @@
   --tf-label-letter-spacing: 0.08em;
   --tf-label-transform: uppercase;
 }
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]) {
+  --dbg-h: 200;
+  --dbg-s: 70%;
+  --dbg-l: 55%;
+  outline: 1px solid hsl(var(--dbg-h), var(--dbg-s), 25%) !important;
+  outline-offset: -1px !important;
+  background-image: linear-gradient(hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.6), hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.6)) !important;
+  background-clip: content-box, border-box !important;
+  background-color: hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.25) !important;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+1) {
+  --dbg-h: 183;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+2) {
+  --dbg-h: 267;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+3) {
+  --dbg-h: 49;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+4) {
+  --dbg-h: 207;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+5) {
+  --dbg-h: 283;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+6) {
+  --dbg-h: 165;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+7) {
+  --dbg-h: 25;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+8) {
+  --dbg-h: 356;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+9) {
+  --dbg-h: 208;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+10) {
+  --dbg-h: 271;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+11) {
+  --dbg-h: 340;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+12) {
+  --dbg-h: 272;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+13) {
+  --dbg-h: 330;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+14) {
+  --dbg-h: 75;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+15) {
+  --dbg-h: 133;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+16) {
+  --dbg-h: 28;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+17) {
+  --dbg-h: 155;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+18) {
+  --dbg-h: 225;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+19) {
+  --dbg-h: 122;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+20) {
+  --dbg-h: 305;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+21) {
+  --dbg-h: 323;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+22) {
+  --dbg-h: 40;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+23) {
+  --dbg-h: 48;
+}
+:root *:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+24) {
+  --dbg-h: 82;
+}
+:root body > * {
+  --dbg-l: 43%;
+}
+:root body > * > * {
+  --dbg-l: 51%;
+}
+:root body > * > * > * {
+  --dbg-l: 59%;
+}
+:root body > * > * > * > * {
+  --dbg-l: 67%;
+}
+:root body > * > * > * > * > * {
+  --dbg-l: 35%;
+}
+:root body > * > * > * > * > * > * {
+  --dbg-l: 43%;
+}
+:root body > * > * > * > * > * > * > * {
+  --dbg-l: 51%;
+}
+:root body > * > * > * > * > * > * > * > * {
+  --dbg-l: 59%;
+}
+:root body > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 67%;
+}
+:root body > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 35%;
+}
+:root body > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 43%;
+}
+:root body > * > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 51%;
+}
+:root body > * > * > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 59%;
+}
+:root body > * > * > * > * > * > * > * > * > * > * > * > * > * > * {
+  --dbg-l: 67%;
+}
+:root body::after {
+  content: "xs";
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2147483647;
+  padding: 4px 8px;
+  font: 600 12px/1 monospace;
+  color: #fff;
+  background: #000;
+  border-radius: 4px;
+  pointer-events: none;
+}
+@media (min-width: 576px) {
+  :root body::after {
+    content: "sm ≥ 576px";
+  }
+}
+@media (min-width: 768px) {
+  :root body::after {
+    content: "md ≥ 768px";
+  }
+}
+@media (min-width: 992px) {
+  :root body::after {
+    content: "lg ≥ 992px";
+  }
+}
+@media (min-width: 1200px) {
+  :root body::after {
+    content: "xl ≥ 1200px";
+  }
+}
 
 :lang(zh-CN) {
   --tf-body-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
@@ -188,202 +345,4 @@
 
 body {
   margin: 0;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]) {
-  --dbg-h: 200;
-  --dbg-s: 70%;
-  --dbg-l: 55%;
-  outline: 1px solid hsl(var(--dbg-h), var(--dbg-s), 25%) !important;
-  outline-offset: -1px !important;
-  background-image: linear-gradient(hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.6), hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.6)) !important;
-  background-clip: content-box, border-box !important;
-  background-color: hsl(var(--dbg-h), var(--dbg-s), var(--dbg-l), 0.25) !important;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+1) {
-  --dbg-h: 90;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+2) {
-  --dbg-h: 71;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+3) {
-  --dbg-h: 99;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+4) {
-  --dbg-h: 332;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+5) {
-  --dbg-h: 262;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+6) {
-  --dbg-h: 109;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+7) {
-  --dbg-h: 357;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+8) {
-  --dbg-h: 5;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+9) {
-  --dbg-h: 336;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+10) {
-  --dbg-h: 4;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+11) {
-  --dbg-h: 147;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+12) {
-  --dbg-h: 3;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+13) {
-  --dbg-h: 170;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+14) {
-  --dbg-h: 331;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+15) {
-  --dbg-h: 114;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+16) {
-  --dbg-h: 181;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+17) {
-  --dbg-h: 338;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+18) {
-  --dbg-h: 117;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+19) {
-  --dbg-h: 354;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+20) {
-  --dbg-h: 275;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+21) {
-  --dbg-h: 240;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+22) {
-  --dbg-h: 287;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+23) {
-  --dbg-h: 226;
-}
-
-*:not(script, style, link, meta, head, title, br, [data-debug-ignore]):nth-child(24n+24) {
-  --dbg-h: 140;
-}
-
-body > * {
-  --dbg-l: 43%;
-}
-
-body > * > * {
-  --dbg-l: 51%;
-}
-
-body > * > * > * {
-  --dbg-l: 59%;
-}
-
-body > * > * > * > * {
-  --dbg-l: 67%;
-}
-
-body > * > * > * > * > * {
-  --dbg-l: 35%;
-}
-
-body > * > * > * > * > * > * {
-  --dbg-l: 43%;
-}
-
-body > * > * > * > * > * > * > * {
-  --dbg-l: 51%;
-}
-
-body > * > * > * > * > * > * > * > * {
-  --dbg-l: 59%;
-}
-
-body > * > * > * > * > * > * > * > * > * {
-  --dbg-l: 67%;
-}
-
-body > * > * > * > * > * > * > * > * > * > * {
-  --dbg-l: 35%;
-}
-
-body > * > * > * > * > * > * > * > * > * > * > * {
-  --dbg-l: 43%;
-}
-
-body > * > * > * > * > * > * > * > * > * > * > * > * {
-  --dbg-l: 51%;
-}
-
-body > * > * > * > * > * > * > * > * > * > * > * > * > * {
-  --dbg-l: 59%;
-}
-
-body > * > * > * > * > * > * > * > * > * > * > * > * > * > * {
-  --dbg-l: 67%;
-}
-
-body::after {
-  content: "xs";
-  position: fixed;
-  right: 8px;
-  bottom: 8px;
-  z-index: 2147483647;
-  padding: 4px 8px;
-  font: 600 12px/1 monospace;
-  color: #fff;
-  background: #000;
-  border-radius: 4px;
-  pointer-events: none;
-}
-
-@media (min-width: 576px) {
-  body::after {
-    content: "sm ≥ 576px";
-  }
-}
-@media (min-width: 768px) {
-  body::after {
-    content: "md ≥ 768px";
-  }
-}
-@media (min-width: 992px) {
-  body::after {
-    content: "lg ≥ 992px";
-  }
-}
-@media (min-width: 1200px) {
-  body::after {
-    content: "xl ≥ 1200px";
-  }
 }

@@ -4,6 +4,7 @@
 
 :root {
 	@include type.tokens;
+	@include debug.layout;
 }
 @include type.language-tokens;
 @include type.utilities;
@@ -11,5 +12,3 @@
 body {
 	margin: 0;
 }
-
-@include debug.layout;
