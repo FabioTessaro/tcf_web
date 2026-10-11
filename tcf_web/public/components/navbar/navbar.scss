@@ -121,7 +121,7 @@
 	@include layout.flex-container(
 		row,
 		$wrap: false,
-		$gap: 0.2rem,
+		$gap: 1.5rem,
 		$horizontal: end,
 		$vertical: end
 	);

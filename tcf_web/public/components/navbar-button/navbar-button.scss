@@ -5,11 +5,79 @@
 .navbar-button-container {
 	.navbar-button-mobile-container {
 		@include layout.flex-hide-desktop;
+		a {
+			@include type.typeface(navigation-main);
+			position: relative;
+			isolation: isolate; // keeps the pill behind the text, but inside the link
+			color: inherit;
+			text-decoration: none;
+			background-color: transparent;
+			cursor: pointer;
+			-webkit-tap-highlight-color: transparent;
+
+			// Tap target
+			display: inline-flex;
+			align-items: center;
+			min-height: 2.75rem;
+			padding: 0 0.75rem;
+
+			transition: transform 0.15s ease;
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0.3rem 0.1rem;
+				z-index: -1;
+				border-radius: 999px;
+				background-color: color-mix(in srgb, currentColor 12%, transparent);
+				opacity: 0;
+				transition: opacity 0.15s ease;
+			}
+
+			&:visited {
+				color: inherit;
+			}
+
+			&:active {
+				color: inherit;
+				transform: scale(1.06);
+
+				&::before {
+					opacity: 1;
+				}
+			}
+		}
 	}
 	.navbar-button-desktop-container {
 		@include layout.flex-hide-mobile;
+		a {
+			@include type.typeface(navigation-main);
+			color: inherit;
+			text-decoration: none;
+			background-color: transparent;
+			cursor: pointer;
+			-webkit-tap-highlight-color: transparent;
+
+			display: inline-block; // transform has no effect on inline elements
+			border-bottom: 1px solid transparent;
+			padding-bottom: 0.25rem;
+			transition: font-weight 0.25s ease, letter-spacing 0.25s ease, border-color 0.25s ease,
+				transform 0.25s ease;
+
+			&:visited,
+			&:active {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			&:hover,
+			&:focus-visible {
+				color: inherit;
+				border-bottom-color: currentColor;
+				transform: translateY(-2px);
+			}
+		}
 	}
-	@include type.typeface(heading-2);
 	@include type.for-script("latin") {
 	}
 	@include type.for-script("chinese") {

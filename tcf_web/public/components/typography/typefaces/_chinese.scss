@@ -29,4 +29,11 @@ $typefaces: (
 		letter-spacing: 0.02em,
 		text-transform: none,
 	),
+	navigation-main: (
+		stack: defaults.$stack-chinese,
+		weight: 300,
+		size: 1.0625rem,
+		line-height: 1.4,
+		letter-spacing: 0.08em,
+	),
 );
