@@ -3,10 +3,12 @@
 // The typography engine. Data lives in typefaces/*; this file merges it and
 // exposes four things:
 //
-//   tokens           emit every typeface as CSS custom properties (:root)
-//   language-tokens  emit per-script overrides under :lang(...)
-//   typeface($name)  apply a typeface to a selector
-//   utilities        emit .tf-<name> classes
+//   tokens            emit every typeface as CSS custom properties (:root)
+//   language-tokens   emit per-script typeface overrides under :lang(...)
+//   typeface($name)   apply a typeface to a selector
+//   utilities         emit .tf-<name> classes
+//   for-language($code)  scope a block of plain CSS to one language
+//   for-script($script)  scope a block of plain CSS to a whole script group
 //
 // Usage:   @use 'config/typography' as type;   (path relative to the file)
 
@@ -69,7 +71,7 @@ $languages: (
 @mixin -vars($name, $tf) {
 	--tf-#{$name}-stack: #{map.get($tf, stack)};
 	--tf-#{$name}-weight: #{map.get($tf, weight)};
-	--tf-#{$name}-width: #{map.get($tf, width) * 1%};
+	--tf-#{$name}-width: #{map.get($tf, width) * 1%}; // 87.5 -> 87.5%
 	--tf-#{$name}-style: #{map.get($tf, style)};
 	--tf-#{$name}-size: #{map.get($tf, size)};
 	--tf-#{$name}-line-height: #{map.get($tf, line-height)};
@@ -88,21 +90,70 @@ $languages: (
 	}
 }
 
+// Every language code that belongs to one script group, as a comma selector
+// list: chinese -> ":lang(zh-CN)". Used by language-tokens and for-script.
+@function -script-selector($script) {
+	$selectors: ();
+	@each $lang, $s in $languages {
+		@if $s == $script {
+			$selectors: list.append($selectors, ":lang(#{$lang})", comma);
+		}
+	}
+	@return $selectors;
+}
+
 // Per-script overrides, one :lang() rule per script group listing every
 // language that uses it. Include AFTER tokens (same specificity, later wins).
 @mixin language-tokens {
 	@each $script, $overrides in $script-overrides {
 		@if list.length(map.keys($overrides)) > 0 {
-			$selectors: ();
-			@each $lang, $s in $languages {
-				@if $s == $script {
-					$selectors: list.append($selectors, ":lang(#{$lang})", comma);
-				}
-			}
-			#{$selectors} {
+			#{-script-selector($script)} {
 				@each $name, $_ in $overrides {
 					@include -vars($name, -resolve($name, $script));
 				}
+			}
+		}
+	}
+}
+
+// Scopes plain CSS to one language, for use inside any selector:
+//   .pricing-card__title {
+//     font-size: 1.5rem;
+//     @include type.for-language('ja-JP') { font-size: 1.75rem; letter-spacing: 0; }
+//   }
+// Compiles to a nested :lang(ja-JP) rule, so it still wins over the outer
+// property (equal specificity, declared later) without an extra selector.
+@mixin for-language($code) {
+	@if not map.has-key($languages, $code) {
+		@error "Unknown language '#{$code}'. Available: #{map.keys($languages)}";
+	}
+	// "&" makes this a compound selector (.foo:lang(ja-JP)), so it matches the
+	// element itself. Without it, Sass nests :lang() as a DESCENDANT selector,
+	// which matches nothing in most markup. Only use this inside a selector.
+	&:lang(#{$code}) {
+		@content;
+	}
+}
+
+// Scopes plain CSS to every language in one script group at once:
+//   .pricing-card__title {
+//     @include type.for-script('japanese') { line-height: 1.8; }
+//   }
+// Picks up new languages automatically if you add one to that group later.
+@mixin for-script($script) {
+	@if not map.has-key($script-overrides, $script) {
+		@error "Unknown script group '#{$script}'. Available: #{map.keys($script-overrides)}";
+	}
+	// One compound rule per language in the group ("&" must be written inside
+	// an actual nested rule to attach to the real parent selector -
+	// selector.nest('&', ...) does NOT do this: '&' is only a placeholder
+	// inside @content/declaration blocks, not a value functions can resolve).
+	// This repeats @content once per language in the group; with one language
+	// per script today that's one rule, same as for-language.
+	@each $lang, $s in $languages {
+		@if $s == $script {
+			&:lang(#{$lang}) {
+				@content;
 			}
 		}
 	}

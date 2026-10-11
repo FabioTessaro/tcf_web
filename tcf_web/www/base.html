@@ -23,9 +23,15 @@
     <script type="module" src="/assets/tcf_web/components/splash/splash.js"></script>
     <script type="module" src="/assets/tcf_web/components/navbar/navbar.js"></script>
 
+    <script type="module" src="/assets/tcf_web/components/navbar-button/navbar-button.i18n.js"></script>
+    <script type="module" src="/assets/tcf_web/components/navbar-button/navbar-button.js"></script>
+
     <!-- Import of stylesheets -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/assets/tcf_web/components/base.css"/>
+
+    <!-- Temporary imports while debugging -->
+    <link rel="stylesheet" href="/assets/tcf_web/components/navbar-button/navbar-button.css"/>
 </head>
 <body hx-boost="true" hx-target="#page-container" hx-select="#page-container">
 
@@ -34,8 +40,6 @@
     <div id="page-container" hx-history-elt>
         {% block content %}{% endblock %}
     </div>
-
-    <script src="/assets/tcf_web/js/base.js"></script>
 
 </body>
 </html>

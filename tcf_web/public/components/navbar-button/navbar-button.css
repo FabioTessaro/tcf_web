@@ -1,0 +1,20 @@
+@media (min-width: 768px) {
+  .navbar-button-container .navbar-button-mobile-container {
+    display: none;
+  }
+}
+@media (max-width: 767.98px) {
+  .navbar-button-container .navbar-button-desktop-container {
+    display: none;
+  }
+}
+.navbar-button-container {
+  font-family: var(--tf-heading-2-stack);
+  font-weight: var(--tf-heading-2-weight);
+  font-stretch: var(--tf-heading-2-width);
+  font-style: var(--tf-heading-2-style);
+  font-size: var(--tf-heading-2-size);
+  line-height: var(--tf-heading-2-line-height);
+  letter-spacing: var(--tf-heading-2-letter-spacing);
+  text-transform: var(--tf-heading-2-transform);
+}

@@ -1,0 +1,19 @@
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+.navbar-button-container {
+	.navbar-button-mobile-container {
+		@include layout.flex-hide-desktop;
+	}
+	.navbar-button-desktop-container {
+		@include layout.flex-hide-mobile;
+	}
+	@include type.typeface(heading-2);
+	@include type.for-script("latin") {
+	}
+	@include type.for-script("chinese") {
+	}
+	@include type.for-script("japanese") {
+	}
+}
