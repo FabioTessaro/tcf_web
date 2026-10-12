@@ -1,0 +1,26 @@
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+.navbar-toggle-container {
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: center,
+		$vertical: center
+	);
+
+	.navbar-toggle-icon {
+		font-size: 3rem;
+		font-weight: 200;
+		@media screen and (prefers-color-scheme: dark) {
+			color: palette.$dark-primary-deep;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			color: palette.$light-primary-deep;
+		}
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+}

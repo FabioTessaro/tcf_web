@@ -33,7 +33,14 @@ $typefaces: (
 		stack: defaults.$stack-chinese,
 		weight: 300,
 		size: 1.0625rem,
-		line-height: 1.4,
+		line-height: 1.27,
+		letter-spacing: 0.1em,
+	),
+	navigation-main-mobile: (
+		stack: defaults.$stack-chinese,
+		weight: 400,
+		size: 1.4rem,
+		line-height: 1.26,
 		letter-spacing: 0.08em,
 	),
 );

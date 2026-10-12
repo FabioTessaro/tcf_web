@@ -1,0 +1,28 @@
+.navbar-toggle-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0;
+       column-gap: 0;
+  row-gap: 0;
+  justify-content: center;
+  align-items: center;
+}
+.navbar-toggle-container .navbar-toggle-icon {
+  font-size: 3rem;
+  font-weight: 200;
+}
+@media screen and (prefers-color-scheme: dark) {
+  .navbar-toggle-container .navbar-toggle-icon {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .navbar-toggle-container .navbar-toggle-icon {
+    color: #3b3b3b;
+  }
+}
+.navbar-toggle-container .navbar-toggle-icon {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}

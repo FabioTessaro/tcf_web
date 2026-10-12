@@ -1,0 +1,93 @@
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+// .navbar-switcher-container[navbar-layout="desktop"] .language-switcher-mobile-container,
+// .navbar-switcher-container[navbar-layout="mobile"] .language-switcher-desktop-container {
+//     display: none;
+// }
+
+.language-switcher-desktop-container {
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-deep;
+	}
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: center,
+		$vertical: center
+	);
+	@include layout.flex-hide-mobile;
+	transition: transform 0.15s ease;
+	text-decoration: none;
+	background-color: transparent;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -0.15rem -0.15rem;
+		z-index: -1;
+		border-radius: 999px;
+		background-color: color-mix(in srgb, currentColor 12%, transparent);
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+	&:hover {
+		transform: scale(1.05);
+		&::before {
+			opacity: 1;
+		}
+	}
+	span {
+		font-weight: 200;
+	}
+}
+
+.language-switcher-mobile-container {
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-deep;
+	}
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: center,
+		$vertical: center
+	);
+	@include layout.flex-hide-desktop;
+	text-decoration: none;
+	background-color: transparent;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	transition: transform 0.15s ease;
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -0.08rem -0.08rem;
+		z-index: -1;
+		border-radius: 999px;
+		background-color: color-mix(in srgb, currentColor 12%, transparent);
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+
+	&:active {
+		transform: scale(1.06);
+
+		&::before {
+			opacity: 1;
+		}
+	}
+	span {
+		font-weight: 250;
+		font-size: 1.7rem;
+	}
+}

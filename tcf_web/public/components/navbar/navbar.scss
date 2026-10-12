@@ -9,6 +9,9 @@
 	// @include debug.layout;
 }
 
+$navbar-logo-height: 5rem;
+$navbar-padding: 0.5rem;
+
 .navbar-container {
 	position: fixed;
 	top: 0;
@@ -16,19 +19,28 @@
 	width: 100%;
 	max-height: 100vh;
 	z-index: 1000;
+	transition: background-color 0.3s ease;
 	&[data-scrolled="true"] {
 		@media screen and (prefers-color-scheme: dark) {
 			background-color: palette.$dark-background;
 		}
 		@media screen and (prefers-color-scheme: light) {
+			background-color: palette.$light-background;
+		}
+	}
+	&[data-expanded="true"] {
+		@media screen and (prefers-color-scheme: dark) {
 			background-color: palette.$dark-background;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			background-color: palette.$light-background;
 		}
 	}
 	@include layout.flex-container(
 		column,
 		$wrap: false,
 		$gap: 0,
-		$horizontal: center,
+		$horizontal: stretch,
 		$vertical: start
 	);
 }
@@ -47,12 +59,13 @@
 .navbar-content-container {
 	@include layout.flex-mobile {
 		max-width: 100%;
+		padding: $navbar-padding 2rem $navbar-padding 1rem;
 	}
 	@include layout.flex-desktop {
-		max-width: 90rem;
+		max-width: 94rem;
+		padding: $navbar-padding 2rem $navbar-padding 2rem;
 	}
 	width: 100%;
-	padding: 0.5rem;
 	@include layout.flex-container(
 		row,
 		$wrap: false,
@@ -64,15 +77,12 @@
 
 .navbar-logo-container {
 	@include layout.flex-mobile {
-		min-height: 5rem;
-		// margin-left: 0.5rem;
+		min-height: $navbar-logo-height;
 	}
 	@include layout.flex-desktop {
-		min-height: 5rem;
+		min-height: $navbar-logo-height;
 	}
-	height: 5rem;
-	// margin-top: 0.5rem;
-	// margin-bottom: 0.5rem;
+	height: $navbar-logo-height;
 	.navbar-logo-wrapper {
 		height: 100%;
 		svg {
@@ -95,17 +105,95 @@
 
 .navbar-mobile-actions-container {
 	@include layout.flex-hide-desktop;
+	@include layout.flex-mobile {
+		display: grid;
+	}
+	width: 3rem;
+	height: 3rem;
+	.navbar-toggle-open,
+	.navbar-toggle-close {
+		grid-area: 1 / 1;
+		@include layout.flex-container(
+			row,
+			$wrap: false,
+			$gap: 0,
+			$horizontal: center,
+			$vertical: center
+		);
+	}
+}
+
+.navbar-container[data-expanded="false"] .navbar-toggle-close,
+.navbar-container[data-expanded="true"] .navbar-toggle-open {
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.navbar-mobile-underbar-container {
+	@include layout.flex-hide-desktop;
+	@include layout.flex-mobile {
+		@include layout.flex-container(
+			column,
+			$wrap: false,
+			$gap: 0,
+			$horizontal: stretch,
+			$vertical: start
+		);
+		height: 0;
+		overflow: hidden;
+		visibility: hidden;
+		transition: height 0.3s ease, visibility 0s linear 0.3s;
+		.navbar-mobile-underbar-content {
+			@include layout.flex-fill;
+			margin: 2rem;
+			@include layout.flex-container(
+				column,
+				$wrap: false,
+				$gap: 0,
+				$horizontal: stretch,
+				$vertical: between
+			);
+			.navbar-mobile-underbar-main {
+				@include layout.flex-container(
+					column,
+					$wrap: false,
+					$gap: 0.15rem,
+					$horizontal: end,
+					$vertical: start
+				);
+			}
+			.navbar-mobile-underbar-footer {
+				@include layout.flex-container(
+					row,
+					$wrap: false,
+					$gap: 0.2rem,
+					$horizontal: center,
+					$vertical: center
+				);
+			}
+		}
+	}
+}
+
+.navbar-container[data-expanded="true"] .navbar-mobile-underbar-container {
+	height: calc(
+		100vh - $navbar-logo-height - $navbar-padding - $navbar-padding
+	); // This is the logo height * twice the padding
+	visibility: visible;
+	transition: height 0.3s ease, visibility 0s ease;
 }
 
 .navbar-desktop-actions-container {
 	@include layout.flex-hide-mobile;
-	@include layout.flex-container(
-		column,
-		$wrap: false,
-		$gap: 0.5rem,
-		$horizontal: end,
-		$vertical: center
-	);
+	@include layout.flex-desktop {
+		@include layout.flex-container(
+			column,
+			$wrap: false,
+			$gap: 0.8rem,
+			$horizontal: end,
+			$vertical: center
+		);
+	}
 }
 
 .navbar-desktop-actions-top {

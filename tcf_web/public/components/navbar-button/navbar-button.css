@@ -1,48 +1,56 @@
+@media screen and (prefers-color-scheme: dark) {
+  .navbar-button-label {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .navbar-button-label {
+    color: #3b3b3b;
+  }
+}
+.navbar-button-label {
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
 @media (min-width: 768px) {
   .navbar-button-container .navbar-button-mobile-container {
     display: none;
   }
 }
-.navbar-button-container .navbar-button-mobile-container a {
-  font-family: var(--tf-navigation-main-stack);
-  font-weight: var(--tf-navigation-main-weight);
-  font-stretch: var(--tf-navigation-main-width);
-  font-style: var(--tf-navigation-main-style);
-  font-size: var(--tf-navigation-main-size);
-  line-height: var(--tf-navigation-main-line-height);
-  letter-spacing: var(--tf-navigation-main-letter-spacing);
-  text-transform: var(--tf-navigation-main-transform);
+.navbar-button-container .navbar-button-mobile-container .navbar-button-label {
+  font-family: var(--tf-navigation-main-mobile-stack);
+  font-weight: var(--tf-navigation-main-mobile-weight);
+  font-stretch: var(--tf-navigation-main-mobile-width);
+  font-style: var(--tf-navigation-main-mobile-style);
+  font-size: var(--tf-navigation-main-mobile-size);
+  line-height: var(--tf-navigation-main-mobile-line-height);
+  letter-spacing: var(--tf-navigation-main-mobile-letter-spacing);
+  text-transform: var(--tf-navigation-main-mobile-transform);
   position: relative;
   isolation: isolate;
-  color: inherit;
-  text-decoration: none;
-  background-color: transparent;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
   padding: 0 0.75rem;
   transition: transform 0.15s ease;
 }
-.navbar-button-container .navbar-button-mobile-container a::before {
+.navbar-button-container .navbar-button-mobile-container .navbar-button-label::before {
   content: "";
   position: absolute;
-  inset: 0.3rem 0.1rem;
+  inset: -0.05rem -0.1rem;
   z-index: -1;
   border-radius: 999px;
   background-color: color-mix(in srgb, currentColor 12%, transparent);
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-.navbar-button-container .navbar-button-mobile-container a:visited {
-  color: inherit;
-}
-.navbar-button-container .navbar-button-mobile-container a:active {
-  color: inherit;
+.navbar-button-container .navbar-button-mobile-container .navbar-button-label:active {
   transform: scale(1.06);
 }
-.navbar-button-container .navbar-button-mobile-container a:active::before {
+.navbar-button-container .navbar-button-mobile-container .navbar-button-label:active::before {
   opacity: 1;
 }
 @media (max-width: 767.98px) {
@@ -50,7 +58,7 @@
     display: none;
   }
 }
-.navbar-button-container .navbar-button-desktop-container a {
+.navbar-button-container .navbar-button-desktop-container .navbar-button-label {
   font-family: var(--tf-navigation-main-stack);
   font-weight: var(--tf-navigation-main-weight);
   font-stretch: var(--tf-navigation-main-width);
@@ -59,22 +67,15 @@
   line-height: var(--tf-navigation-main-line-height);
   letter-spacing: var(--tf-navigation-main-letter-spacing);
   text-transform: var(--tf-navigation-main-transform);
-  color: inherit;
-  text-decoration: none;
-  background-color: transparent;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
   display: inline-block;
   border-bottom: 1px solid transparent;
   padding-bottom: 0.25rem;
   transition: font-weight 0.25s ease, letter-spacing 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
-.navbar-button-container .navbar-button-desktop-container a:visited, .navbar-button-container .navbar-button-desktop-container a:active {
-  color: inherit;
+.navbar-button-container .navbar-button-desktop-container .navbar-button-label:visited, .navbar-button-container .navbar-button-desktop-container .navbar-button-label:active {
   text-decoration: none;
 }
-.navbar-button-container .navbar-button-desktop-container a:hover, .navbar-button-container .navbar-button-desktop-container a:focus-visible {
-  color: inherit;
+.navbar-button-container .navbar-button-desktop-container .navbar-button-label:hover, .navbar-button-container .navbar-button-desktop-container .navbar-button-label:focus-visible {
   border-bottom-color: currentColor;
   transform: translateY(-2px);
 }

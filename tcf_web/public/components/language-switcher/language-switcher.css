@@ -1,0 +1,104 @@
+@media screen and (prefers-color-scheme: dark) {
+  .language-switcher-desktop-container {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .language-switcher-desktop-container {
+    color: #3b3b3b;
+  }
+}
+.language-switcher-desktop-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0;
+       column-gap: 0;
+  row-gap: 0;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 767.98px) {
+  .language-switcher-desktop-container {
+    display: none;
+  }
+}
+.language-switcher-desktop-container {
+  transition: transform 0.15s ease;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.language-switcher-desktop-container::before {
+  content: "";
+  position: absolute;
+  inset: -0.15rem -0.15rem;
+  z-index: -1;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.language-switcher-desktop-container:hover {
+  transform: scale(1.05);
+}
+.language-switcher-desktop-container:hover::before {
+  opacity: 1;
+}
+.language-switcher-desktop-container span {
+  font-weight: 200;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  .language-switcher-mobile-container {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .language-switcher-mobile-container {
+    color: #3b3b3b;
+  }
+}
+.language-switcher-mobile-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0;
+       column-gap: 0;
+  row-gap: 0;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .language-switcher-mobile-container {
+    display: none;
+  }
+}
+.language-switcher-mobile-container {
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+}
+.language-switcher-mobile-container::before {
+  content: "";
+  position: absolute;
+  inset: -0.08rem -0.08rem;
+  z-index: -1;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.language-switcher-mobile-container:active {
+  transform: scale(1.06);
+}
+.language-switcher-mobile-container:active::before {
+  opacity: 1;
+}
+.language-switcher-mobile-container span {
+  font-weight: 250;
+  font-size: 1.7rem;
+}

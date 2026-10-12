@@ -55,6 +55,14 @@
   --tf-navigation-main-line-height: 1.2;
   --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
+  --tf-navigation-main-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-navigation-main-mobile-weight: 300;
+  --tf-navigation-main-mobile-width: 100%;
+  --tf-navigation-main-mobile-style: normal;
+  --tf-navigation-main-mobile-size: 1.5rem;
+  --tf-navigation-main-mobile-line-height: 1.2;
+  --tf-navigation-main-mobile-letter-spacing: 0.1em;
+  --tf-navigation-main-mobile-transform: uppercase;
 }
 
 :lang(zh-CN) {
@@ -95,9 +103,17 @@
   --tf-navigation-main-width: 100%;
   --tf-navigation-main-style: normal;
   --tf-navigation-main-size: 1.0625rem;
-  --tf-navigation-main-line-height: 1.4;
-  --tf-navigation-main-letter-spacing: 0.08em;
+  --tf-navigation-main-line-height: 1.27;
+  --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
+  --tf-navigation-main-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-navigation-main-mobile-weight: 400;
+  --tf-navigation-main-mobile-width: 100%;
+  --tf-navigation-main-mobile-style: normal;
+  --tf-navigation-main-mobile-size: 1.4rem;
+  --tf-navigation-main-mobile-line-height: 1.26;
+  --tf-navigation-main-mobile-letter-spacing: 0.08em;
+  --tf-navigation-main-mobile-transform: uppercase;
 }
 
 :lang(ja-JP) {
@@ -138,9 +154,17 @@
   --tf-navigation-main-width: 100%;
   --tf-navigation-main-style: normal;
   --tf-navigation-main-size: 1.0625rem;
-  --tf-navigation-main-line-height: 1.4;
-  --tf-navigation-main-letter-spacing: 0.05em;
+  --tf-navigation-main-line-height: 1.27;
+  --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
+  --tf-navigation-main-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
+  --tf-navigation-main-mobile-weight: 400;
+  --tf-navigation-main-mobile-width: 100%;
+  --tf-navigation-main-mobile-style: normal;
+  --tf-navigation-main-mobile-size: 1.4rem;
+  --tf-navigation-main-mobile-line-height: 1.26;
+  --tf-navigation-main-mobile-letter-spacing: 0.08em;
+  --tf-navigation-main-mobile-transform: uppercase;
 }
 
 .tf-body {
@@ -218,6 +242,17 @@
   line-height: var(--tf-navigation-main-line-height);
   letter-spacing: var(--tf-navigation-main-letter-spacing);
   text-transform: var(--tf-navigation-main-transform);
+}
+
+.tf-navigation-main-mobile {
+  font-family: var(--tf-navigation-main-mobile-stack);
+  font-weight: var(--tf-navigation-main-mobile-weight);
+  font-stretch: var(--tf-navigation-main-mobile-width);
+  font-style: var(--tf-navigation-main-mobile-style);
+  font-size: var(--tf-navigation-main-mobile-size);
+  line-height: var(--tf-navigation-main-mobile-line-height);
+  letter-spacing: var(--tf-navigation-main-mobile-letter-spacing);
+  text-transform: var(--tf-navigation-main-mobile-transform);
 }
 
 body {
