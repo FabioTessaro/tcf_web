@@ -43,4 +43,18 @@ $typefaces: (
 		line-height: 1.26,
 		letter-spacing: 0.08em,
 	),
+	navigation-label: (
+		stack: defaults.$stack-chinese,
+		weight: 350,
+		size: 0.77rem,
+		line-height: 1.3,
+		letter-spacing: 0.08em,
+	),
+	navigation-label-mobile: (
+		stack: defaults.$stack-chinese,
+		weight: 400,
+		size: 0.8125rem,
+		line-height: 1.29,
+		letter-spacing: 0.06em,
+	),
 );

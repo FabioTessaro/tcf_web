@@ -2,11 +2,6 @@
 @use "../typography/typography" as type;
 @use "../layout/layout" as layout;
 
-// .navbar-switcher-container[navbar-layout="desktop"] .language-switcher-mobile-container,
-// .navbar-switcher-container[navbar-layout="mobile"] .language-switcher-desktop-container {
-//     display: none;
-// }
-
 .language-switcher-desktop-container {
 	@media screen and (prefers-color-scheme: dark) {
 		color: palette.$dark-primary-deep;
@@ -22,29 +17,34 @@
 		$vertical: center
 	);
 	@include layout.flex-hide-mobile;
-	transition: transform 0.15s ease;
-	text-decoration: none;
 	background-color: transparent;
-	cursor: pointer;
-	-webkit-tap-highlight-color: transparent;
-	&::before {
-		content: "";
-		position: absolute;
-		inset: -0.15rem -0.15rem;
-		z-index: -1;
-		border-radius: 999px;
-		background-color: color-mix(in srgb, currentColor 12%, transparent);
-		opacity: 0;
-		transition: opacity 0.15s ease;
-	}
-	&:hover {
+	position: relative;
+	&:hover > span {
 		transform: scale(1.05);
-		&::before {
-			opacity: 1;
-		}
 	}
-	span {
+	> span {
+		cursor: pointer;
+		transform-origin: center;
+		transition: transform 0.15s ease;
 		font-weight: 200;
+	}
+}
+
+.language-switcher-desktop-container:hover .language-switcher-desktop-dropdown-container {
+	visibility: visible;
+	pointer-events: auto;
+	transition-delay: 0s;
+
+	.language-switcher-desktop-dropdown-card {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.language-switcher-desktop-dropdown-container,
+	.language-switcher-desktop-dropdown-card {
+		transition: none;
 	}
 }
 
@@ -68,10 +68,12 @@
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
 	transition: transform 0.15s ease;
+	width: 2.5rem;
+	height: 2.5rem;
 	&::before {
 		content: "";
 		position: absolute;
-		inset: -0.08rem -0.08rem;
+		inset: -0.25rem -0.25rem;
 		z-index: -1;
 		border-radius: 999px;
 		background-color: color-mix(in srgb, currentColor 12%, transparent);
@@ -80,7 +82,7 @@
 	}
 
 	&:active {
-		transform: scale(1.06);
+		transform: scale(1.1);
 
 		&::before {
 			opacity: 1;
@@ -89,5 +91,55 @@
 	span {
 		font-weight: 250;
 		font-size: 1.7rem;
+	}
+}
+
+.language-switcher-desktop-dropdown-container {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	padding: 1rem 0 0 0;
+	z-index: 1000;
+	visibility: hidden;
+	pointer-events: none;
+	transition: visibility 0s linear 0.2s;
+	.language-switcher-desktop-dropdown-card {
+		@include layout.flex-container(
+			column,
+			$wrap: false,
+			$gap: 0.9rem,
+			$horizontal: end,
+			$vertical: start
+		);
+		padding: 1rem 1rem 1rem 1.8rem;
+		@media screen and (prefers-color-scheme: dark) {
+			background-color: palette.$dark-background;
+			box-shadow: 0 0.25rem 0.3rem rgba(1, 1, 1, 0.1);
+		}
+		@media screen and (prefers-color-scheme: light) {
+			background-color: palette.$light-background;
+			box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
+		}
+		border-radius: 0.75rem;
+		opacity: 0;
+		transform: scale(0.85);
+		transform-origin: top right;
+		transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		.language-option {
+			padding-right: 0.2rem;
+			border-right: 1px solid transparent;
+			transition: border-color 0.25s ease;
+			&:hover {
+				border-right: 1px solid currentColor;
+				.language-label {
+					transform: translateX(-0.4rem);
+				}
+			}
+			.language-label {
+				transition: transform 0.25s ease;
+				@include type.typeface(navigation-label);
+				cursor: pointer;
+			}
+		}
 	}
 }

@@ -17,7 +17,7 @@ $navbar-padding: 0.5rem;
 	top: 0;
 	left: 0;
 	width: 100%;
-	max-height: 100vh;
+	max-height: 100dvh;
 	z-index: 1000;
 	transition: background-color 0.3s ease;
 	&[data-scrolled="true"] {
@@ -145,7 +145,7 @@ $navbar-padding: 0.5rem;
 		transition: height 0.3s ease, visibility 0s linear 0.3s;
 		.navbar-mobile-underbar-content {
 			@include layout.flex-fill;
-			margin: 2rem;
+			margin: 2rem 2rem 1.25rem 2rem;
 			@include layout.flex-container(
 				column,
 				$wrap: false,
@@ -177,7 +177,7 @@ $navbar-padding: 0.5rem;
 
 .navbar-container[data-expanded="true"] .navbar-mobile-underbar-container {
 	height: calc(
-		100vh - $navbar-logo-height - $navbar-padding - $navbar-padding
+		100dvh - $navbar-logo-height - $navbar-padding - $navbar-padding
 	); // This is the logo height * twice the padding
 	visibility: visible;
 	transition: height 0.3s ease, visibility 0s ease;

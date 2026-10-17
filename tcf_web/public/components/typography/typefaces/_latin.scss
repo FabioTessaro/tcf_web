@@ -57,4 +57,18 @@ $typefaces: (
 		letter-spacing: 0.1em,
 		text-transform: uppercase,
 	),
+	navigation-label: (
+		weight: 300,
+		size: 0.8125rem,
+		line-height: 1.2,
+		letter-spacing: 0.12em,
+		text-transform: uppercase,
+	),
+	navigation-label-mobile: (
+		weight: 350,
+		size: 0.875rem,
+		line-height: 1.2,
+		letter-spacing: 0.12em,
+		text-transform: uppercase,
+	),
 );
