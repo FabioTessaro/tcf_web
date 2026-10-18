@@ -108,23 +108,88 @@
 		$vertical: center
 	);
 	@include layout.flex-hide-desktop;
-	text-decoration: none;
 	background-color: transparent;
-	cursor: pointer;
-	-webkit-tap-highlight-color: transparent;
-	transition: transform 0.15s ease;
-	width: 2.5rem;
-	height: 2.5rem;
+	position: relative;
 
-	// Slanted tap pill (same extent as the old rounded pill). The mixin also
-	// sets position: relative and isolation: isolate on the container.
-	@include slantedpill.pill($inset: -0.25rem);
+	.language-switcher-mobile-trigger {
+		@include layout.flex-container(
+			row,
+			$wrap: false,
+			$gap: 0,
+			$horizontal: center,
+			$vertical: center
+		);
+		text-decoration: none;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+		transition: transform 0.15s ease;
+		width: 2.5rem;
+		height: 2.5rem;
 
-	&:active {
-		transform: scale(1.1);
+		// Slanted tap pill (same extent as the old rounded pill). The mixin also
+		// sets position: relative and isolation: isolate, now on the trigger.
+		@include slantedpill.pill($inset: -0.05rem);
+
+		&:active {
+			transform: scale(1.1);
+		}
+		span {
+			font-weight: 250;
+			font-size: 1.7rem;
+		}
 	}
-	span {
-		font-weight: 250;
-		font-size: 1.7rem;
+}
+
+.language-switcher-mobile-popup-container[active="false"] {
+	visibility: hidden;
+	pointer-events: none;
+}
+.language-switcher-mobile-popup-container[active="true"] {
+	visibility: visible;
+	pointer-events: auto;
+}
+.language-switcher-mobile-popup-container {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100dvw;
+	height: 100dvh;
+	@include layout.flex-container(
+		column,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: stretch,
+		$vertical: end
+	);
+	.language-switcher-mobile-popup-card {
+		@include layout.flex-container(
+			column,
+			$wrap: false,
+			$gap: 1rem,
+			$horizontal: center,
+			$vertical: center
+		);
+		@media screen and (prefers-color-scheme: dark) {
+			background-color: palette.$dark-background;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			background-color: palette.$light-background;
+		}
+		transition: background-color 0.3s ease;
+		padding: 1rem 0;
+		.language-option-mobile {
+			@include slantedpill.pill(
+				$trigger: (
+					active,
+					hover,
+					focus-visible,
+				)
+			);
+			.language-label-mobile {
+				margin: 0.5rem 1rem;
+				@include type.typeface(navigation-label-mobile);
+				cursor: pointer;
+			}
+		}
 	}
 }

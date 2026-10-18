@@ -50,6 +50,14 @@
 .navbar-button-container .navbar-button-mobile-container .navbar-button-label:active::before {
   opacity: 1;
 }
+@media (hover: hover) {
+  .navbar-button-container .navbar-button-mobile-container .navbar-button-label:hover::before {
+    opacity: 1;
+  }
+}
+.navbar-button-container .navbar-button-mobile-container .navbar-button-label:focus-visible::before {
+  opacity: 1;
+}
 @media (prefers-reduced-motion: reduce) {
   .navbar-button-container .navbar-button-mobile-container .navbar-button-label::before {
     transition: none;

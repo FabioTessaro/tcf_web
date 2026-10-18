@@ -34,7 +34,13 @@
 			// Slanted tap pill. The mixin also sets position: relative and
 			// isolation: isolate, which keeps the pill behind the text but
 			// inside the link.
-			@include slantedpill.pill;
+			@include slantedpill.pill(
+				$trigger: (
+					active,
+					hover,
+					focus-visible,
+				)
+			);
 
 			&:active {
 				transform: scale(1.06);
