@@ -24,16 +24,44 @@
   }
 }
 .language-switcher-desktop-container {
+  position: relative;
+  padding-right: 0.2rem;
+}
+.language-switcher-desktop-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  background-color: currentColor;
+  opacity: 0;
+  transform: skewX(-10deg);
+  transition: opacity 0.25s ease;
+}
+.language-switcher-desktop-container:hover::after {
+  opacity: 1;
+}
+.language-switcher-desktop-container span.navbar-toggle-icon {
+  transition: transform 0.25s ease;
+}
+.language-switcher-desktop-container:hover span.navbar-toggle-icon {
+  transform: translateX(-0.25rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .language-switcher-desktop-container::before, .language-switcher-desktop-container::after {
+    transition: none;
+  }
+  .language-switcher-desktop-container span.navbar-toggle-icon {
+    transition: none;
+  }
+}
+.language-switcher-desktop-container {
   background-color: transparent;
   position: relative;
 }
-.language-switcher-desktop-container:hover > span {
-  transform: scale(1.06);
-}
 .language-switcher-desktop-container > span {
   cursor: pointer;
-  transform-origin: center;
-  transition: transform 0.15s ease;
   font-weight: 200;
 }
 

@@ -21,15 +21,11 @@
 		$vertical: center
 	);
 	@include layout.flex-hide-mobile;
+	@include slantedindicator.indicator($label: "span.navbar-toggle-icon", $shift: 0.25rem);
 	background-color: transparent;
 	position: relative;
-	&:hover > span {
-		transform: scale(1.06);
-	}
 	> span {
 		cursor: pointer;
-		transform-origin: center;
-		transition: transform 0.15s ease;
 		font-weight: 200;
 	}
 }
