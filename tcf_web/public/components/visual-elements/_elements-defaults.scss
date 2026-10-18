@@ -1,0 +1,12 @@
+// Brand defaults for visual elements.
+// Single source of truth for values shared by the partials in this folder
+// (_slanted-indicator.scss, _slanted-pill.scss, _slanted-card.scss).
+// Add new brand-wide defaults here, always with `!default` so they stay
+// configurable.
+//
+// To override a default for one build, configure the module the first time it
+// is loaded, before anything else @use's the partials:
+//   @use "../visual-elements/elements-defaults" with ($brand-slant: 8deg);
+
+// Brand angle: every slanted element leans this far off vertical.
+$brand-slant: 10deg !default;

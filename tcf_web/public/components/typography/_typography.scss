@@ -104,11 +104,17 @@ $languages: (
 
 // Per-script overrides, one :lang() rule per script group listing every
 // language that uses it. Include AFTER tokens (same specificity, later wins).
-@mixin language-tokens {
+@mixin language-tokens($only: null) {
 	@each $script, $overrides in $script-overrides {
-		@if list.length(map.keys($overrides)) > 0 {
-			#{-script-selector($script)} {
-				@each $name, $_ in $overrides {
+		// Latin has no overrides, so emit its full set; other scripts emit overrides only.
+		$names: map.keys($overrides);
+		@if $script == latin {
+			$names: map.keys(latin.$typefaces);
+		}
+
+		#{-script-selector($script)} {
+			@each $name in $names {
+				@if not $only or list.index($only, $name) {
 					@include -vars($name, -resolve($name, $script));
 				}
 			}

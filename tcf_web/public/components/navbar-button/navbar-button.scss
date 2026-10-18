@@ -2,6 +2,8 @@
 @use "../typography/typography" as type;
 @use "../layout/layout" as layout;
 
+@use "../visual-elements/slanted-pill" as slantedpill;
+
 .navbar-button-label {
 	@media screen and (prefers-color-scheme: dark) {
 		color: palette.$dark-primary-deep;
@@ -20,8 +22,6 @@
 		@include layout.flex-hide-desktop;
 		.navbar-button-label {
 			@include type.typeface(navigation-main-mobile);
-			position: relative;
-			isolation: isolate; // keeps the pill behind the text, but inside the link
 
 			// Tap target
 			display: inline-flex;
@@ -31,23 +31,13 @@
 
 			transition: transform 0.15s ease;
 
-			&::before {
-				content: "";
-				position: absolute;
-				inset: -0.05rem -0.1rem;
-				z-index: -1;
-				border-radius: 999px;
-				background-color: color-mix(in srgb, currentColor 12%, transparent);
-				opacity: 0;
-				transition: opacity 0.15s ease;
-			}
+			// Slanted tap pill. The mixin also sets position: relative and
+			// isolation: isolate, which keeps the pill behind the text but
+			// inside the link.
+			@include slantedpill.pill;
 
 			&:active {
 				transform: scale(1.06);
-
-				&::before {
-					opacity: 1;
-				}
 			}
 		}
 	}

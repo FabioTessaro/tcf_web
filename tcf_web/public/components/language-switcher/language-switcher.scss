@@ -2,6 +2,10 @@
 @use "../typography/typography" as type;
 @use "../layout/layout" as layout;
 
+@use "../visual-elements/slanted-indicator" as slantedindicator;
+@use "../visual-elements/slanted-pill" as slantedpill;
+@use "../visual-elements/slanted-card" as slantedcard;
+
 .language-switcher-desktop-container {
 	@media screen and (prefers-color-scheme: dark) {
 		color: palette.$dark-primary-deep;
@@ -20,7 +24,7 @@
 	background-color: transparent;
 	position: relative;
 	&:hover > span {
-		transform: scale(1.05);
+		transform: scale(1.06);
 	}
 	> span {
 		cursor: pointer;
@@ -41,9 +45,50 @@
 	}
 }
 
+.language-switcher-desktop-dropdown-container {
+	position: absolute;
+	top: 100%;
+	right: -1.5rem;
+	padding: 1rem 0 0 0;
+	z-index: 1000;
+	visibility: hidden;
+	pointer-events: none;
+	transition: visibility 0s linear 0.25s;
+	.language-switcher-desktop-dropdown-card {
+		@include layout.flex-container(
+			column,
+			$wrap: false,
+			$gap: 0.9rem,
+			$horizontal: end,
+			$vertical: start
+		);
+		opacity: 0;
+		transform: scale(0.85);
+		transform-origin: top right;
+		transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+		// Slanted card: skewed background layer plus padding that compensates
+		// for the slant. $height-estimate is the rough height of the open
+		// dropdown, adjust it if you add or remove languages.
+		// (Included after the plain declarations above on purpose: the mixin
+		// emits nested rules, and Sass warns about declarations placed after them.)
+		@include slantedcard.card($height-estimate: 8rem);
+
+		.language-option {
+			@include slantedindicator.indicator($label: ".language-label", $shift: 0.25rem);
+
+			.language-label {
+				@include type.typeface(navigation-label);
+				cursor: pointer;
+			}
+		}
+	}
+}
+
+// Kept at the end of the file so it wins over the transitions above.
 @media (prefers-reduced-motion: reduce) {
 	.language-switcher-desktop-dropdown-container,
-	.language-switcher-desktop-dropdown-card {
+	.language-switcher-desktop-dropdown-container .language-switcher-desktop-dropdown-card {
 		transition: none;
 	}
 }
@@ -70,76 +115,16 @@
 	transition: transform 0.15s ease;
 	width: 2.5rem;
 	height: 2.5rem;
-	&::before {
-		content: "";
-		position: absolute;
-		inset: -0.25rem -0.25rem;
-		z-index: -1;
-		border-radius: 999px;
-		background-color: color-mix(in srgb, currentColor 12%, transparent);
-		opacity: 0;
-		transition: opacity 0.15s ease;
-	}
+
+	// Slanted tap pill (same extent as the old rounded pill). The mixin also
+	// sets position: relative and isolation: isolate on the container.
+	@include slantedpill.pill($inset: -0.25rem);
 
 	&:active {
 		transform: scale(1.1);
-
-		&::before {
-			opacity: 1;
-		}
 	}
 	span {
 		font-weight: 250;
 		font-size: 1.7rem;
-	}
-}
-
-.language-switcher-desktop-dropdown-container {
-	position: absolute;
-	top: 100%;
-	right: 0;
-	padding: 1rem 0 0 0;
-	z-index: 1000;
-	visibility: hidden;
-	pointer-events: none;
-	transition: visibility 0s linear 0.2s;
-	.language-switcher-desktop-dropdown-card {
-		@include layout.flex-container(
-			column,
-			$wrap: false,
-			$gap: 0.9rem,
-			$horizontal: end,
-			$vertical: start
-		);
-		padding: 1rem 1rem 1rem 1.8rem;
-		@media screen and (prefers-color-scheme: dark) {
-			background-color: palette.$dark-background;
-			box-shadow: 0 0.25rem 0.3rem rgba(1, 1, 1, 0.1);
-		}
-		@media screen and (prefers-color-scheme: light) {
-			background-color: palette.$light-background;
-			box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
-		}
-		border-radius: 0.75rem;
-		opacity: 0;
-		transform: scale(0.85);
-		transform-origin: top right;
-		transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-		.language-option {
-			padding-right: 0.2rem;
-			border-right: 1px solid transparent;
-			transition: border-color 0.25s ease;
-			&:hover {
-				border-right: 1px solid currentColor;
-				.language-label {
-					transform: translateX(-0.4rem);
-				}
-			}
-			.language-label {
-				transition: transform 0.25s ease;
-				@include type.typeface(navigation-label);
-				cursor: pointer;
-			}
-		}
 	}
 }

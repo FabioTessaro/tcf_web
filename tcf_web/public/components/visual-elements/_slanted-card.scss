@@ -1,0 +1,91 @@
+@use "sass:list";
+@use "sass:math";
+@use "../palette/palette" as palette;
+@use "elements-defaults" as defaults;
+
+$-leans: (slash, backslash);
+$-pseudos: (before, after);
+
+// Slanted card: a surface with a skewed background and sharp corners.
+// Include it on the card element itself (the dropdown card, a popover, ...).
+//
+// The card box stays rectangular. Only the background layer (a pseudo-element)
+// is skewed, so the content is never transformed.
+//
+// The skew is anchored at the top corner on the side that gets pulled inward
+// ("/" lean: top right, "\" lean: top left). By the bottom of the card that
+// edge has moved inward by tan($slant) * height, so the anchored side's padding
+// grows by that much to keep content off the slanted edge. Height is not known
+// to Sass, so you give an estimate in $height-estimate.
+//
+// $slant:           lean angle off vertical (defaults to the brand angle)
+// $lean:            slash ("/") or backslash ("\")
+// $height-estimate: rough height of the card, used for the slant compensation.
+//                   Adjust it if the content grows or shrinks.
+// $padding-block:   top and bottom padding
+// $padding-anchor:  base padding on the anchored side (before compensation)
+// $padding-free:    padding on the opposite side. The slant already adds room
+//                   toward the bottom there.
+// $background-light / $background-dark:
+//                   fill colors per color scheme (defaults to the palette)
+// $shadow-light / $shadow-dark:
+//                   box-shadow per color scheme (`none` to disable)
+// $pseudo:          which pseudo-element draws the background (before | after)
+// $host:            true = also set `position: relative` and `isolation: isolate`
+//                   on the card. Pass false if it is already positioned.
+@mixin card(
+	$slant: defaults.$brand-slant,
+	$lean: slash,
+	$height-estimate: 8rem,
+	$padding-block: 1rem,
+	$padding-anchor: 1rem,
+	$padding-free: 1rem,
+	$background-light: palette.$light-background,
+	$background-dark: palette.$dark-background,
+	$shadow-light: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1),
+	$shadow-dark: 0 0.25rem 0.3rem rgba(1, 1, 1, 0.1),
+	$pseudo: before,
+	$host: true
+) {
+	@if not list.index($-leans, $lean) {
+		@error "card: $lean must be slash or backslash, got `#{$lean}`.";
+	}
+	@if not list.index($-pseudos, $pseudo) {
+		@error "card: $pseudo must be before or after, got `#{$pseudo}`.";
+	}
+
+	$compensation: math.tan($slant) * $height-estimate;
+
+	@if $host {
+		position: relative;
+		isolation: isolate;
+	}
+
+	@if $lean == slash {
+		padding: $padding-block ($padding-anchor + $compensation) $padding-block $padding-free;
+	} @else {
+		padding: $padding-block $padding-free $padding-block ($padding-anchor + $compensation);
+	}
+
+	&::#{$pseudo} {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		@if $lean == slash {
+			transform: skewX($slant * -1);
+			transform-origin: top right;
+		} @else {
+			transform: skewX($slant);
+			transform-origin: top left;
+		}
+		@media screen and (prefers-color-scheme: dark) {
+			background-color: $background-dark;
+			box-shadow: $shadow-dark;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			background-color: $background-light;
+			box-shadow: $shadow-light;
+		}
+	}
+}

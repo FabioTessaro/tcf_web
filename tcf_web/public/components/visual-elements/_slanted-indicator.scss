@@ -1,0 +1,97 @@
+@use "sass:list";
+@use "elements-defaults" as defaults;
+
+// Re-export the brand angle so `slanted.$brand-slant` keeps working for
+// existing consumers. The value lives in _elements-defaults.scss.
+@forward "elements-defaults" show $brand-slant;
+
+// Draws one slanted line on an edge of the including element.
+// Private to this partial.
+@mixin -line($pseudo, $edge, $width, $slant, $duration) {
+	&::#{$pseudo} {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		#{$edge}: 0;
+		width: $width;
+		background-color: currentColor;
+		opacity: 0;
+		transform: skewX($slant * -1);
+		transition: opacity $duration ease;
+	}
+}
+
+// Slanted hover indicator next to a piece of text.
+// Include it on the hoverable element (link, list item, wrapper).
+//
+// $slant:    lean angle ("/" direction)
+// $side:     which edge the indicator sits on (right | left | both)
+// $width:    thickness of the indicator line
+// $gap:      space reserved between the text and the indicator
+// $shift:    how far the label moves away from the indicator on hover
+//            (ignored with $side: both)
+// $label:    selector of a descendant to shift on hover (null = no shift)
+// $duration: transition time
+@mixin indicator(
+	$slant: defaults.$brand-slant,
+	$side: right,
+	$width: 1px,
+	$gap: 0.2rem,
+	$shift: 0.4rem,
+	$label: null,
+	$duration: 0.25s
+) {
+	@if not list.index((left, right, both), $side) {
+		@error "indicator: $side must be left, right or both, got `#{$side}`.";
+	}
+
+	position: relative;
+
+	@if $side == both {
+		padding-left: $gap;
+		padding-right: $gap;
+
+		@include -line(before, left, $width, $slant, $duration);
+		@include -line(after, right, $width, $slant, $duration);
+
+		&:hover::before,
+		&:hover::after {
+			opacity: 1;
+		}
+	} @else {
+		padding-#{$side}: $gap;
+
+		@include -line(after, $side, $width, $slant, $duration);
+
+		&:hover::after {
+			opacity: 1;
+		}
+
+		@if $label {
+			#{$label} {
+				transition: transform $duration ease;
+			}
+
+			&:hover #{$label} {
+				@if $side == right {
+					transform: translateX($shift * -1);
+				} @else {
+					transform: translateX($shift);
+				}
+			}
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&::before,
+		&::after {
+			transition: none;
+		}
+		@if $label and $side != both {
+			#{$label} {
+				transition: none;
+			}
+		}
+	}
+}

@@ -1,0 +1,96 @@
+@use "sass:list";
+@use "elements-defaults" as defaults;
+
+$-leans: (slash, backslash);
+$-pseudos: (before, after);
+$-triggers: (active, hover, focus-visible, none);
+
+// Slanted pill: a tinted parallelogram that fades in behind a piece of text
+// (the slanted counterpart of a rounded "pill" highlight).
+// Include it on the element that carries the text (link, button, list item).
+//
+// The pill is drawn on a pseudo-element, so only the background is skewed;
+// the text itself never leans. The pill keeps its height and centre, so the
+// text stays centred on it.
+//
+// $slant:    lean angle, measured off vertical (defaults to the brand angle)
+// $lean:     slash ("/") or backslash ("\")
+// $inset:    how far the pill extends past the host box (same syntax as
+//            CSS `inset`; negative values grow it)
+// $tint:     strength of the currentColor tint (percentage)
+// $duration: fade time
+// $trigger:  state(s) that reveal the pill: active | hover | focus-visible | none
+//            single value or comma list, e.g. (active, focus-visible).
+//            `hover` is wrapped in @media (hover: hover) so touch devices
+//            don't get a sticky hover. `none` emits no reveal rule, so you
+//            can wire it up yourself.
+// $pseudo:   which pseudo-element draws the pill (before | after)
+// $host:     true = also set `position: relative` and `isolation: isolate` on
+//            the host (keeps the pill behind the text but inside the host).
+//            Pass false if the host is already positioned some other way.
+@mixin pill(
+	$slant: defaults.$brand-slant,
+	$lean: slash,
+	$inset: -0.05rem -0.1rem,
+	$tint: 12%,
+	$duration: 0.15s,
+	$trigger: active,
+	$pseudo: before,
+	$host: true
+) {
+	@if not list.index($-leans, $lean) {
+		@error "pill: $lean must be slash or backslash, got `#{$lean}`.";
+	}
+	@if not list.index($-pseudos, $pseudo) {
+		@error "pill: $pseudo must be before or after, got `#{$pseudo}`.";
+	}
+	@each $state in $trigger {
+		@if not list.index($-triggers, $state) {
+			@error "pill: $trigger values must be active, hover, focus-visible or none, got `#{$state}`.";
+		}
+	}
+
+	@if $host {
+		position: relative;
+		isolation: isolate;
+	}
+
+	&::#{$pseudo} {
+		content: "";
+		position: absolute;
+		inset: $inset;
+		z-index: -1;
+		background-color: color-mix(in srgb, currentColor #{$tint}, transparent);
+		opacity: 0;
+		@if $lean == slash {
+			transform: skewX($slant * -1);
+		} @else {
+			transform: skewX($slant);
+		}
+		transition: opacity $duration ease;
+	}
+
+	@each $state in $trigger {
+		@if $state == active {
+			&:active::#{$pseudo} {
+				opacity: 1;
+			}
+		} @else if $state == focus-visible {
+			&:focus-visible::#{$pseudo} {
+				opacity: 1;
+			}
+		} @else if $state == hover {
+			@media (hover: hover) {
+				&:hover::#{$pseudo} {
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&::#{$pseudo} {
+			transition: none;
+		}
+	}
+}
