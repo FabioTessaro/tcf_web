@@ -93,6 +93,19 @@
 	}
 }
 
+// ---------------------------------------------------------------------------
+// Mobile
+// ---------------------------------------------------------------------------
+
+// Popup animation tuning. Everything you will want to tweak lives here.
+$mobile-popup-enter-duration: 0.4s;
+$mobile-popup-exit-duration: 0.25s;
+$mobile-popup-enter-ease: cubic-bezier(0.16, 1, 0.3, 1); // same curve as the desktop dropdown
+$mobile-popup-exit-ease: cubic-bezier(0.4, 0, 1, 1); // ease-in: leaves quickly
+$mobile-popup-blur: 6px;
+$mobile-popup-scrim-light: rgba(0, 0, 0, 0.3);
+$mobile-popup-scrim-dark: rgba(0, 0, 0, 0.55);
+
 .language-switcher-mobile-container {
 	@media screen and (prefers-color-scheme: dark) {
 		color: palette.$dark-primary-deep;
@@ -140,20 +153,26 @@
 	}
 }
 
-.language-switcher-mobile-popup-container[active="false"] {
-	visibility: hidden;
-	pointer-events: none;
-}
-.language-switcher-mobile-popup-container[active="true"] {
-	visibility: visible;
-	pointer-events: auto;
-}
 .language-switcher-mobile-popup-container {
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	width: 100dvw;
 	height: 100dvh;
+
+	// Closed state. This is also the default when the active attribute is
+	// missing. Its transition is the EXIT animation: the scrim fades out while
+	// the card slides away, and visibility only switches off once that is done.
+	visibility: hidden;
+	pointer-events: none;
+	background-color: rgba(0, 0, 0, 0);
+	-webkit-backdrop-filter: blur(0px);
+	backdrop-filter: blur(0px);
+	transition: background-color $mobile-popup-exit-duration $mobile-popup-exit-ease,
+		-webkit-backdrop-filter $mobile-popup-exit-duration $mobile-popup-exit-ease,
+		backdrop-filter $mobile-popup-exit-duration $mobile-popup-exit-ease,
+		visibility 0s linear $mobile-popup-exit-duration;
+
 	@include layout.flex-container(
 		column,
 		$wrap: false,
@@ -161,6 +180,34 @@
 		$horizontal: stretch,
 		$vertical: end
 	);
+
+	// Open state. Its transition is the ENTER animation, and visibility
+	// switches on immediately so the animation is visible from the first frame.
+	&[active="true"] {
+		visibility: visible;
+		pointer-events: auto;
+		-webkit-backdrop-filter: blur($mobile-popup-blur);
+		backdrop-filter: blur($mobile-popup-blur);
+		transition: background-color $mobile-popup-enter-duration $mobile-popup-enter-ease,
+			-webkit-backdrop-filter $mobile-popup-enter-duration $mobile-popup-enter-ease,
+			backdrop-filter $mobile-popup-enter-duration $mobile-popup-enter-ease,
+			visibility 0s linear 0s;
+
+		@media screen and (prefers-color-scheme: dark) {
+			background-color: $mobile-popup-scrim-dark;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			background-color: $mobile-popup-scrim-light;
+		}
+
+		.language-switcher-mobile-popup-card {
+			transform: translateY(0);
+			// The background-color transition is kept so theme changes still fade.
+			transition: transform $mobile-popup-enter-duration $mobile-popup-enter-ease,
+				background-color 0.3s ease;
+		}
+	}
+
 	.language-switcher-mobile-popup-card {
 		@include layout.flex-container(
 			column,
@@ -169,14 +216,21 @@
 			$horizontal: center,
 			$vertical: center
 		);
+		// Closed position: fully below the screen, whatever the card height is.
+		transform: translateY(100%);
+		transition: transform $mobile-popup-exit-duration $mobile-popup-exit-ease,
+			background-color 0.3s ease;
+		// Extra bottom padding keeps the card clear of the iPhone home indicator
+		// (only has an effect with viewport-fit=cover in the viewport meta tag).
+		padding: 1rem 0 calc(1rem + env(safe-area-inset-bottom, 0px));
+
 		@media screen and (prefers-color-scheme: dark) {
 			background-color: palette.$dark-background;
 		}
 		@media screen and (prefers-color-scheme: light) {
 			background-color: palette.$light-background;
 		}
-		transition: background-color 0.3s ease;
-		padding: 1rem 0;
+
 		.language-option-mobile {
 			@include slantedpill.pill(
 				$trigger: (
@@ -191,5 +245,17 @@
 				cursor: pointer;
 			}
 		}
+	}
+}
+
+// Kept at the end of the file so it wins over the transitions above. The
+// [active="true"] selectors are listed too, otherwise their higher specificity
+// would keep the open-state transitions alive.
+@media (prefers-reduced-motion: reduce) {
+	.language-switcher-mobile-popup-container,
+	.language-switcher-mobile-popup-container[active="true"],
+	.language-switcher-mobile-popup-container .language-switcher-mobile-popup-card,
+	.language-switcher-mobile-popup-container[active="true"] .language-switcher-mobile-popup-card {
+		transition: none;
 	}
 }

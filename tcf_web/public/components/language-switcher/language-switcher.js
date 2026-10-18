@@ -9,4 +9,9 @@ $(document).ready(function () {
 	$(document).on("click", "div.language-switcher-mobile-trigger", function () {
 		$("div.language-switcher-mobile-popup-container").attr("active", "true");
 	});
+	$(document).on("click", "div.language-switcher-mobile-popup-container", function (event) {
+		if (event.target === this) {
+			$("div.language-switcher-mobile-popup-container").attr("active", "false");
+		}
+	});
 });
