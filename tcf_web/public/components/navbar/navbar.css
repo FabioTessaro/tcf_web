@@ -196,6 +196,7 @@
 .navbar-mobile-actions-container .navbar-toggle-open,
 .navbar-mobile-actions-container .navbar-toggle-close {
   grid-area: 1/1;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s ease;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -208,8 +209,18 @@
 
 .navbar-container[data-expanded=false] .navbar-toggle-close,
 .navbar-container[data-expanded=true] .navbar-toggle-open {
+  opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.navbar-container[data-expanded=false] .navbar-toggle-close {
+  transform: rotate(-90deg) scale(0.6);
+}
+
+.navbar-container[data-expanded=true] .navbar-toggle-open {
+  transform: rotate(90deg) scale(0.6);
 }
 
 @media (min-width: 768px) {
