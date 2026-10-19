@@ -10,22 +10,13 @@ $-pseudos: (before, after);
 // Include it on the card element itself (the dropdown card, a popover, ...).
 //
 // The card box stays rectangular. Only the background layer (a pseudo-element)
-// is skewed, so the content is never transformed.
-//
-// The skew is anchored at the top corner on the side that gets pulled inward
-// ("/" lean: top right, "\" lean: top left). By the bottom of the card that
-// edge has moved inward by tan($slant) * height, so the anchored side's padding
-// grows by that much to keep content off the slanted edge. Height is not known
-// to Sass, so you give an estimate in $height-estimate.
+// is skewed from the center, so the content is never transformed.
 //
 // $slant:           lean angle off vertical (defaults to the brand angle)
 // $lean:            slash ("/") or backslash ("\")
 // $height-estimate: rough height of the card, used for the slant compensation.
-//                   Adjust it if the content grows or shrinks.
 // $padding-block:   top and bottom padding
-// $padding-anchor:  base padding on the anchored side (before compensation)
-// $padding-free:    padding on the opposite side. The slant already adds room
-//                   toward the bottom there.
+// $padding-inline:  base horizontal padding on both sides (before compensation)
 // $background-light / $background-dark:
 //                   fill colors per color scheme (defaults to the palette)
 // $shadow-light / $shadow-dark:
@@ -38,8 +29,7 @@ $-pseudos: (before, after);
 	$lean: slash,
 	$height-estimate: 8rem,
 	$padding-block: 1rem,
-	$padding-anchor: 1rem,
-	$padding-free: 1rem,
+	$padding-inline: 1rem,
 	$background-light: palette.$light-background,
 	$background-dark: palette.$dark-background,
 	$shadow-light: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1),
@@ -55,30 +45,28 @@ $-pseudos: (before, after);
 	}
 
 	$compensation: math.tan($slant) * $height-estimate;
+	$half-compensation: $compensation * 0.5;
 
 	@if $host {
 		position: relative;
 		isolation: isolate;
 	}
 
-	@if $lean == slash {
-		padding: $padding-block ($padding-anchor + $compensation) $padding-block $padding-free;
-	} @else {
-		padding: $padding-block $padding-free $padding-block ($padding-anchor + $compensation);
-	}
+	padding: $padding-block ($padding-inline + $half-compensation);
 
 	&::#{$pseudo} {
 		content: "";
 		position: absolute;
 		inset: 0;
 		z-index: -1;
+		transform-origin: center;
+
 		@if $lean == slash {
 			transform: skewX($slant * -1);
-			transform-origin: top right;
 		} @else {
 			transform: skewX($slant);
-			transform-origin: top left;
 		}
+
 		@media screen and (prefers-color-scheme: dark) {
 			background-color: $background-dark;
 			box-shadow: $shadow-dark;

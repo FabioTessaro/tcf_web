@@ -78,7 +78,7 @@
 .language-switcher-desktop-dropdown-container {
   position: absolute;
   top: 100%;
-  right: -1.5rem;
+  right: -1.4rem;
   padding: 1rem 0 0 0;
   z-index: 1000;
   visibility: hidden;
@@ -100,15 +100,15 @@
   transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   isolation: isolate;
-  padding: 1rem 2.4106158457rem 1rem 1rem;
+  padding: 1rem 1.7053079228rem;
 }
 .language-switcher-desktop-dropdown-container .language-switcher-desktop-dropdown-card::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
+  transform-origin: center;
   transform: skewX(-10deg);
-  transform-origin: top right;
 }
 @media screen and (prefers-color-scheme: dark) {
   .language-switcher-desktop-dropdown-container .language-switcher-desktop-dropdown-card::before {

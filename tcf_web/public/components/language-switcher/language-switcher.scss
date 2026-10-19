@@ -44,7 +44,7 @@
 .language-switcher-desktop-dropdown-container {
 	position: absolute;
 	top: 100%;
-	right: -1.5rem;
+	right: -1.4rem;
 	padding: 1rem 0 0 0;
 	z-index: 1000;
 	visibility: hidden;
@@ -63,12 +63,7 @@
 		transform-origin: top right;
 		transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
-		// Slanted card: skewed background layer plus padding that compensates
-		// for the slant. $height-estimate is the rough height of the open
-		// dropdown, adjust it if you add or remove languages.
-		// (Included after the plain declarations above on purpose: the mixin
-		// emits nested rules, and Sass warns about declarations placed after them.)
-		@include slantedcard.card($height-estimate: 8rem);
+		@include slantedcard.card($height-estimate: 8rem, $padding-inline: 1rem);
 
 		.language-option {
 			@include slantedindicator.indicator($label: ".language-label", $shift: 0.25rem);
