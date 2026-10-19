@@ -7,32 +7,34 @@
  * DEPENDENCIES (load in this order, before this file)
  *   1. jQuery 3.x (on 1.x/2.x this file still works; it reads evt.originalEvent.detail)
  *   2. htmx 1.9+ or 2.x
- *   3. Your plugins, which must provide:
- *        $.createLoader(containerSel, logoSel, backgroundSel) -> loader with:
- *            loader.startFromLoop()  Initial page-load intro (called once by this file).
- *            loader.start()          Returns a Promise that resolves when the intro has
+ *   3. splash.js (module) and anime.js v4. splash.js defines <splash-screen id="splash">,
+ *      which must be upgraded before this file's ready callback runs. It provides:
+ *            splash.startFromLoop()  Initial page-load intro (called once by this file).
+ *            splash.start()          Returns a Promise that resolves when the intro has
  *                                    finished and the page is fully covered.
- *            loader.finish()         Returns a Promise that resolves when the outro has
+ *            splash.finish()         Returns a Promise that resolves when the outro has
  *                                    ended and the page is fully revealed.
+ *   4. Your plugins, which must provide:
  *        $.confirmationDialog.show(question) -> Promise. Resolves (anything but `false`)
  *                                    on confirm. Rejects or resolves `false` on cancel.
  *        $.errorDialog.show(message) -> shows an error message. The return value is ignored.
- *   4. Optional: the i18n layer ($.localization from i18n-master.js). If present, swapped-in
+ *   5. Optional: the i18n layer ($.localization from localization.js). If present, swapped-in
  *      content and restored history pages are localized while the splash still covers the
  *      page, and the initial intro waits for the translations. If absent, this file works
  *      unchanged.
  *
  * REQUIRED HTML
- *   <body>
- *       <div id="splash-container">
- *           <div id="splash-background"></div>
- *           <div id="splash-logo"></div>
- *       </div>
- *       <main id="page-container" hx-history-elt>   <!-- htmx snapshots/restores ONLY this -->
+ *   <body hx-boost="true" hx-target="#page-container" hx-select="#page-container"
+ *         hx-swap="outerHTML">
+ *       <splash-screen id="splash">
+ *           <splash-background>...svg...</splash-background>
+ *           <splash-logo>...svg...</splash-logo>
+ *       </splash-screen>
+ *       <div id="page-container" hx-history-elt>   <!-- htmx snapshots/restores ONLY this -->
  *           ...your page...
- *       </main>
+ *       </div>
  *   </body>
- *   - Those three splash ids are passed to $.createLoader below. Rename them here if needed.
+ *   - The splash element is looked up by id="splash" below. Rename it here if needed.
  *   - The splash must be visible by default (via CSS) so there is no flash of the
  *     unstyled page before the initial intro runs.
  *   - #splash-container MUST be outside every element htmx swaps (hx-target, or the body
@@ -56,6 +58,20 @@
  *                          It can be combined with hx-confirm (confirmation, no splash).
  *                          Failures of splash-less requests are NOT reported by this file.
  *
+ * PROGRAMMATIC NAVIGATION
+ *   $.navigation.navigateTo(url, showLoader = true, options = {})
+ *       url          Destination, absolute or relative. A different origin does a normal
+ *                    full page load (location.assign) and ignores the other arguments.
+ *       showLoader   true: same as clicking a link (splash covers the swap).
+ *                    false: no splash (same as data-splash="off"). Ignored while a splash is
+ *                    already running: the new navigation is covered by it.
+ *       options      { replace: true } replaces the current history entry instead of
+ *                    pushing a new one (e.g. after login, so the form is not in the back stack).
+ *   It clicks a hidden boosted <a>, so it inherits hx-boost / hx-target / hx-select / hx-swap
+ *   from <body> and behaves exactly like a link click, including the overlap rules above.
+ *   Several calls in a row: the last one wins. It returns nothing.
+ *   Listen for "splash-outro-end" on #splash if you need to know when it is done.
+ *
  * BEHAVIOUR SUMMARY
  *   - Initial load:      startFromLoop() -> wait for window load, fonts and images -> finish().
  *   - Request success:   start() and the request fire together. If the response arrives
@@ -74,8 +90,15 @@
  *                        Hash-only or foreign history entries are left alone.
  *   - Watchdog:          A splash that has not finished after WATCHDOG_MS is aborted and
  *                        ends with an error dialog, so the loader can never stay up forever.
- *   - Only one splash runs at a time. Requests fired while a splash is up go through
- *     untouched and are covered by the running splash.
+ *   - Only one splash runs at a time. While one is up:
+ *       * a boosted GET navigation (link click, GET form, $.navigation.navigateTo) is
+ *         "latest wins": if the running splash is still waiting for its response, that request
+ *         is aborted and the new one is sent inside the same splash (no second intro). A repeat
+ *         of the URL already loading is ignored. If it is too late to abort (response already
+ *         swapped, outro running, back/forward in progress) a link click or navigateTo is
+ *         queued (one slot, the newest wins) and gets its own splash afterwards.
+ *       * everything else (polling, live search, POST, hx-confirm, data-splash="off", GET forms
+ *         once it is too late to abort) goes through untouched, covered by the running splash.
  *
  * DEBUGGING
  *   Set DEBUG = true below to log every session step ("[nav] begin / popstate / replay /
@@ -160,16 +183,16 @@ $(function () {
 
 	// ---------- splash session (one at a time) ----------
 	let s = null; // the active session
-	let pendingPop = null; // history state waiting for the current session to finish
+	let pending = null; // function to run once the current session has finished (newest wins)
 	let replaying = false; // true while WE dispatch the popstate that htmx must see
 
 	function begin(kind) {
 		const cur = {
 			kind, // "request" | "history"
 			xhr: null,
+			url: null, // request: absolute URL being loaded (links only), to ignore repeats
 			expecting: false, // true only while we synchronously call issueRequest()
 			released: false, // request: response has been handed to htmx
-			aborted: false, // request: superseded by a back/forward press
 			replayed: false, // history: popstate has been replayed to htmx
 			replayState: null, // history: state to replay
 			done: false,
@@ -212,13 +235,28 @@ $(function () {
 		drain();
 	}
 
-	// Runs a queued back/forward press once the previous splash has fully finished
+	// Runs the queued back/forward press or navigation once the previous splash has fully finished
 	function drain() {
-		if (s || !pendingPop) return;
-		const state = pendingPop;
-		pendingPop = null;
-		log("drain queued popstate");
-		startHistory(state);
+		if (s || !pending) return;
+		const run = pending;
+		pending = null;
+		log("drain queued action");
+		run();
+	}
+
+	// A request session can be replaced only while its response has not been handed to htmx
+	function adoptable(cur) {
+		return cur.kind === "request" && !cur.released && !cur.done && !!cur.xhr;
+	}
+
+	// A boosted navigation: GET from a link or form that has no hx-get/post/... of its own
+	const VERB_ATTR = /^(data-)?hx-(get|post|put|patch|delete)$/;
+	function isNavigation(elt, verb) {
+		return (
+			verb === "get" &&
+			/^(A|FORM)$/.test(elt.tagName) &&
+			!Array.from(elt.attributes).some((a) => VERB_ATTR.test(a.name))
+		);
 	}
 
 	// ---------- back / forward ----------
@@ -255,7 +293,7 @@ $(function () {
 			log("popstate", {
 				session: s && s.kind,
 				replayed: s && s.replayed,
-				pendingPop: !!pendingPop,
+				pending: !!pending,
 			});
 
 			if (!s) return startHistory(e.state); // idle: start a history splash
@@ -269,7 +307,6 @@ $(function () {
 			if (s.kind === "request" && !s.released && !s.done) {
 				// Request still in flight: back wins. Abort it and turn this splash into a history one.
 				const cur = s;
-				cur.aborted = true;
 				if (cur.xhr) cur.xhr.abort();
 				cur.xhr = null;
 				cur.kind = "history";
@@ -278,7 +315,7 @@ $(function () {
 				return;
 			}
 
-			pendingPop = e.state; // mid-restore or outro: run afterwards
+			pending = () => startHistory(e.state); // mid-restore or outro: run afterwards
 		},
 		true
 	);
@@ -301,10 +338,33 @@ $(function () {
 
 	// ---------- normal requests, optional confirmation (hx-confirm), opt-out (data-splash="off") ----------
 	$(document).on("htmx:confirm", function (evt) {
-		const { elt, question, issueRequest } = detail(evt);
+		const { elt, question, issueRequest, verb, path } = detail(evt);
 		const off = $(elt).closest('[data-splash="off"]').length > 0;
+		const url = elt.tagName === "A" && path ? new URL(path, location.href).href : null;
 
-		if (s) return; // splash already up: let htmx proceed
+		if (s) {
+			// A navigation while a splash is running: the newest one wins. Everything else
+			// (polling, POST, hx-confirm, data-splash="off") proceeds untouched.
+			if (question || off || !isNavigation(elt, verb)) return;
+			evt.preventDefault();
+			if (!adoptable(s)) {
+				// Too late to abort: a link waits for its own splash, a GET form goes through as before
+				if (url) pending = () => $.navigation.navigateTo(url);
+				else issueRequest(true);
+				return;
+			}
+			if (url && s.url === url) return; // already loading this page: ignore the repeat
+			const cur = s;
+			const old = cur.xhr;
+			cur.xhr = null; // from now on the old response is stale (see htmx:beforeOnLoad)
+			old.abort();
+			cur.url = url;
+			cur.expecting = true; // the new request joins the running splash
+			issueRequest(true);
+			cur.expecting = false;
+			if (!cur.xhr) end(); // htmx sent nothing (validation etc.)
+			return;
+		}
 		if (off && !question) return; // nothing to do: let htmx proceed
 		evt.preventDefault(); // pause until the dialog (if any) is answered
 
@@ -313,6 +373,7 @@ $(function () {
 				if (ok === false) return; // cancelled: no splash, no request
 				if (off || s) return issueRequest(true);
 				const cur = begin("request"); // intro starts now...
+				cur.url = url;
 				cur.expecting = true;
 				issueRequest(true); // ...and the request is sent immediately
 				cur.expecting = false;
@@ -332,10 +393,15 @@ $(function () {
 	$(document).on("htmx:beforeOnLoad", function (evt) {
 		if (!mine(evt) || s.released) return;
 		const cur = s;
-		const xhr = detail(evt).xhr;
+		const { xhr, elt } = detail(evt);
 		evt.preventDefault(); // htmx stops before touching the DOM
 		cur.covered.then(() => {
-			if (cur.aborted || cur.done) return; // superseded by back/forward: drop the response
+			// Superseded (back/forward, or a newer navigation took over the session): drop the
+			// response. xhr.abort() cannot stop a response that already arrived and is held here.
+			if (cur.xhr !== xhr || cur.done) {
+				$(elt).filter("[data-nav-proxy]").remove(); // its request will never finish: clean up its anchor
+				return;
+			}
 			cur.released = true;
 			xhr.onload(); // replay: htmx now handles it as usual
 		});
@@ -357,4 +423,55 @@ $(function () {
 			if (mine(evt)) end(message);
 		});
 	});
+
+	// ---------- programmatic navigation ----------
+	// A hidden boosted <a> carries the request, so it inherits hx-boost, hx-target, hx-select
+	// and hx-swap from <body> and goes through the same pipeline as a real link click.
+	// It must stay in the DOM until the request has fully finished: htmx re-checks that the
+	// element is attached when htmx:confirm resumes and when a held response is replayed (see
+	// above), so an early removal drops or breaks the request. htmx fires htmx:afterRequest
+	// once for the response we hold back (detail.successful is undefined) and once when it
+	// is really done (successful is true/false); only the second one is a safe moment.
+	$.navigation = {
+		navigateTo: function (url, showLoader = true, options = {}) {
+			const dest = new URL(url, location.href);
+
+			// Another origin: htmx cannot handle it, do a normal page load
+			if (dest.origin !== location.origin) {
+				location.assign(dest.href);
+				return;
+			}
+
+			if (s) {
+				// Too late to replace the running navigation: run after its splash, newest wins
+				if (!adoptable(s)) {
+					pending = () => $.navigation.navigateTo(dest.href, showLoader, options);
+					return;
+				}
+				if (s.url === dest.href) return; // already loading this page
+			}
+
+			const a = document.createElement("a");
+			a.href = dest.href;
+			a.hidden = true;
+			a.setAttribute("data-nav-proxy", "");
+			a.setAttribute("hx-sync", "body:replace"); // a newer call aborts an older one still in flight
+			if (!showLoader && !s) a.setAttribute("data-splash", "off"); // a running splash covers it anyway
+			if (options.replace) a.setAttribute("hx-replace-url", "true");
+
+			const cleanup = () => {
+				clearTimeout(timer);
+				a.remove();
+			};
+			const timer = setTimeout(cleanup, WATCHDOG_MS + 1000); // safety net (send error)
+			$(a).on("htmx:afterRequest", (evt) => {
+				if (detail(evt).successful !== undefined) cleanup();
+			});
+			$(a).one("htmx:sendAbort", cleanup); // superseded by a newer navigation
+
+			document.body.appendChild(a);
+			htmx.process(a);
+			a.click();
+		},
+	};
 });
