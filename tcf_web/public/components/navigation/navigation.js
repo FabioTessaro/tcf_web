@@ -22,6 +22,9 @@
  *      content and restored history pages are localized while the splash still covers the
  *      page, and the initial intro waits for the translations. If absent, this file works
  *      unchanged.
+ *   6. Optional: $.api.session.csrf, the session's CSRF token (empty/"None" for guests). If set,
+ *      it is sent as the X-Frappe-CSRF-Token header on every same-origin htmx request that
+ *      is not GET/HEAD/OPTIONS (POST, PUT, PATCH, DELETE), so no trigger needs its own header.
  *
  * REQUIRED HTML
  *   <body hx-boost="true" hx-target="#page-container" hx-select="#page-container"
@@ -37,9 +40,9 @@
  *   - The splash element is looked up by id="splash" below. Rename it here if needed.
  *   - The splash must be visible by default (via CSS) so there is no flash of the
  *     unstyled page before the initial intro runs.
- *   - #splash-container MUST be outside every element htmx swaps (hx-target, or the body
+ *   - #splash MUST be outside every element htmx swaps (hx-target, or the body
  *     when using hx-boost="true" with the default body swap).
- *   - #splash-container MUST be outside the history element. Put hx-history-elt on a
+ *   - #splash MUST be outside the history element. Put hx-history-elt on a
  *     content wrapper that does not contain the splash. Otherwise every history restore
  *     replaces the splash node with a frozen copy and the loader stops working after the
  *     first back/forward. A console warning is printed at startup if this is wrong.
@@ -53,10 +56,32 @@
  *                          starts and before the request is sent. If cancelled, nothing
  *                          happens (no splash, no request). This replaces htmx's native
  *                          window.confirm().
+ *                          FALLBACK TO THE NATIVE DIALOG: while a splash is already running
+ *                          (page change or back/forward), a request with hx-confirm is NOT
+ *                          handled by this file. htmx then shows its own window.confirm()
+ *                          with the same question. What that implies:
+ *                            - It is the browser's dialog: not styled, not translated, and
+ *                              it freezes the whole page while it is open.
+ *                            - The confirmation is never skipped. Cancel drops the request.
+ *                              OK sends it as an ordinary request that is NOT part of the
+ *                              splash session: it is not held under the splash and is not
+ *                              aborted or replaced by later navigations.
+ *                            - OK can run the action on a page that is about to be replaced.
+ *                              The server executes it, but the target element may be gone
+ *                              when the response arrives, so the user sees no result.
+ *                            - It is rare: the splash overlay blocks pointer clicks, so it
+ *                              takes a keyboard activation or code (htmx.trigger, .click())
+ *                              while the splash is up.
+ *                          For a destructive action, make sure it cannot be triggered while
+ *                          a splash is running, or change this branch (see htmx:confirm).
  *   data-splash="off"      Put on an element (or any ancestor) to skip the splash for its
  *                          requests. Use it for polling, live search, tiny inline updates.
  *                          It can be combined with hx-confirm (confirmation, no splash).
- *                          Failures of splash-less requests are NOT reported by this file.
+ *                          Failures of splash-less requests (partial loads) ARE reported with
+ *                          $.errorDialog.show(), see data-error-dialog below.
+ *   data-error-dialog="off" Put on an element (or any ancestor) to NOT show the error dialog
+ *                          when its splash-less requests fail. Use it for polling and live
+ *                          search, where a failure every few seconds would flood the user.
  *
  * PROGRAMMATIC NAVIGATION
  *   $.navigation.navigateTo(url, showLoader = true, options = {})
@@ -79,6 +104,11 @@
  *                        Then swap -> wait for images/fonts -> finish().
  *   - Request failure:   (4xx/5xx, network error, timeout, swap error) start() -> finish(),
  *                        and only then $.errorDialog.show(message). The page is left unchanged.
+ *   - Partial failure:   the same four failures on a splash-less request show the same dialog
+ *                        at once, with no splash. If a splash is running at that moment the
+ *                        message waits until it is gone (duplicates are shown once). Nothing
+ *                        is shown for data-error-dialog="off", for a trigger that has been
+ *                        removed from the page, or while the browser is leaving the page.
  *   - Back/forward:      For htmx history entries the splash covers the page, then ONE
  *                        history restore is replayed underneath it, then finish().
  *                        Rapid presses are handled like this:
@@ -97,8 +127,17 @@
  *         of the URL already loading is ignored. If it is too late to abort (response already
  *         swapped, outro running, back/forward in progress) a link click or navigateTo is
  *         queued (one slot, the newest wins) and gets its own splash afterwards.
- *       * everything else (polling, live search, POST, hx-confirm, data-splash="off", GET forms
- *         once it is too late to abort) goes through untouched, covered by the running splash.
+ *       * everything else (polling, live search, POST, data-splash="off", GET forms once it
+ *         is too late to abort) goes through untouched, covered by the running splash.
+ *         A request with hx-confirm also goes through untouched, which means htmx asks with
+ *         its NATIVE window.confirm() (see hx-confirm above).
+ *
+ * CONFIGURATION (constants in this file)
+ *   CSRF_HEADER    Name of the CSRF header (default "X-Frappe-CSRF-Token"), in the block
+ *                  before $(function () {.
+ *   DEBUG          Console logging of every session step, first lines of $(function () {.
+ *   WATCHDOG_MS    Max lifetime of one splash before it is force-ended (20000).
+ *   ASSET_WAIT_MS  Max wait for fonts and images before the outro (5000).
  *
  * DEBUGGING
  *   Set DEBUG = true below to log every session step ("[nav] begin / popstate / replay /
@@ -114,6 +153,31 @@
  *     and the splash is dismissed automatically.
  * -----------------------------------------------------------------------------
  */
+// ---------- CSRF token ----------
+// Frappe rejects unsafe requests (POST/PUT/PATCH/DELETE) that lack the session's CSRF token.
+// It is read at request time, so a token set after page load (e.g. after login) is picked up,
+// and it is never sent for guests (no token), for safe methods, or to another origin.
+// This runs outside $(function) on purpose: it must be active before htmx sends its first
+// request (e.g. hx-trigger="load"), which can happen before jQuery's ready callbacks.
+{
+	// CONFIG: name of the header that carries the token. Change it here if the server
+	// expects another name.
+	const CSRF_HEADER = "X-Frappe-CSRF-Token";
+
+	document.addEventListener("htmx:configRequest", function (evt) {
+		const { headers, verb, path } = evt.detail;
+		if (/^(get|head|options)$/i.test(verb)) return;
+		const token = window.$ && $.api && $.api.session && $.api.session.csrf;
+		if (!token || /^(none|null|undefined)$/i.test(String(token))) return;
+		try {
+			if (new URL(path, location.href).origin !== location.origin) return;
+		} catch (e) {
+			return;
+		}
+		headers[CSRF_HEADER] = token;
+	});
+}
+
 $(function () {
 	const DEBUG = false; // set to false once everything works
 	const WATCHDOG_MS = 20000; // max lifetime of one splash before it is force-ended
@@ -160,12 +224,12 @@ $(function () {
 		]);
 
 	// Dev check: the splash must not live inside the element htmx snapshots and restores
-	const splashEl = $("#splash-container")[0];
+	const splashEl = $.loader;
 	const historyElt =
 		document.querySelector("[hx-history-elt],[data-hx-history-elt]") || document.body;
 	if (splashEl && historyElt.contains(splashEl)) {
 		console.warn(
-			"navigation.js: #splash-container is inside the htmx history element. " +
+			"navigation.js: #splash is inside the htmx history element. " +
 				"Put hx-history-elt on a content wrapper that does not contain the splash."
 		);
 	}
@@ -184,6 +248,7 @@ $(function () {
 	// ---------- splash session (one at a time) ----------
 	let s = null; // the active session
 	let pending = null; // function to run once the current session has finished (newest wins)
+	const queuedErrors = []; // failures of splash-less requests that happened while a splash was up
 	let replaying = false; // true while WE dispatch the popstate that htmx must see
 
 	function begin(kind) {
@@ -237,7 +302,9 @@ $(function () {
 
 	// Runs the queued back/forward press or navigation once the previous splash has fully finished
 	function drain() {
-		if (s || !pending) return;
+		if (s) return;
+		flushErrors();
+		if (!pending) return;
 		const run = pending;
 		pending = null;
 		log("drain queued action");
@@ -344,7 +411,10 @@ $(function () {
 
 		if (s) {
 			// A navigation while a splash is running: the newest one wins. Everything else
-			// (polling, POST, hx-confirm, data-splash="off") proceeds untouched.
+			// (polling, POST, data-splash="off") proceeds untouched.
+			// hx-confirm is deliberately left untouched here too, so htmx shows its NATIVE
+			// window.confirm() instead of $.confirmationDialog. See "FALLBACK TO THE NATIVE
+			// DIALOG" in the header for what that implies.
 			if (question || off || !isNavigation(elt, verb)) return;
 			evt.preventDefault();
 			if (!adoptable(s)) {
@@ -366,20 +436,26 @@ $(function () {
 			return;
 		}
 		if (off && !question) return; // nothing to do: let htmx proceed
-		evt.preventDefault(); // pause until the dialog (if any) is answered
+		evt.preventDefault(); // we send the request ourselves (below)
 
-		Promise.resolve(question ? $.confirmationDialog.show(question) : true)
-			.then((ok) => {
-				if (ok === false) return; // cancelled: no splash, no request
-				if (off || s) return issueRequest(true);
-				const cur = begin("request"); // intro starts now...
-				cur.url = url;
-				cur.expecting = true;
-				issueRequest(true); // ...and the request is sent immediately
-				cur.expecting = false;
-				if (!cur.xhr) end(); // htmx sent nothing (validation etc.)
-			})
-			.catch(() => {}); // dialog rejected = cancelled
+		const go = (ok) => {
+			if (ok === false) return; // cancelled: no splash, no request
+			if (off || s) return issueRequest(true);
+			const cur = begin("request"); // intro starts now...
+			cur.url = url;
+			cur.expecting = true;
+			issueRequest(true); // ...and the request is sent immediately
+			cur.expecting = false;
+			if (!cur.xhr) end(); // htmx sent nothing (validation etc.)
+		};
+		// Without a question this must run synchronously: a second navigation in the same tick
+		// has to see this session (and replace it), not start an untracked request next to it.
+		if (question)
+			Promise.resolve($.confirmationDialog.show(question))
+				.then(go)
+				.catch(() => {});
+		// rejected = cancelled
+		else go(true);
 	});
 
 	// Remember which XHR belongs to the splash so unrelated requests can't end it
@@ -418,9 +494,34 @@ $(function () {
 		"htmx:timeout": "The request timed out.",
 		"htmx:swapError": "The page could not be updated.",
 	};
+
+	// Failures of requests WITHOUT a splash session (partial loads, data-splash="off", requests
+	// made while a splash is up) use the same dialog. While a splash is up they wait until it is
+	// gone, like session errors do. Not reported: elements inside data-error-dialog="off"
+	// (polling, live search), a trigger that is no longer in the page (the user has already
+	// moved on), and anything while the browser is leaving the page.
+	let leaving = false;
+	window.addEventListener("beforeunload", () => {
+		leaving = true;
+		setTimeout(() => (leaving = false), 2000); // the unload may have been cancelled
+	});
+
+	function reportError(message) {
+		if (!s) $.errorDialog.show(message);
+		else if (!queuedErrors.includes(message)) queuedErrors.push(message);
+	}
+
+	function flushErrors() {
+		while (queuedErrors.length) $.errorDialog.show(queuedErrors.shift());
+	}
+
 	$.each(errors, function (name, message) {
 		$(document).on(name, function (evt) {
-			if (mine(evt)) end(message);
+			if (mine(evt)) return end(message);
+			const elt = detail(evt).elt;
+			if (leaving || !elt || !elt.isConnected) return;
+			if ($(elt).closest('[data-error-dialog="off"]').length) return;
+			reportError(message);
 		});
 	});
 

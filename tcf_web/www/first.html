@@ -1,7 +1,12 @@
 {% extends "tcf_web/www/base.html" %}
 
 {% block content %}
-    <nav-bar></nav-bar>
+    <nav-bar>
+        {% include "tcf_web/public/components/navbar-button/navbar-button.html" %}
+        {% include "tcf_web/public/components/navbar-toggle/navbar-toggle.html" %}
+        {% include "tcf_web/public/components/portal-button/portal-button.html" %}
+        {% include "tcf_web/public/components/language-switcher/language-switcher.html" %}
+    </nav-bar>
     <a href="second">Second</a>
     <a href="third">Third</a>
 {% endblock %}
