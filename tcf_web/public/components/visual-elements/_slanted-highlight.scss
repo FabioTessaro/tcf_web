@@ -1,0 +1,123 @@
+@use "elements-defaults" as defaults;
+
+// ---------------------------------------------------------------------------
+// highlight
+//
+// A soft, slanted stripe of light that sweeps left to right across a slanted
+// background layer on the trigger, and resets instantly when the trigger ends.
+//
+// The layer reads its inset, radius, band position and sweep time from custom
+// properties on the host. The trigger only changes those, and `reveal` lets
+// you set them yourself with $trigger: none.
+// ---------------------------------------------------------------------------
+
+// Sets the "revealed" state. Used by the triggers, or manually with $trigger: none.
+@mixin reveal($inset: -0.15rem -0.7rem, $radius: 0, $duration: 0.5s) {
+	--slanted-highlight-inset: #{$inset};
+	--slanted-highlight-radius: #{$radius};
+	--slanted-highlight-position: 0% 0; // band parked past the right edge
+	--slanted-highlight-duration: #{$duration}; // sweep time (0s at rest, so it resets instantly)
+}
+
+@mixin highlight(
+	$slant: defaults.$brand-slant,
+	$lean: slash,
+	// slash ("/") | backslash ("\")$color: currentColor,$intensity: 22%,
+	// brightness of the stripe
+	$half-width: 10%,
+	// half the stripe width (of the gradient image)
+	$image-size: 250%,
+	// gradient image width; raise it if you widen the stripe a lot
+	$duration: 0.5s,
+	// lower = faster
+	$easing: ease-in-out,
+	$rest-inset: -0.12rem -0.5rem,
+	$hover-inset: -0.15rem -0.7rem,
+	$rest-radius: 1.2rem,
+	$hover-radius: 0,
+	$shape-duration: 0.3s,
+	// inset / radius transition
+	$shape-easing: ease,
+	$trigger: hover,
+	// hover | active | focus-visible | none (single value or list)
+	$pseudo: after,
+	$host: true,
+	$z-index: -2
+) {
+	@if $lean != slash and $lean != backslash {
+		@error "highlight: $lean must be slash or backslash, got `#{$lean}`.";
+	}
+	@if $pseudo != before and $pseudo != after {
+		@error "highlight: $pseudo must be before or after, got `#{$pseudo}`.";
+	}
+
+	// Declared first so the @if can reassign it
+	$skew: $slant;
+	@if $lean == slash {
+		$skew: -$slant;
+	}
+
+	@if $host {
+		position: relative;
+		isolation: isolate;
+	}
+
+	// Rest state; the triggers below override these
+	--slanted-highlight-inset: #{$rest-inset};
+	--slanted-highlight-radius: #{$rest-radius};
+	--slanted-highlight-position: 100% 0; // band parked past the left edge
+	--slanted-highlight-duration: 0s; // no sweep time at rest = instant reset on un-hover
+
+	&::#{$pseudo} {
+		content: "";
+		position: absolute;
+		inset: var(--slanted-highlight-inset);
+		z-index: $z-index;
+		transform: skewX($skew);
+		pointer-events: none;
+		border-radius: var(--slanted-highlight-radius);
+
+		// Transparent everywhere except a soft stripe in the middle
+		background-image: linear-gradient(
+			90deg,
+			transparent 0%,
+			transparent (50% - $half-width),
+			color-mix(in srgb, #{$color} $intensity, transparent) 50%,
+			transparent (50% + $half-width),
+			transparent 100%
+		);
+		background-repeat: no-repeat;
+		background-size: $image-size 100%;
+		background-position: var(--slanted-highlight-position);
+
+		transition: inset $shape-duration $shape-easing,
+			border-radius $shape-duration $shape-easing,
+			background-position var(--slanted-highlight-duration) $easing;
+	}
+
+	@each $t in $trigger {
+		@if $t == hover {
+			@media (hover: hover) {
+				&:hover {
+					@include reveal($hover-inset, $hover-radius, $duration);
+				}
+			}
+		} @else if $t == active {
+			&:active {
+				@include reveal($hover-inset, $hover-radius, $duration);
+			}
+		} @else if $t == focus-visible {
+			&:focus-visible {
+				@include reveal($hover-inset, $hover-radius, $duration);
+			}
+		} @else if $t != none {
+			@error "highlight: $trigger must be hover, active, focus-visible or none, got `#{$t}`.";
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&::#{$pseudo} {
+			transition: none;
+		}
+	}
+}

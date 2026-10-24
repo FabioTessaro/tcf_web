@@ -25,11 +25,70 @@
 }
 .portal-button-desktop-container {
   background-color: transparent;
-  position: relative;
-  isolation: isolate;
   cursor: pointer;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  isolation: isolate;
+  --slanted-corners-length: 0.4rem;
+  --slanted-corners-inset: -0.12rem -0.5rem;
+}
+.portal-button-desktop-container::before {
+  content: "";
+  position: absolute;
+  inset: var(--slanted-corners-inset);
+  z-index: -1;
+  transform: skewX(-10deg);
+  pointer-events: none;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left top, left top, right bottom, right bottom;
+  background-size: var(--slanted-corners-length) 1px, 1px var(--slanted-corners-length), var(--slanted-corners-length) 1px, 1px var(--slanted-corners-length);
+  transition: inset 0.3s ease, background-size 0.3s ease;
+}
+@media (hover: hover) {
+  .portal-button-desktop-container:hover {
+    --slanted-corners-length: 100%;
+    --slanted-corners-inset: -0.15rem -0.7rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-button-desktop-container::before {
+    transition: none;
+  }
+}
+.portal-button-desktop-container {
+  --slanted-highlight-inset: -0.12rem -0.5rem;
+  --slanted-highlight-radius: 1.2rem;
+  --slanted-highlight-position: 100% 0;
+  --slanted-highlight-duration: 0s;
+}
+.portal-button-desktop-container::after {
+  content: "";
+  position: absolute;
+  inset: var(--slanted-highlight-inset);
+  z-index: -2;
+  transform: skewX(-10deg);
+  pointer-events: none;
+  border-radius: var(--slanted-highlight-radius);
+  background-image: linear-gradient(90deg, transparent 0%, transparent 40%, color-mix(in srgb, currentColor 22%, transparent) 50%, transparent 60%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  background-position: var(--slanted-highlight-position);
+  transition: inset 0.3s ease, border-radius 0.3s ease, background-position var(--slanted-highlight-duration) ease-in-out;
+}
+@media (hover: hover) {
+  .portal-button-desktop-container:hover {
+    --slanted-highlight-inset: -0.15rem -0.7rem;
+    --slanted-highlight-radius: 0;
+    --slanted-highlight-position: 0% 0;
+    --slanted-highlight-duration: 0.5s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-button-desktop-container::after {
+    transition: none;
+  }
 }
 .portal-button-desktop-container > .portal-button-desktop-label {
   font-family: var(--tf-navigation-label-stack);
@@ -49,49 +108,15 @@
   transition: transform 0.3s ease;
   transform-origin: center center;
 }
-.portal-button-desktop-container::before {
-  content: "";
-  position: absolute;
-  inset: -0.12rem -0.3rem;
-  z-index: -1;
-  transform: skewX(-10deg);
-  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
-  background-repeat: no-repeat;
-  background-position: left top, left top, right bottom, right bottom;
-  background-size: 0.4rem 1px, 1px 0.4rem, 0.4rem 1px, 1px 0.4rem;
-  transition: inset 0.3s ease, background-size 0.3s ease;
-}
-.portal-button-desktop-container::after {
-  content: "";
-  position: absolute;
-  inset: -0.12rem -0.3rem;
-  z-index: -2;
-  transform: skewX(-10deg);
-  border-radius: 1.2rem;
-  background-image: linear-gradient(90deg, transparent 0%, transparent 40%, color-mix(in srgb, currentColor 18%, transparent) 50%, transparent 60%, transparent 100%);
-  background-repeat: no-repeat;
-  background-size: 250% 100%;
-  background-position: 100% 0;
-  transition: inset 0.3s ease, border-radius 0.3s ease;
-}
-.portal-button-desktop-container:hover::before {
-  inset: -0.15rem -0.5rem;
-  background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%;
-}
-.portal-button-desktop-container:hover::after {
-  inset: -0.15rem -0.5rem;
-  border-radius: 0;
-  background-position: 0% 0;
-  transition: inset 0.3s ease, border-radius 0.3s ease, background-position 0.5s ease-in-out;
-}
 .portal-button-desktop-container:hover > .portal-button-desktop-label {
   transform: scale(1.06);
 }
 .portal-button-desktop-container:hover > .portal-button-desktop-icon {
   transform: scale(1.06);
 }
-@media (prefers-reduced-motion: reduce) {
-  .portal-button-desktop-container::before, .portal-button-desktop-container::after, .portal-button-desktop-container:hover::after {
-    transition: none;
+
+@media (max-width: 767.98px) {
+  .portal-button-mobile-container {
+    display: none;
   }
 }

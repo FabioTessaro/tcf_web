@@ -1,0 +1,121 @@
+@use "elements-defaults" as defaults;
+
+// ---------------------------------------------------------------------------
+// corners
+//
+// Two opposite L-shaped brackets drawn on the host's pseudo-element, slanted
+// with the brand angle. On the trigger they extend until they meet and close
+// into a full frame, or stop short to leave the sides open.
+//
+// The frame reads its length and inset from two custom properties on the host
+// (--slanted-corners-length / --slanted-corners-inset). The trigger only
+// changes those, and `reveal` lets you set them yourself with $trigger: none.
+// ---------------------------------------------------------------------------
+
+// Private: sets the length of the four arms (h + v at corner 1, h + v at corner 2)
+@mixin -arm-size($len, $thickness) {
+	background-size: $len $thickness, $thickness $len, $len $thickness, $thickness $len;
+}
+
+// Sets the "revealed" state. Used by the triggers, or manually with $trigger: none.
+@mixin reveal($length: 100%, $inset: -0.15rem -0.7rem) {
+	--slanted-corners-length: #{$length};
+	--slanted-corners-inset: #{$inset};
+}
+
+@mixin corners(
+	$slant: defaults.$brand-slant,
+	$lean: slash,
+	// slash ("/") | backslash ("\")$pair: tl-br,
+	// tl-br = top-left + bottom-right | tr-bl = top-right + bottom-left
+	$rest-length: 0.4rem,
+	// 0 = no brackets at rest
+	$hover-length: 100%,
+	// 100% closes the full frame; shorter leaves the sides open
+	$thickness: 1px,
+	$color: currentColor,
+	$rest-inset: -0.12rem -0.5rem,
+	$hover-inset: -0.15rem -0.7rem,
+	$duration: 0.3s,
+	$easing: ease,
+	$trigger: hover,
+	// hover | active | focus-visible | none (single value or list)
+	$pseudo: before,
+	$host: true,
+	$z-index: -1
+) {
+	@if $lean != slash and $lean != backslash {
+		@error "corners: $lean must be slash or backslash, got `#{$lean}`.";
+	}
+	@if $pair != tl-br and $pair != tr-bl {
+		@error "corners: $pair must be tl-br or tr-bl, got `#{$pair}`.";
+	}
+	@if $pseudo != before and $pseudo != after {
+		@error "corners: $pseudo must be before or after, got `#{$pseudo}`.";
+	}
+
+	// Declared first so the @if blocks can reassign them
+	$c1: left top;
+	$c2: right bottom;
+	@if $pair == tr-bl {
+		$c1: right top;
+		$c2: left bottom;
+	}
+
+	$skew: $slant;
+	@if $lean == slash {
+		$skew: -$slant;
+	}
+
+	@if $host {
+		position: relative;
+		isolation: isolate;
+	}
+
+	// Rest state; the triggers below override these
+	--slanted-corners-length: #{$rest-length};
+	--slanted-corners-inset: #{$rest-inset};
+
+	&::#{$pseudo} {
+		content: "";
+		position: absolute;
+		inset: var(--slanted-corners-inset);
+		z-index: $z-index;
+		transform: skewX($skew);
+		pointer-events: none;
+
+		background-image: linear-gradient($color, $color), linear-gradient($color, $color),
+			linear-gradient($color, $color), linear-gradient($color, $color);
+		background-repeat: no-repeat;
+		background-position: $c1, $c1, $c2, $c2;
+		@include -arm-size(var(--slanted-corners-length), $thickness);
+
+		transition: inset $duration $easing, background-size $duration $easing;
+	}
+
+	@each $t in $trigger {
+		@if $t == hover {
+			@media (hover: hover) {
+				&:hover {
+					@include reveal($hover-length, $hover-inset);
+				}
+			}
+		} @else if $t == active {
+			&:active {
+				@include reveal($hover-length, $hover-inset);
+			}
+		} @else if $t == focus-visible {
+			&:focus-visible {
+				@include reveal($hover-length, $hover-inset);
+			}
+		} @else if $t != none {
+			@error "corners: $trigger must be hover, active, focus-visible or none, got `#{$t}`.";
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&::#{$pseudo} {
+			transition: none;
+		}
+	}
+}
