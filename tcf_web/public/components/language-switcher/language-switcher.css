@@ -233,6 +233,14 @@
 .language-switcher-mobile-container .language-switcher-mobile-trigger:active::before {
   opacity: 1;
 }
+@media (hover: hover) {
+  .language-switcher-mobile-container .language-switcher-mobile-trigger:hover::before {
+    opacity: 1;
+  }
+}
+.language-switcher-mobile-container .language-switcher-mobile-trigger:focus-visible::before {
+  opacity: 1;
+}
 @media (prefers-reduced-motion: reduce) {
   .language-switcher-mobile-container .language-switcher-mobile-trigger::before {
     transition: none;

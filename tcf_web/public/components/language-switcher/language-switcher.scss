@@ -132,7 +132,14 @@ $mobile-popup-scrim-dark: rgba(0, 0, 0, 0.55);
 
 		// Slanted tap pill (same extent as the old rounded pill). The mixin also
 		// sets position: relative and isolation: isolate, now on the trigger.
-		@include slantedpill.pill($inset: -0.05rem);
+		@include slantedpill.pill(
+			$inset: -0.05rem,
+			$trigger: (
+				active,
+				hover,
+				focus-visible,
+			)
+		);
 
 		&:active {
 			transform: scale(1.1);

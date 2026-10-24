@@ -5,6 +5,7 @@
 @use "../visual-elements/elements-defaults" as brandDefaults;
 @use "../visual-elements/slanted-corners" as slantedcorners;
 @use "../visual-elements/slanted-highlight" as slantedhighlight;
+@use "../visual-elements/slanted-pill" as slantedpill;
 
 // ---------------------------------------------------------------------------
 // Portal button (desktop) - tweakables
@@ -46,11 +47,19 @@ $pb-shape-easing: ease;
 // ---------------------------------------------------------------------------
 
 .portal-button-desktop-container {
-	@media screen and (prefers-color-scheme: dark) {
-		color: palette.$dark-primary-deep;
-	}
-	@media screen and (prefers-color-scheme: light) {
-		color: palette.$light-primary-deep;
+	&,
+	&:link,
+	&:visited,
+	&:hover,
+	&:active,
+	&:focus {
+		text-decoration: none;
+		@media screen and (prefers-color-scheme: dark) {
+			color: palette.$dark-primary-deep;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			color: palette.$light-primary-deep;
+		}
 	}
 	@include layout.flex-container(
 		row,
@@ -62,7 +71,6 @@ $pb-shape-easing: ease;
 	@include layout.flex-hide-mobile;
 	background-color: transparent;
 	cursor: pointer;
-	text-decoration: none;
 	-webkit-tap-highlight-color: transparent;
 
 	// Corner brackets on ::before (also sets position: relative + isolation: isolate on the button)
@@ -119,5 +127,41 @@ $pb-shape-easing: ease;
 }
 
 .portal-button-mobile-container {
+	&,
+	&:link,
+	&:visited,
+	&:hover,
+	&:active,
+	&:focus {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	@include type.typeface(navigation-label-mobile);
+	font-size: 1rem;
+
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.5rem;
+	padding: 0 0.75rem;
+
+	transition: transform 0.15s ease;
+
+	@include slantedpill.pill(
+		$trigger: (
+			active,
+			hover,
+			focus-visible,
+		)
+	);
+
 	@include layout.flex-hide-desktop;
+
+	background-color: transparent;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+
+	&:active {
+		transform: scale(1.06);
+	}
 }
