@@ -1,0 +1,27 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+@media screen and (prefers-color-scheme: dark) {
+  :host {
+    background: #3b3b3b;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  :host {
+    background: #f1f2f2;
+  }
+}
+:host {
+  pointer-events: none;
+}
+
+.hero-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}

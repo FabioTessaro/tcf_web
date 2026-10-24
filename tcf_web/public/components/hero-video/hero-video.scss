@@ -1,0 +1,23 @@
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+
+:host {
+	position: absolute;
+	inset: 0;
+	display: block;
+	overflow: hidden;
+	@media screen and (prefers-color-scheme: dark) {
+		background: palette.$dark-background;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		background: palette.$light-background;
+	}
+	pointer-events: none;
+}
+
+.hero-video {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
