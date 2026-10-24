@@ -1,0 +1,178 @@
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+@use "../visual-elements/elements-defaults" as brandDefaults;
+
+// ---------------------------------------------------------------------------
+// Portal button (desktop) - tweakables
+// ---------------------------------------------------------------------------
+
+// Shape
+$pb-skew-angle: -1 * brandDefaults.$brand-slant; // brand slant
+$pb-rest-inset: -0.12rem -0.3rem;
+$pb-hover-inset: -0.15rem -0.5rem;
+$pb-rest-radius: 1.2rem; // sweep layer only
+$pb-hover-radius: 0;
+
+// Corner brackets
+$pb-corner-pair: tl-br; // tl-br = top-left + bottom-right | tr-bl = top-right + bottom-left
+$pb-corner-rest-length: 0.4rem; // 0 = no corners at rest
+$pb-corner-hover-length: 100%; // 100% closes the full frame; try 70% or 1.2rem for gaps
+$pb-corner-thickness: 1px;
+$pb-corner-color: currentColor;
+$pb-corner-duration: 0.3s;
+$pb-corner-easing: ease;
+
+// Content
+$pb-gap: 0.2rem;
+$pb-icon-size: 1.2rem;
+$pb-icon-weight: 200;
+$pb-hover-scale: 1.06;
+
+// Highlight sweep
+$pb-sweep-duration: 0.5s; // lower = faster
+$pb-sweep-easing: ease-in-out;
+$pb-sweep-intensity: 18%; // brightness of the stripe
+$pb-sweep-half-width: 10%; // half the stripe width (of the gradient image)
+$pb-sweep-image-size: 250%; // gradient image width; raise it if you widen the stripe a lot
+
+// Other transitions
+$pb-shape-duration: 0.3s; // inset / radius / text scale
+$pb-shape-easing: ease;
+
+// ---------------------------------------------------------------------------
+// Corner helpers
+// ---------------------------------------------------------------------------
+
+// Defaults declared first so they exist outside the @if
+$pb-c1: left top;
+$pb-c2: right bottom;
+@if $pb-corner-pair == tl-br {
+	$pb-c1: left top;
+	$pb-c2: right bottom;
+} @else if $pb-corner-pair == tr-bl {
+	$pb-c1: right top;
+	$pb-c2: left bottom;
+} @else {
+	@error "$pb-corner-pair must be 'tl-br' or 'tr-bl', got '#{$pb-corner-pair}'";
+}
+
+// Four lines: horizontal + vertical at corner 1, horizontal + vertical at corner 2.
+// $len is the length of each arm (rem/px = fixed; % = relative to width for the
+// horizontal arms and to height for the vertical arms).
+@mixin pb-corner-size($len) {
+	background-size: $len $pb-corner-thickness, $pb-corner-thickness $len,
+		$len $pb-corner-thickness, $pb-corner-thickness $len;
+}
+
+// ---------------------------------------------------------------------------
+
+.portal-button-desktop-container {
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-deep;
+	}
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: $pb-gap,
+		$horizontal: center,
+		$vertical: center
+	);
+	@include layout.flex-hide-mobile;
+	background-color: transparent;
+	position: relative;
+	isolation: isolate; // keeps the negative z-index pseudos inside the button
+	cursor: pointer;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+	> .portal-button-desktop-label {
+		@include type.typeface(navigation-label);
+		transition: transform $pb-shape-duration $pb-shape-easing;
+		transform-origin: center center;
+	}
+	> .portal-button-desktop-icon {
+		font-weight: $pb-icon-weight;
+		font-size: $pb-icon-size;
+		transition: transform $pb-shape-duration $pb-shape-easing;
+		transform-origin: center center;
+	}
+
+	// Corner brackets
+	&::before {
+		content: "";
+		position: absolute;
+		inset: $pb-rest-inset;
+		z-index: -1;
+		transform: skewX($pb-skew-angle);
+
+		background-image: linear-gradient($pb-corner-color, $pb-corner-color),
+			linear-gradient($pb-corner-color, $pb-corner-color),
+			linear-gradient($pb-corner-color, $pb-corner-color),
+			linear-gradient($pb-corner-color, $pb-corner-color);
+		background-repeat: no-repeat;
+		background-position: $pb-c1, $pb-c1, $pb-c2, $pb-c2;
+		@include pb-corner-size($pb-corner-rest-length);
+
+		transition: inset $pb-shape-duration $pb-shape-easing,
+			background-size $pb-corner-duration $pb-corner-easing;
+	}
+
+	// Highlight sweep
+	&::after {
+		content: "";
+		position: absolute;
+		inset: $pb-rest-inset;
+		z-index: -2;
+		transform: skewX($pb-skew-angle);
+		border-radius: $pb-rest-radius;
+
+		background-image: linear-gradient(
+			90deg,
+			transparent 0%,
+			transparent (50% - $pb-sweep-half-width),
+			color-mix(in srgb, currentColor $pb-sweep-intensity, transparent) 50%,
+			transparent (50% + $pb-sweep-half-width),
+			transparent 100%
+		);
+		background-repeat: no-repeat;
+		background-size: $pb-sweep-image-size 100%;
+		background-position: 100% 0; // resting position: band parked off the left edge
+
+		// No background-position transition here, so the band resets instantly on un-hover
+		transition: inset $pb-shape-duration $pb-shape-easing,
+			border-radius $pb-shape-duration $pb-shape-easing;
+	}
+
+	&:hover {
+		&::before {
+			inset: $pb-hover-inset;
+			@include pb-corner-size($pb-corner-hover-length);
+		}
+		&::after {
+			inset: $pb-hover-inset;
+			border-radius: $pb-hover-radius;
+			background-position: 0% 0; // band ends parked off the right edge
+			transition: inset $pb-shape-duration $pb-shape-easing,
+				border-radius $pb-shape-duration $pb-shape-easing,
+				background-position $pb-sweep-duration $pb-sweep-easing;
+		}
+		> .portal-button-desktop-label {
+			transform: scale($pb-hover-scale);
+		}
+		> .portal-button-desktop-icon {
+			transform: scale($pb-hover-scale);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&::before,
+		&::after,
+		&:hover::after {
+			transition: none;
+		}
+	}
+}

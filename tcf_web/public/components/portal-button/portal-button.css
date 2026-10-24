@@ -1,0 +1,97 @@
+@media screen and (prefers-color-scheme: dark) {
+  .portal-button-desktop-container {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .portal-button-desktop-container {
+    color: #3b3b3b;
+  }
+}
+.portal-button-desktop-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0.2rem;
+       column-gap: 0.2rem;
+  row-gap: 0.2rem;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 767.98px) {
+  .portal-button-desktop-container {
+    display: none;
+  }
+}
+.portal-button-desktop-container {
+  background-color: transparent;
+  position: relative;
+  isolation: isolate;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.portal-button-desktop-container > .portal-button-desktop-label {
+  font-family: var(--tf-navigation-label-stack);
+  font-weight: var(--tf-navigation-label-weight);
+  font-stretch: var(--tf-navigation-label-width);
+  font-style: var(--tf-navigation-label-style);
+  font-size: var(--tf-navigation-label-size);
+  line-height: var(--tf-navigation-label-line-height);
+  letter-spacing: var(--tf-navigation-label-letter-spacing);
+  text-transform: var(--tf-navigation-label-transform);
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+.portal-button-desktop-container > .portal-button-desktop-icon {
+  font-weight: 200;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+.portal-button-desktop-container::before {
+  content: "";
+  position: absolute;
+  inset: -0.12rem -0.3rem;
+  z-index: -1;
+  transform: skewX(-10deg);
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left top, left top, right bottom, right bottom;
+  background-size: 0.4rem 1px, 1px 0.4rem, 0.4rem 1px, 1px 0.4rem;
+  transition: inset 0.3s ease, background-size 0.3s ease;
+}
+.portal-button-desktop-container::after {
+  content: "";
+  position: absolute;
+  inset: -0.12rem -0.3rem;
+  z-index: -2;
+  transform: skewX(-10deg);
+  border-radius: 1.2rem;
+  background-image: linear-gradient(90deg, transparent 0%, transparent 40%, color-mix(in srgb, currentColor 18%, transparent) 50%, transparent 60%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  transition: inset 0.3s ease, border-radius 0.3s ease;
+}
+.portal-button-desktop-container:hover::before {
+  inset: -0.15rem -0.5rem;
+  background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%;
+}
+.portal-button-desktop-container:hover::after {
+  inset: -0.15rem -0.5rem;
+  border-radius: 0;
+  background-position: 0% 0;
+  transition: inset 0.3s ease, border-radius 0.3s ease, background-position 0.5s ease-in-out;
+}
+.portal-button-desktop-container:hover > .portal-button-desktop-label {
+  transform: scale(1.06);
+}
+.portal-button-desktop-container:hover > .portal-button-desktop-icon {
+  transform: scale(1.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-button-desktop-container::before, .portal-button-desktop-container::after, .portal-button-desktop-container:hover::after {
+    transition: none;
+  }
+}

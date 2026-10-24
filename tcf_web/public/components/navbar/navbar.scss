@@ -200,7 +200,7 @@ $navbar-padding: 0.5rem;
 		@include layout.flex-container(
 			column,
 			$wrap: false,
-			$gap: 0.8rem,
+			$gap: 1rem,
 			$horizontal: end,
 			$vertical: center
 		);
@@ -211,9 +211,9 @@ $navbar-padding: 0.5rem;
 	@include layout.flex-container(
 		row,
 		$wrap: false,
-		$gap: 0.2rem,
+		$gap: 2.5rem,
 		$horizontal: end,
-		$vertical: end
+		$vertical: center
 	);
 }
 .navbar-desktop-actions-bottom {

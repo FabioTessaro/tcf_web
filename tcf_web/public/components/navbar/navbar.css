@@ -295,9 +295,9 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    -moz-column-gap: 0.8rem;
-         column-gap: 0.8rem;
-    row-gap: 0.8rem;
+    -moz-column-gap: 1rem;
+         column-gap: 1rem;
+    row-gap: 1rem;
     justify-content: center;
     align-items: flex-end;
   }
@@ -307,11 +307,11 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  -moz-column-gap: 0.2rem;
-       column-gap: 0.2rem;
-  row-gap: 0.2rem;
+  -moz-column-gap: 2.5rem;
+       column-gap: 2.5rem;
+  row-gap: 2.5rem;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .navbar-desktop-actions-bottom {
