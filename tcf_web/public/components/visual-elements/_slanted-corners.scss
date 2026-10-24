@@ -26,7 +26,8 @@
 @mixin corners(
 	$slant: defaults.$brand-slant,
 	$lean: slash,
-	// slash ("/") | backslash ("\")$pair: tl-br,
+	// slash | backslash (lean direction)
+	$pair: tl-br,
 	// tl-br = top-left + bottom-right | tr-bl = top-right + bottom-left
 	$rest-length: 0.4rem,
 	// 0 = no brackets at rest

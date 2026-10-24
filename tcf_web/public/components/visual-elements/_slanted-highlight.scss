@@ -22,7 +22,9 @@
 @mixin highlight(
 	$slant: defaults.$brand-slant,
 	$lean: slash,
-	// slash ("/") | backslash ("\")$color: currentColor,$intensity: 22%,
+	// slash | backslash (lean direction)
+	$color: currentColor,
+	$intensity: 22%,
 	// brightness of the stripe
 	$half-width: 10%,
 	// half the stripe width (of the gradient image)
