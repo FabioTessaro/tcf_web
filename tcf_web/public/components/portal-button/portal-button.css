@@ -115,7 +115,7 @@
   transform: scale(1.06);
 }
 
-@media (max-width: 767.98px) {
+@media (min-width: 768px) {
   .portal-button-mobile-container {
     display: none;
   }

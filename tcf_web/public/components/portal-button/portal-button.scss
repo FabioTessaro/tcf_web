@@ -119,5 +119,5 @@ $pb-shape-easing: ease;
 }
 
 .portal-button-mobile-container {
-	@include layout.flex-hide-mobile;
+	@include layout.flex-hide-desktop;
 }
