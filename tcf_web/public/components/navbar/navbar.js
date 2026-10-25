@@ -1,14 +1,18 @@
 /*!
  * <nav-bar>: self-contained navbar web component (Shadow DOM + jQuery)
  *
- * FILES (one folder; only navbar.js is included in pages)
+ * FILES (one folder; only navbar.js is included in pages, after jQuery and component-base.js)
  *   navbar.js        this file
  *   navbar.html      structure, placed inside the shadow root
  *   navbar.css       all styles of the shadow root
  *   navbar-logo.svg  the logo
+ *   The plumbing it shares with the other components (file loading, stylesheet, events, tag/path detection)
+ *   lives in component-base/component-base.js.
  *
- * USAGE (jQuery >= 3 must be loaded first, otherwise this script throws and registers nothing)
+ * USAGE (jQuery >= 3 and then component-base.js must be loaded first, otherwise this script throws and
+ * registers nothing)
  *   <script src="/path/to/jquery.min.js"></script>
+ *   <script src="/path/to/component-base/component-base.js"></script>
  *   <script src="/path/to/navbar/navbar.js"></script>
  *   <nav-bar>
  *     <your-open-icon  navbar-role="toggle-open"></your-open-icon>
@@ -60,48 +64,23 @@
 	}
 
 	/* ------------------------------------------------------------------ */
+	/* Dependencies: jQuery (checked by component-base.js) + ComponentBase  */
+	/* ------------------------------------------------------------------ */
+
+	if (typeof window.ComponentBase !== "object") {
+		throw new Error(
+			"[navbar] ComponentBase was not found. Load jQuery and then component-base.js before navbar.js. " +
+				"The navbar element was not registered."
+		);
+	}
+
+	/* ------------------------------------------------------------------ */
 	/* Where am I loaded from? (all sibling files are resolved from here)   */
 	/* ------------------------------------------------------------------ */
 
-	var script = document.currentScript;
-	if (!script) {
-		var all = document.getElementsByTagName("script");
-		for (var i = all.length - 1; i >= 0; i--) {
-			if (/\/navbar\.js(\?|#|$)/.test(all[i].src)) {
-				script = all[i];
-				break;
-			}
-		}
-	}
-	var SRC = new URL(script && script.src ? script.src : "navbar.js", document.baseURI);
-	function sibling(path) {
-		// keeps ?v=... so cache busting reaches every file
-		var u = new URL(path, SRC);
-		u.search = SRC.search;
-		return u.href;
-	}
-
-	var TAG = (script && script.getAttribute("data-tag")) || "nav-bar";
-	if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(TAG)) {
-		throw new Error(
-			'[navbar] "' +
-				TAG +
-				'" is not a valid custom element name: it must be lowercase and contain a hyphen.'
-		);
-	}
-
-	/* ------------------------------------------------------------------ */
-	/* jQuery (hard dependency)                                            */
-	/* ------------------------------------------------------------------ */
-
-	if (typeof window.jQuery !== "function") {
-		throw new Error(
-			"[navbar] jQuery is required but window.jQuery was not found. " +
-				"Load jQuery before navbar.js. The <" +
-				TAG +
-				"> element was not registered."
-		);
-	}
+	var here = ComponentBase.locate("navbar", "nav-bar"); // throws on an invalid data-tag
+	var TAG = here.tag;
+	var sibling = here.sibling;
 
 	(function ($) {
 		/* -------------------------------------------------------------- */
@@ -154,97 +133,14 @@
 		];
 
 		/* -------------------------------------------------------------- */
-		/* Helpers shared with sub-components (exported below)              */
+		/* Helpers: shared with every component through ComponentBase       */
 		/* -------------------------------------------------------------- */
 
-		function fetchText(url) {
-			return new Promise(function (resolve, reject) {
-				$.ajax({ url: url, dataType: "text" })
-					.done(resolve)
-					.fail(function (xhr, status, err) {
-						reject(
-							new Error(
-								"[navbar] could not load " + url + " (" + (err || status) + ")"
-							)
-						);
-					});
-			});
-		}
-
-		function makeSheet(cssText) {
-			if (
-				"adoptedStyleSheets" in Document.prototype &&
-				window.CSSStyleSheet &&
-				"replaceSync" in CSSStyleSheet.prototype
-			) {
-				var sheet = new CSSStyleSheet();
-				sheet.replaceSync(cssText);
-				return sheet;
-			}
-			return null;
-		}
-
-		/**
-		 * Fetch several text files in parallel: loadBundle({ html: url, css: url, svg: url }, ['svg']).
-		 * Keys listed in `optional` only warn when missing. Resolves with { html, css, svg } (texts).
-		 */
-		function loadBundle(urls, optional) {
-			optional = optional || [];
-			var keys = Object.keys(urls);
-			return Promise.all(
-				keys.map(function (k) {
-					var p = fetchText(urls[k]);
-					if (optional.indexOf(k) !== -1) {
-						p = p.catch(function (e) {
-							console.warn(e.message);
-							return "";
-						});
-					}
-					return p;
-				})
-			).then(function (texts) {
-				var out = {};
-				keys.forEach(function (k, i) {
-					out[k] = texts[i];
-				});
-				return out;
-			});
-		}
-
-		/** Put one stylesheet into a shadow root (constructable sheet, <style> fallback). */
-		function applyStyle(root, cssText) {
-			if (!cssText) {
-				return;
-			}
-			var sheet = makeSheet(cssText);
-			if (sheet) {
-				root.adoptedStyleSheets = [sheet];
-			} else {
-				$(root).append($("<style></style>").text(cssText));
-			}
-		}
-
-		/**
-		 * Standard event: bubbles + composed, so it crosses shadow boundaries and can be caught with
-		 * addEventListener or jQuery (`e.detail` is available on the jQuery event).
-		 * Every event gets detail.waitUntil(promise); it only has an effect on cancelable events.
-		 * Returns { event, canceled, pending } where pending = the promises handlers registered.
-		 */
-		function emit(source, name, detail, cancelable) {
-			var pending = [];
-			var d = $.extend({}, detail);
-			d.waitUntil = function (p) {
-				pending.push(Promise.resolve(p));
-			};
-			var ev = new CustomEvent(name, {
-				bubbles: true,
-				composed: true,
-				cancelable: !!cancelable,
-				detail: d,
-			});
-			source.dispatchEvent(ev);
-			return { event: ev, canceled: ev.defaultPrevented, pending: pending };
-		}
+		var emit = ComponentBase.emit; // also exported below, as NavbarComponent.emit
+		var detailOf = ComponentBase.detailOf;
+		var applyStyle = ComponentBase.applyStyle;
+		var rafThrottle = ComponentBase.rafThrottle;
+		var setAttrIfChanged = ComponentBase.setAttrIfChanged;
 
 		/**
 		 * Ask the navbar to do something from any component inside it:
@@ -263,62 +159,30 @@
 			return Promise.resolve(d.result || null);
 		}
 
-		var uid = 0;
 		var MANUAL_SLOTS =
 			typeof HTMLSlotElement !== "undefined" &&
 			typeof HTMLSlotElement.prototype.assign === "function";
-
-		function rafThrottle(fn) {
-			var pending = false;
-			return function () {
-				if (pending) {
-					return;
-				}
-				pending = true;
-				requestAnimationFrame(function () {
-					pending = false;
-					fn();
-				});
-			};
-		}
-
-		function setAttrIfChanged(el, name, value) {
-			if (el.getAttribute(name) !== value) {
-				el.setAttribute(name, value);
-			}
-		}
-
-		function detailOf(e) {
-			return (e.originalEvent || e).detail || {};
-		}
 
 		/* -------------------------------------------------------------- */
 		/* Shared resources for <nav-bar>: fetched once for all instances    */
 		/* -------------------------------------------------------------- */
 
-		var bundlePromise = null;
-		function loadNavbarBundle() {
-			if (!bundlePromise) {
-				bundlePromise = loadBundle(
-					{
-						html: sibling("navbar.html"),
-						css: sibling("navbar.css"),
-						svg: sibling("./assets/navbar-logo.svg"),
-					},
-					["svg"]
-				).then(function (b) {
-					b.svg = b.svg
-						.replace(/<\?xml[\s\S]*?\?>/, "")
-						.replace(/<!--[\s\S]*?-->/g, "")
-						.trim();
-					return b;
-				});
-				bundlePromise.catch(function () {
-					bundlePromise = null;
-				});
-			}
-			return bundlePromise;
-		}
+		var loadNavbarBundle = ComponentBase.bundleLoader(
+			{
+				html: sibling("navbar.html"),
+				css: sibling("navbar.css"),
+				svg: sibling("./assets/navbar-logo.svg"),
+			},
+			["svg"],
+			function (b) {
+				b.svg = b.svg
+					.replace(/<\?xml[\s\S]*?\?>/, "")
+					.replace(/<!--[\s\S]*?-->/g, "")
+					.trim();
+				return b;
+			},
+			"navbar"
+		);
 
 		/* -------------------------------------------------------------- */
 		/* The element                                                      */
@@ -331,7 +195,7 @@
 
 			constructor() {
 				super();
-				this._ns = ".navbar" + ++uid;
+				this._ns = ComponentBase.namespace("navbar");
 				this._built = false;
 				this._hydrating = null;
 				this._ready = false;
@@ -351,11 +215,7 @@
 					opts.slotAssignment = "manual";
 				}
 				this._root = this.attachShadow(opts);
-				$(this._root).append(
-					$("<style data-boot></style>").text(
-						":host{display:block;height:0;visibility:hidden}"
-					)
-				);
+				ComponentBase.hold(this._root, ":host{display:block;height:0;visibility:hidden}");
 			}
 
 			/* ---------------- lifecycle ---------------- */
@@ -505,7 +365,7 @@
 				this.$nav.attr({ "data-expanded": "false", "data-scrolled": "false" });
 				this._syncInert();
 
-				$root.find("style[data-boot]").remove(); // reveal
+				ComponentBase.release(root); // reveal
 				this._built = true;
 			}
 
@@ -995,7 +855,7 @@
 			}
 		}
 
-		window.customElements.define(TAG, Navbar);
+		ComponentBase.define(TAG, Navbar);
 
 		/* -------------------------------------------------------------- */
 		/* Public, frozen contract for components that live in the navbar    */

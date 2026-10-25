@@ -12,19 +12,21 @@ The navbar's own markup lives in a shadow root, so page CSS can't break it. Your
 
 ## 2. Files and setup
 
-Four files in one folder, which must be served over HTTP:
+Four files in one folder, which must be served over HTTP. `navbar.js` is the only one you include, plus `component-base.js`, which all the site's components share:
 
 | File | Role |
 |---|---|
-| `navbar.js` | Behaviour. The only file you include. |
+| `navbar.js` | Behaviour. The only navbar file you include. |
 | `navbar.html` | Markup placed inside the shadow root. |
 | `navbar.css` | All the shadow root's styles. |
 | `navbar-logo.svg` | The logo, inlined into the bar. |
+| `component-base/component-base.js` | Shared plumbing (file loading, stylesheet, events, tag detection). Separate folder, shared by all components. |
 
-jQuery (3 or later) must load first. Without it, `navbar.js` throws and registers nothing.
+jQuery (3 or later) must load first, then `component-base.js`. Without them, `navbar.js` throws and registers nothing.
 
 ```html
 <script src="/path/jquery.min.js"></script>
+<script src="/path/component-base/component-base.js"></script>
 <script src="/path/navbar/navbar.js"></script>
 
 <nav-bar>
@@ -39,7 +41,7 @@ jQuery (3 or later) must load first. Without it, `navbar.js` throws and register
 - **The tag name:** it's `<nav-bar>` because custom element names need a hyphen. Add `data-tag="x-y"` to the `navbar.js` script tag to rename it.
 - **Cache busting:** `navbar.js?v=2` copies the version onto every file the navbar fetches.
 - **Page offset:** the bar is `position: fixed`. Use `body { padding-top: var(--navbar-height); }`, since the component sets `--navbar-height` (top bar height) on `:root`.
-- **Custom logo path:** edit the `svg: sibling('navbar-logo.svg')` line in `loadNavbarBundle()` in `navbar.js`.
+- **Custom logo path:** edit the `svg: sibling(...)` line in the `ComponentBase.bundleLoader(...)` call near the top of `navbar.js`.
 
 ## 3. Roles: where each child goes
 
@@ -199,7 +201,7 @@ They combine: `.navbar-container[data-lang-base="ja"][data-layout="mobile"][data
 
 ## 10. Gotchas
 
-- **jQuery on shadow roots:** don't call `.empty()` or `.html()` directly on a shadow root. They do nothing there, so content piles up. Build once, then use `.find()` inside it.
+- **jQuery on shadow roots:** don't call `.empty()`, `.html()` or `.on()` directly on a shadow root. They do nothing there (jQuery ignores shadow roots as event targets), so content piles up and handlers never fire. Build once, use `.find()` inside it, and bind events on an element inside it (or on the host).
 - **Nothing shows and there's no error:** check the Network tab for `navbar.html` and `navbar.css`. A failure there keeps the bar hidden and logs an error. A missing logo only logs a warning.
 - **Events don't arrive:** they need `composed: true`. `NavbarComponent.emit` and `.request` set it for you.
 - **A child sits in the wrong place:** check its `navbar-role` spelling and that it's a direct child of `<nav-bar>`.

@@ -1,0 +1,80 @@
+// ---------------------------------------------------------------------------
+// Material Symbols for Shadow DOM components. Guide: material-symbols.md (same folder).
+//
+// Page CSS does not reach inside a shadow root, so the icon classes (.material-symbols-sharp, ...)
+// must be repeated in every component that shows an icon. Include this mixin in that component's scss:
+//
+//     @use "../typography/material-symbols" as icons;
+//
+//     @include icons.material-symbols;                 // the default style (sharp)
+//     @include icons.material-symbols(outlined);       // one style
+//     @include icons.material-symbols(sharp rounded);  // several styles (space-separated list)
+//     @include icons.material-symbols(all);            // every style listed in $styles below
+//
+// The HTML keeps the class Google defines for the style:
+//     <span class="material-symbols-sharp">menu</span>
+//     <span class="material-symbols-outlined">menu</span>
+//     <span class="material-symbols-rounded">menu</span>
+//
+// Each class needs its own font file on the page (the Google Fonts <link> or @font-face for that style).
+// The mixin only carries the class rule, which is what page CSS cannot supply to a shadow root.
+//
+// No font-variation-settings are set, so icons look exactly as they do on the page, and a component's own
+// font-weight and font-size still apply. To set them for every icon without recompiling, in page CSS:
+//     :root { --icon-font-variation-settings: "FILL" 1, "wght" 300; }
+// ---------------------------------------------------------------------------
+
+@use "sass:list";
+@use "sass:map";
+
+// style name -> font-family. The class is always .material-symbols-<name>.
+// Add a style here (or override the whole map with `@use ... with ($styles: (...))`).
+$styles: (
+	"sharp": "Material Symbols Sharp",
+	"outlined": "Material Symbols Outlined",
+	"rounded": "Material Symbols Rounded",
+) !default;
+
+// The style used by `@include icons.material-symbols;` with no argument. Change it here to switch the
+// whole site, then recompile the components.
+$default-style: "sharp" !default;
+
+@mixin material-symbols($which: $default-style) {
+	$names: $which;
+	@if $which == all {
+		$names: map.keys($styles);
+	}
+
+	// one rule for everything the styles have in common
+	$selectors: ();
+	@each $name in $names {
+		@if not map.has-key($styles, $name) {
+			@error "material-symbols: unknown style `#{$name}`. Known styles: #{map.keys($styles)}.";
+		}
+		$selectors: list.append($selectors, ".material-symbols-#{$name}", comma);
+	}
+
+	#{$selectors} {
+		// Unset means "inherit", like a rule that does not mention the property at all.
+		font-variation-settings: var(--icon-font-variation-settings, inherit);
+		font-weight: normal;
+		font-style: normal;
+		font-size: 24px;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-webkit-font-feature-settings: "liga";
+		-webkit-font-smoothing: antialiased;
+	}
+
+	// ... and one small rule per style for its font family
+	@each $name in $names {
+		.material-symbols-#{$name} {
+			font-family: "#{map.get($styles, $name)}";
+		}
+	}
+}
