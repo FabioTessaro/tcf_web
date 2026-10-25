@@ -1,4 +1,11 @@
-<div navbar-role="utility" class="portal-button-container">
+<!--
+	<portal-button> structure. Fetched by portal-button.js and placed inside the component's Shadow DOM.
+	A plain fragment: no <html>/<head>, no Jinja.
+
+	The values below are the defaults for a guest. portal-button.js replaces href, icon and label (and sets
+	data-portal-state and hx-boost) as soon as the session is known.
+-->
+<div class="portal-button-container">
     <a href="/login" class="portal-button-desktop-container">
         <span class="material-symbols-sharp portal-button-desktop-icon">login</span>
         <div class="portal-button-desktop-label" data-i18n="portal-button:guest"></div>

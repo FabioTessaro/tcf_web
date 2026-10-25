@@ -1,11 +1,25 @@
 @use "../palette/palette" as palette;
 @use "../typography/typography" as type;
+@use "../typography/material-symbols" as icons;
 @use "../layout/layout" as layout;
 
 @use "../visual-elements/elements-defaults" as brandDefaults;
 @use "../visual-elements/slanted-corners" as slantedcorners;
 @use "../visual-elements/slanted-highlight" as slantedhighlight;
 @use "../visual-elements/slanted-pill" as slantedpill;
+
+// The icon class rule has to be repeated inside the shadow root (see typography/material-symbols.md)
+@include icons.material-symbols;
+
+// The host takes no box of its own, so the container below sits in the navbar's slot
+// exactly as it did before this was a component.
+:host {
+	display: contents;
+}
+
+:host([hidden]) {
+	display: none;
+}
 
 // ---------------------------------------------------------------------------
 // Portal button (desktop) - tweakables
@@ -133,14 +147,13 @@ $pb-shape-easing: ease;
 	&:hover,
 	&:active,
 	&:focus {
-		color: inherit;
-		text-decoration: none;
 		@media screen and (prefers-color-scheme: dark) {
 			color: palette.$dark-primary-deep;
 		}
 		@media screen and (prefers-color-scheme: light) {
 			color: palette.$light-primary-deep;
 		}
+		text-decoration: none;
 	}
 
 	@include type.typeface(navigation-label-mobile);

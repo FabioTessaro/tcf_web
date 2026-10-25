@@ -2,10 +2,12 @@
 
 {% block content %}
     <nav-bar>
-        {% include "tcf_web/public/components/navbar-button/navbar-button.html" %}
+        <navbar-button href="/" i18n="navbar-button:home.label">Home</navbar-button>
+        <navbar-button href="/" i18n="navbar-button:contacts.label">Contacts</navbar-button>
+        <navbar-button href="/" i18n="navbar-button:company.label">Company</navbar-button>
         <navbar-toggle navbar-role="toggle-open"></navbar-toggle>
         <navbar-toggle navbar-role="toggle-close"></navbar-toggle>
-        {% include "tcf_web/public/components/portal-button/portal-button.html" %}
+        <portal-button navbar-role="utility"></portal-button>
         {% include "tcf_web/public/components/language-switcher/language-switcher.html" %}
     </nav-bar>
     <hero-video></hero-video>

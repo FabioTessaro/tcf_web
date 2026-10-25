@@ -53,6 +53,8 @@
  *   a same-origin link it calls $.navigation.navigateTo(url), exactly like a boosted link.
  *   $top is the component's top element inside the shadow root. jQuery cannot attach events to the ShadowRoot
  *   itself (it silently ignores it), so bind on an element; .find() on the ShadowRoot is fine.
+ *   data-splash="off" on the link or an ancestor inside the shadow root navigates without the splash.
+ *   (navigateTo takes hx-target / hx-select / hx-swap from <body>, so those on a single link are not used.)
  *   Left to the browser: modified clicks, target="_blank" or download, other origins, hash-only links on the
  *   current page, and anything with hx-boost="false" on the link or an ancestor inside the shadow root.
  *   Without $.navigation it does nothing, so links keep working as normal links.
@@ -363,7 +365,8 @@
 				return; // jump inside the current page
 			}
 			e.preventDefault();
-			$.navigation.navigateTo(url.pathname + url.search + url.hash);
+			var splash = !$(a).closest('[data-splash="off"]').length;
+			$.navigation.navigateTo(url.pathname + url.search + url.hash, splash);
 		}
 
 		/**

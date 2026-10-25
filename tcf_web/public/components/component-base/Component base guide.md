@@ -197,6 +197,8 @@ Left to the browser, as normal links:
 - hash-only links on the current page
 - anything with `hx-boost="false"` on the link or on an ancestor inside the shadow root (the Desk link, for example)
 
+`data-splash="off"` on the link or on an ancestor inside the shadow root navigates without the splash, as it does for a boosted link. `navigateTo` takes `hx-target`, `hx-select` and `hx-swap` from `<body>`, so those attributes on a single link inside a shadow root have no effect.
+
 Without `$.navigation` it does nothing, so links stay normal links. Handlers are delegated on `$top`, so links added later are covered, and calling it again on every connect is safe.
 
 ## 6. Localization inside a shadow root
@@ -218,6 +220,9 @@ Pass the component's top element inside the shadow root, not the `ShadowRoot` it
 ## 8. Gotchas
 
 - **jQuery ignores shadow roots as event targets.** `.on()` on a `ShadowRoot` silently does nothing, and `.empty()` and `.html()` do nothing there too. Use `.find()` on it, build once, and bind on an element inside it (or on the host).
+- **Keep selectors simple when you `.find()` inside a shadow root.** Under jsdom (jQuery 3.7.1 and 4.0.0), `.find()` on an element inside a shadow tree returned nothing for any selector with a combinator or whitespace (`.a .b`, `.a > .b`, `.a, .b`), while native `querySelectorAll` found them. Single selectors (`.a`, `a[href]`) and lists without spaces (`.a,.b`) worked, and so did delegated handlers (`.on("click", ".a .b", fn)`). I could not check a real browser, but the safe form costs nothing: use a single class per `.find()`, chain `.find(".mid").find(".a")` for descendants, and write lists as `.a,.b`.
+- **Use a native listener for `focusin` and `focusout` inside a shadow root.** Under jQuery 3.7.1 (tested in jsdom) a jQuery `focusin` handler on an element inside a shadow root never fired, while jQuery 4.0.0 did. jQuery 3 simulates `focusin` by listening for `focus` on the document, where the event has been retargeted to the shadow host, so it never reaches handlers inside the shadow root. `click`, `keydown`, `pointerdown`, `pointerenter` and `contextmenu` are fine. Bind `focusin` with `addEventListener` and remove it in `disconnectedCallback`, as `portal-button.js` does.
+- **Write for jQuery 3 and 4.** jQuery 4 removed `$.trim`, `$.isArray`, `$.parseJSON` and other old helpers. Use the native versions (`String.prototype.trim`, `Array.isArray`, `JSON.parse`).
 - **Call `locate` at the top level.** `document.currentScript` only exists while a script's top level runs. If it is missing, `locate` falls back to finding a script tag named `<name>.js`, so keep file names equal to the component name.
 - **`.i18n.js` needs `$.localization` loaded first.** Otherwise it is skipped with a warning.
 - **The bundle is cached per page load.** Changed files need a new `?v=` on the component's script tag.

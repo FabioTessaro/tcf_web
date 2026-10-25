@@ -1,26 +1,17 @@
-<div navbar-role="menu" class="navbar-button-container">
-    <div class="navbar-button-desktop-container">
-        <a class="navbar-button-label" href="/" data-i18n="navbar-button:home.label"></a>
-    </div>
-    <div class="navbar-button-mobile-container">
-        <a class="navbar-button-label" href="/" data-i18n="navbar-button:home.label"></a>
-    </div>
-</div>
+<!--
+	<navbar-button> structure. Fetched by navbar-button.js and placed inside the component's Shadow DOM.
+	A plain fragment: no <html>/<head>, no Jinja.
 
-<div navbar-role="menu" class="navbar-button-container">
+	- One button per element. navbar-button.js sets the href of both links from the host's href attribute,
+	  and their data-i18n from the host's i18n attribute. The text between the <navbar-button> tags is the
+	  default label, shown until a translation replaces it.
+	- Only one of the two containers is visible at a time (CSS media queries), so both stay in the markup.
+-->
+<div class="navbar-button-container">
     <div class="navbar-button-desktop-container">
-        <a class="navbar-button-label" href="/" data-i18n="navbar-button:contacts.label"></a>
+        <a class="navbar-button-label" href="/"></a>
     </div>
     <div class="navbar-button-mobile-container">
-        <a class="navbar-button-label" href="/" data-i18n="navbar-button:contacts.label"></a>
-    </div>
-</div>
-
-<div navbar-role="menu" class="navbar-button-container">
-    <div class="navbar-button-desktop-container">
-        <a class="navbar-button-label" href="/" data-i18n="navbar-button:company.label"></a>
-    </div>
-    <div class="navbar-button-mobile-container">
-        <a class="navbar-button-label" href="/" data-i18n="navbar-button:company.label"></a>
+        <a class="navbar-button-label" href="/"></a>
     </div>
 </div>

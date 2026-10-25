@@ -4,6 +4,16 @@
 
 @use "../visual-elements/slanted-pill" as slantedpill;
 
+// The host takes no box of its own, so the container below sits in the navbar's slot
+// exactly as it did before this was a component.
+:host {
+	display: contents;
+}
+
+:host([hidden]) {
+	display: none;
+}
+
 .navbar-button-label {
 	@media screen and (prefers-color-scheme: dark) {
 		color: palette.$dark-primary-deep;
