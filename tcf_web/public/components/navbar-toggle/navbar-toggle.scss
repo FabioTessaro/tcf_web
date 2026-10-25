@@ -1,6 +1,20 @@
 @use "../palette/palette" as palette;
 @use "../typography/typography" as type;
+@use "../typography/material-symbols" as icons;
 @use "../layout/layout" as layout;
+
+// The icon class rule has to be repeated inside the shadow root (see typography/material-symbols.md)
+@include icons.material-symbols;
+
+// The host takes no box of its own, so the container below sits in the navbar's slot wrapper
+// exactly as it did before this was a component.
+:host {
+	display: contents;
+}
+
+:host([hidden]) {
+	display: none;
+}
 
 .navbar-toggle-container {
 	@include layout.flex-container(
