@@ -4,7 +4,7 @@ A full-bleed, looping, muted background video that picks the right resolution fo
 
 - **Dependency:** jQuery (hard). Must load before the component script.
 - **Isolation:** all styling lives in the Shadow DOM.
-- **Behaviour:** muted, loop, no controls, no poster. Buffers behind the splash and starts playing from 0:00 when the splash fires `splash-outro-starts`. Ignores `prefers-reduced-motion` by design.
+- **Behaviour:** muted, loop, no controls, no poster. Buffers behind the splash and starts playing from 0:00 when the splash fires `splash-outro-start`. Ignores `prefers-reduced-motion` by design.
 - **Lifecycle:** restarts from the beginning every time it is inserted into the page (including htmx swaps) and cancels its download when removed.
 
 ---
@@ -128,7 +128,7 @@ Derived values for the current configuration (120 s):
 | `MAX_DPR` | `2` | Cap on device pixel ratio used for the resolution ceiling |
 | `CACHE_KEY` | `heroVideo.mbps` | `sessionStorage` key for the cached measurement |
 | `CACHE_TTL_MS` | `600000` | How long a measurement is reused (10 min) |
-| `START_EVENT` | `splash-outro-starts` | Event that starts playback (see section 7) |
+| `START_EVENT` | `splash-outro-start` | Event that starts playback (see section 7) |
 | `START_FALLBACK_MS` | `10000` | If the start event has not arrived this long after the element connects, playback starts anyway (pages without a splash, or a missed event) |
 
 ---
@@ -143,7 +143,7 @@ Derived values for the current configuration (120 s):
    - **Resolution ceiling:** needed width = `max(viewportWidth, viewportHeight × aspectRatio) × min(devicePixelRatio, 2)`. The ceiling is the smallest tier whose width covers that. The `max()` matters because the video uses `object-fit: cover`: a portrait phone scales the video until its height fills the screen.
    - **Bandwidth:** among tiers up to the ceiling, the highest one whose `bitrate × 1.5` fits the measured speed wins. If none fits, the lowest tier is used.
 5. It sets the video source right away, so the file buffers while the splash still covers the page. The host shows `data-state="waiting"`.
-6. When `splash-outro-starts` fires, it calls `play()` and the video starts from 0:00. If the event has already fired by the time the rendition is ready, it plays immediately. If the event never arrives, a fallback timer starts playback anyway (`START_FALLBACK_MS`).
+6. When `splash-outro-start` fires, it calls `play()` and the video starts from 0:00. If the event has already fired by the time the rendition is ready, it plays immediately. If the event never arrives, a fallback timer starts playback anyway (`START_FALLBACK_MS`).
 
 Examples:
 
@@ -216,7 +216,7 @@ To change the internal styles, edit `hero-video.scss` **and** the compiled `hero
 - **htmx swaps:** every swap inserts a fresh element, which restarts the video. Removing the old page aborts the probe and cancels the video download. If two pages briefly coexist during a swap, each instance uses its own event namespace, so they do not interfere.
 - **Back/forward (`hx-history-elt`):** htmx snapshots HTML, which does not include Shadow DOM content. The restored element builds its own shadow root and resets `data-state` to `loading`.
 - **Abort-and-adopt navigation:** an abandoned navigation never inserts the element, so nothing needs cleanup.
-- **Splash:** the video is loaded behind the splash and starts playing from 0:00 when the splash fires `splash-outro-starts` (the moment the video is uncovered). The component listens for the event in two ways, so it works whether the splash triggers it with jQuery (`$(...).trigger('splash-outro-starts')`) or dispatches a native `CustomEvent`, bubbling or not. If the event never arrives (a page without a splash, or the event fired before the element existed), playback starts anyway after `START_FALLBACK_MS` (default 10 s). Change `START_EVENT` in `hero-video.js` if the event is ever renamed.
+- **Splash:** the video is loaded behind the splash and starts playing from 0:00 when the splash fires `splash-outro-start` (the moment the video is uncovered). The component listens for the event in two ways, so it works whether the splash triggers it with jQuery (`$(...).trigger('splash-outro-start')`) or dispatches a native `CustomEvent`, bubbling or not. If the event never arrives (a page without a splash, or the event fired before the element existed), playback starts anyway after `START_FALLBACK_MS` (default 10 s). Change `START_EVENT` in `hero-video.js` if the event is ever renamed.
 - **Localization:** the component contains no text and no `data-i18n` attributes, so i18next has nothing to translate and the typography SCSS does not reach it.
 
 ---
@@ -248,7 +248,7 @@ To change the internal styles, edit `hero-video.scss` **and** the compiled `hero
 | Never picks 2160p | The viewport ceiling is lower (a 1080p screen at DPR 1 caps at 1080p), or the measured speed is below the 5.14 Mbps threshold. |
 | Playback starts late, or only after the full download | The MP4 was not encoded with `-movflags +faststart`. Re-encode. |
 | Does not autoplay on iPhone | Low Power Mode blocks autoplay. The component fires `hero-video:autoplay-blocked` and retries on the first tap. |
-| Stays on `waiting`, then starts about 10 s late | The start event was not received. Check `START_EVENT` matches the splash's event name, and that the splash fires it after the element exists. Test with `$(document).trigger('splash-outro-starts')`. |
+| Stays on `waiting`, then starts about 10 s late | The start event was not received. Check `START_EVENT` matches the splash's event name, and that the splash fires it after the element exists. Test with `$(document).trigger('splash-outro-start')`. |
 | New sizes/durations have no effect | Python changes need a bench restart. Also check the manifest URL output (section 8, step 5). |
 | New files return 404 | Files under `public/` must be reachable at `/assets/tcf_web/components/hero-video/...`. Check the assets symlink or run `bench build`. |
 | Video appears blurry | The ceiling or bandwidth selected a lower tier. Raise quality by lowering `HEADROOM`, or check the viewport DPR cap (`MAX_DPR`). |
@@ -261,5 +261,5 @@ To change the internal styles, edit `hero-video.scss` **and** the compiled `hero
 - The tier is chosen once per page load; there is no adaptive switching during playback.
 - The probe is a single 512 KB download, which includes latency and TCP slow start, so it tends to underestimate very fast connections. With the current tier thresholds (max about 5 Mbps) this does not matter in practice.
 - Events are jQuery-only (see section 5).
-- Playback starts on the first `splash-outro-starts` received after the element connects. An event fired before that is missed, and the fallback timer covers it with a delay.
+- Playback starts on the first `splash-outro-start` received after the element connects. An event fired before that is missed, and the fallback timer covers it with a delay.
 - The video must be 16:9, or `aspect_ratio` in the Python file must be updated to match.
