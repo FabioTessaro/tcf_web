@@ -11,6 +11,9 @@
 
 $navbar-logo-height: 5rem;
 $navbar-padding: 0.5rem;
+$navbar-glow-height: $navbar-logo-height + 2 * $navbar-padding; // 6rem, stays in sync
+$navbar-glow-blur: 5rem;
+$navbar-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.12), 0 0.25rem 0.75rem rgba(0, 0, 0, 0.18);
 
 .navbar-container {
 	position: fixed;
@@ -20,27 +23,32 @@ $navbar-padding: 0.5rem;
 	max-height: 100dvh;
 	z-index: 1000;
 	transition: background-color 0.3s ease;
+	@media screen and (prefers-color-scheme: light) {
+		background-color: palette.$light-background;
+		box-shadow: $navbar-shadow;
+	}
 	&[data-scrolled="true"] {
 		@media screen and (prefers-color-scheme: dark) {
 			background-color: palette.$dark-background;
+			box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+			.navbar-content-container::before {
+				opacity: 0;
+			}
 		}
 		@media screen and (prefers-color-scheme: light) {
 			background-color: palette.$light-background;
-		}
-		.navbar-content-container::before {
-			opacity: 0;
 		}
 	}
 	&[data-expanded="true"] {
 		@media screen and (prefers-color-scheme: dark) {
 			background-color: palette.$dark-background;
+			.navbar-content-container::before {
+				transform: translateY(-100%);
+				opacity: 0;
+			}
 		}
 		@media screen and (prefers-color-scheme: light) {
 			background-color: palette.$light-background;
-		}
-		.navbar-content-container::before {
-			transform: translateY(-100%);
-			opacity: 0;
 		}
 	}
 	@include layout.flex-container(
@@ -81,19 +89,20 @@ $navbar-padding: 0.5rem;
 		$vertical: center
 	);
 	position: relative;
-	&::before {
-		content: "";
-		height: 6rem;
-		background-color: rgba(0, 0, 0);
-		opacity: 0.7;
-		transition: opacity 0.3s ease, transform 0.3s ease;
-		position: absolute;
-		top: -20%;
-		left: -5%;
-		right: -5%;
-		border-radius: 0 0 5000px 5000px;
-		filter: blur(80px);
-		z-index: -1;
+	@media screen and (prefers-color-scheme: dark) {
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -1.25rem -5% auto -5%;
+			height: $navbar-glow-height;
+			background-color: #000;
+			opacity: 0.7;
+			border-radius: 0 0 50% 50% / 0 0 100% 100%;
+			filter: blur($navbar-glow-blur);
+			pointer-events: none;
+			z-index: -1;
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
 	}
 }
 
