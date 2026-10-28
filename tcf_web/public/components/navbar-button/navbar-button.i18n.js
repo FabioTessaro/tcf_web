@@ -1,30 +1,30 @@
 $.localization.register("navbar-button", {
 	"en-GB": {
-		home: { label: "Home" },
-		contacts: { label: "Contacts" },
-		company: { label: "Company" },
+		home: "Home",
+		contacts: "Contacts",
+		company: "Company",
 	},
 	"de-DE": {
-		home: { label: "Startseite" },
-		contacts: { label: "Kontakt" },
-		company: { label: "Unternehmen" },
+		home: "Startseite",
+		contacts: "Kontakt",
+		company: "Unternehmen",
 	},
 
 	"it-IT": {
-		home: { label: "Home" },
-		contacts: { label: "Contatti" },
-		company: { label: "Azienda" },
+		home: "Home",
+		contacts: "Contatti",
+		company: "Azienda",
 	},
 
 	"zh-CN": {
-		home: { label: "首页" },
-		contacts: { label: "联系我们" },
-		company: { label: "公司" },
+		home: "首页",
+		contacts: "联系我们",
+		company: "公司",
 	},
 
 	"ja-JP": {
-		home: { label: "トップ" },
-		contacts: { label: "お問い合わせ" },
-		company: { label: "企業情報" },
+		home: "トップ",
+		contacts: "お問い合わせ",
+		company: "企業情報",
 	},
 });

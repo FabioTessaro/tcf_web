@@ -1,24 +1,16 @@
-<div navbar-role="utility" class="language-switcher-container">
+<!--
+	<language-switcher> structure. Fetched by language-switcher.js and placed inside the component's Shadow DOM.
+	A plain fragment: no <html>/<head>, no Jinja.
+
+	The language rows are not written here. language-switcher.js builds them from the <option> children of the
+	<language-switcher> tag, using the two <template> rows at the end of this file (one per variant), and puts
+	them into the two cards below. The classes and attributes of a rendered row are the ones the scss styles.
+-->
+<div class="language-switcher-container">
     <div class="language-switcher-desktop-container">
         <span class="material-symbols-sharp navbar-toggle-icon">translate</span>
         <div class="language-switcher-desktop-dropdown-container">
-            <div class="language-switcher-desktop-dropdown-card">
-                <div class="language-option">
-                    <div class="language-label" lang="en-GB" translate="no">English</div>
-                </div>
-                <div class="language-option">
-                    <div class="language-label" lang="de-DE" translate="no">Deutsch</div>
-                </div>
-                <div class="language-option">
-                    <div class="language-label" lang="it-IT" translate="no">Italiano</div>
-                </div>
-                <div class="language-option">
-                    <div class="language-label" lang="zh-CN" translate="no">中文</div>
-                </div>
-                <div class="language-option">
-                    <div class="language-label" lang="ja-JP" translate="no">日本語</div>
-                </div>
-            </div>
+            <div class="language-switcher-desktop-dropdown-card"></div>
         </div>
     </div>
     <div class="language-switcher-mobile-container">
@@ -26,23 +18,19 @@
             <span class="material-symbols-sharp navbar-toggle-icon">translate</span>
         </div>
         <div class="language-switcher-mobile-popup-container" active="false">
-            <div class="language-switcher-mobile-popup-card">
-                <div class="language-option-mobile">
-                    <div class="language-label-mobile" lang="en-GB" translate="no">English</div>
-                </div>
-                <div class="language-option-mobile">
-                    <div class="language-label-mobile" lang="de-DE" translate="no">Deutsch</div>
-                </div>
-                <div class="language-option-mobile">
-                    <div class="language-label-mobile" lang="it-IT" translate="no">Italiano</div>
-                </div>
-                <div class="language-option-mobile">
-                    <div class="language-label-mobile" lang="zh-CN" translate="no">中文</div>
-                </div>
-                <div class="language-option-mobile">
-                    <div class="language-label-mobile" lang="ja-JP" translate="no">日本語</div>
-                </div>
-            </div>
+            <div class="language-switcher-mobile-popup-card"></div>
         </div>
     </div>
 </div>
+
+<template class="language-option-desktop-template">
+    <div class="language-option">
+        <div class="language-label" lang="" translate="no"></div>
+    </div>
+</template>
+
+<template class="language-option-mobile-template">
+    <div class="language-option-mobile">
+        <div class="language-label-mobile" lang="" translate="no"></div>
+    </div>
+</template>

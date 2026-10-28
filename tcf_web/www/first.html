@@ -2,12 +2,18 @@
 
 {% block content %}
     <nav-bar>
-        <navbar-button href="/" i18n="navbar-button:home.label">Home</navbar-button>
-        <navbar-button href="/" i18n="navbar-button:contacts.label">Contacts</navbar-button>
-        <navbar-button href="/" i18n="navbar-button:company.label">Company</navbar-button>
+        <navbar-button href="/" i18n="navbar-button:home">Home</navbar-button>
+        <navbar-button href="/" i18n="navbar-button:contacts">Contacts</navbar-button>
+        <navbar-button href="/" i18n="navbar-button:company">Company</navbar-button>
         <navbar-toggle navbar-role="toggle-open"></navbar-toggle>
         <navbar-toggle navbar-role="toggle-close"></navbar-toggle>
         <portal-button navbar-role="utility"></portal-button>
-        {% include "tcf_web/public/components/language-switcher/language-switcher.html" %}
+        <language-switcher navbar-role="utility">
+            <option value="en-GB">English</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="it-IT">Italiano</option>
+            <option value="zh-CN">中文</option>
+            <option value="ja-JP">日本語</option>
+        </language-switcher>
     </nav-bar>
 {% endblock %}
