@@ -140,7 +140,7 @@
 }
 @media screen and (prefers-color-scheme: dark) {
   .language-switcher-desktop-dropdown-container .language-switcher-desktop-dropdown-card::before {
-    background-color: #3b3b3b;
+    background-color: #1d1d1d;
     box-shadow: 0 0.25rem 0.3rem rgba(1, 1, 1, 0.1);
   }
 }
@@ -337,7 +337,7 @@
 }
 @media screen and (prefers-color-scheme: dark) {
   .language-switcher-mobile-popup-container .language-switcher-mobile-popup-card {
-    background-color: #3b3b3b;
+    background-color: #1d1d1d;
   }
 }
 @media screen and (prefers-color-scheme: light) {

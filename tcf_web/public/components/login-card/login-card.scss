@@ -1,0 +1,225 @@
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../typography/material-symbols" as icons;
+@use "../layout/layout" as layout;
+@use "../visual-elements/slanted-card" as slantedcard;
+@use "../visual-elements/slanted-corners" as slantedcorners;
+@use "../visual-elements/slanted-highlight" as slantedhighlight;
+@use "../visual-elements/slanted-indicator" as slanted;
+
+// The icon class rule has to be repeated inside the shadow root (see typography/material-symbols.md)
+@include icons.material-symbols;
+
+.login-page-container-desktop {
+	@include layout.flex-container(
+		row,
+		$wrap: false,
+		$gap: 0,
+		$horizontal: center,
+		$vertical: center
+	);
+	@include layout.flex-hide-mobile;
+	position: fixed;
+	width: 100dvw;
+	height: 100dvh;
+
+	.background-decorator {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: -1;
+		@media screen and (prefers-color-scheme: dark) {
+			background-color: palette.$dark-background;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			color: palette.$light-background;
+		}
+		.login-raven {
+			position: absolute;
+			top: -8dvh;
+			left: 4dvw;
+			width: 56rem;
+			filter: brightness(80%) contrast(100%) saturate(40%) blur(0.4px)
+				drop-shadow(0 0 8rem rgba(32, 36, 54, 0.141));
+		}
+	}
+
+	.login-card-offset {
+		width: 10rem;
+	}
+
+	.login-card {
+		@include slantedcard.card(
+			$height-estimate: 33rem,
+			$lean: slash,
+			$padding-block: 4rem,
+			$padding-inline: 2rem,
+			$background-light: palette.$dark-background,
+			$background-dark: palette.$light-background,
+			$shadow-dark: 0 0 2rem rgba(255, 255, 255, 0.15),
+			$shadow-light: 0 0 2rem rgba(0, 0, 0, 0.5),
+			$host: true,
+			$pseudo: after
+		);
+		@media screen and (prefers-color-scheme: dark) {
+			color: palette.$light-primary-deep;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			color: palette.$dark-primary-deep;
+		}
+
+		.login-form {
+			@include layout.flex-container(
+				column,
+				$wrap: false,
+				$gap: 0,
+				$horizontal: stretch,
+				$vertical: center
+			);
+
+			.login-title {
+				@include type.typeface(login-title);
+			}
+
+			.login-subtitle {
+				@include type.typeface(login-subtitle);
+				color: #808080;
+			}
+
+			.login-email-section {
+				@include layout.flex-container(
+					column,
+					$wrap: false,
+					$gap: 0,
+					$horizontal: stretch,
+					$vertical: center
+				);
+				margin-top: 3.5rem;
+				& > label {
+					@include type.typeface(login-label);
+				}
+				& > input {
+					background-color: transparent;
+					border: none;
+					padding: 0;
+					@include type.typeface(login-input);
+					&:focus-visible {
+						outline: none;
+					}
+					color: currentColor;
+				}
+				& > input:-webkit-autofill {
+					@media screen and (prefers-color-scheme: dark) {
+						-webkit-text-fill-color: palette.$light-primary-deep !important;
+						-webkit-box-shadow: inset 0 0 0px 9999px palette.$light-background;
+					}
+					@media screen and (prefers-color-scheme: light) {
+						-webkit-text-fill-color: palette.$dark-primary-deep !important;
+						-webkit-box-shadow: inset 0 0 0px 9999px palette.$dark-background;
+					}
+				}
+			}
+
+			.login-password-section {
+				@include layout.flex-container(
+					column,
+					$wrap: false,
+					$gap: 0.15rem,
+					$horizontal: stretch,
+					$vertical: center
+				);
+				margin-top: 1.5rem;
+				& > label {
+					@include type.typeface(login-label);
+				}
+				& > div {
+					@include layout.flex-container(
+						row,
+						$wrap: false,
+						$gap: 0,
+						$horizontal: start,
+						$vertical: center
+					);
+					& > input {
+						@include layout.flex-fill;
+						background-color: transparent;
+						border: none;
+						padding: 0;
+						@include type.typeface(login-input);
+						&:focus-visible {
+							outline: none;
+						}
+						color: currentColor;
+					}
+					& > input:-webkit-autofill {
+						@media screen and (prefers-color-scheme: dark) {
+							-webkit-text-fill-color: palette.$light-primary-deep !important;
+							-webkit-box-shadow: inset 0 0 0px 9999px palette.$light-background;
+						}
+						@media screen and (prefers-color-scheme: light) {
+							-webkit-text-fill-color: palette.$dark-primary-deep !important;
+							-webkit-box-shadow: inset 0 0 0px 9999px palette.$dark-background;
+						}
+					}
+					& > span {
+						font-weight: 200;
+						cursor: pointer;
+						transform-origin: center;
+						transition: transform 0.3s ease;
+						margin-left: 0.3rem;
+						&:hover {
+							transform: scale(1.1);
+						}
+					}
+				}
+				& > button {
+					@include layout.flex-self(end);
+					@include type.typeface(navigation-label);
+					@include slanted.indicator($label: ">div", $shift: 0.3rem, $gap: 0.1rem);
+				}
+			}
+
+			.login-submit-section {
+				margin-top: 3.5rem;
+				#loginSubmit {
+					@include slantedcorners.corners(
+						$pair: tl-br,
+						$rest-length: 0.4rem,
+						$hover-length: 50%,
+						$rest-inset: 0,
+						$hover-inset: 0,
+						$trigger: (
+							hover,
+							focus-visible,
+						)
+					);
+					@include slantedhighlight.highlight(
+						$intensity: 22%,
+						$half-width: 10%,
+						$image-size: 250%,
+						$duration: 0.5s,
+						$easing: ease-in-out,
+						$rest-inset: 0,
+						$hover-inset: 0,
+						$rest-radius: 1.2rem,
+						$hover-radius: 0,
+						$shape-duration: 0.3s,
+						$shape-easing: ease,
+						$host: false
+					);
+					@include type.typeface(navigation-main);
+
+					transition: transform 0.3s ease;
+					transform-origin: center center;
+					padding: 0.4rem 1.1rem;
+
+					&:hover {
+						transform: scale(1.05);
+					}
+				}
+			}
+		}
+	}
+}

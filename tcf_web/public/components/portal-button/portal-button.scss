@@ -35,7 +35,7 @@ $pb-hover-radius: 0;
 // Corner brackets
 $pb-corner-pair: tl-br; // tl-br | tr-bl
 $pb-corner-rest-length: 0.4rem; // 0 = no corners at rest
-$pb-corner-hover-length: 100%; // 100% closes the full frame; try 70% or 1.2rem for gaps
+$pb-corner-hover-length: 50%; // 100% closes the full frame; try 70% or 1.2rem for gaps
 $pb-corner-thickness: 1px;
 $pb-corner-color: currentColor;
 $pb-corner-duration: 0.3s;

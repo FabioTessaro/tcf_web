@@ -78,7 +78,7 @@
 }
 @media (hover: hover) {
   .portal-button-desktop-container:hover {
-    --slanted-corners-length: 100%;
+    --slanted-corners-length: 50%;
     --slanted-corners-inset: -0.15rem -0.7rem;
   }
 }

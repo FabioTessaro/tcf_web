@@ -85,7 +85,7 @@
 }
 @media screen and (prefers-color-scheme: dark) {
   .navbar-container[data-scrolled=true] {
-    background-color: #3b3b3b;
+    background-color: #1d1d1d;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
   }
   .navbar-container[data-scrolled=true] .navbar-content-container::before {
@@ -99,7 +99,7 @@
 }
 @media screen and (prefers-color-scheme: dark) {
   .navbar-container[data-expanded=true] {
-    background-color: #3b3b3b;
+    background-color: #1d1d1d;
   }
   .navbar-container[data-expanded=true] .navbar-content-container::before {
     transform: translateY(-100%);

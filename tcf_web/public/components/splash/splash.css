@@ -53,8 +53,8 @@
 
 @media screen and (prefers-color-scheme: dark) {
   .splash-cls-5 {
-    fill: #3b3b3b;
-    stroke: #3b3b3b;
+    fill: #1d1d1d;
+    stroke: #1d1d1d;
   }
 }
 @media screen and (prefers-color-scheme: light) {

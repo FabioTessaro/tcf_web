@@ -6,7 +6,7 @@
 }
 @media screen and (prefers-color-scheme: dark) {
   :host {
-    background: #3b3b3b;
+    background: #1d1d1d;
   }
 }
 @media screen and (prefers-color-scheme: light) {

@@ -7,57 +7,55 @@
 @use "defaults";
 
 $typefaces: (
-	body: (
-		stack: defaults.$stack-latin,
-	),
-	body-strong: (
-		stack: defaults.$stack-latin,
-		weight: 600,
-	),
-	heading-1: (
-		stack: defaults.$stack-latin,
-		weight: 800,
-		width: 87.5,
-		size: 3rem,
-		line-height: 1.05,
-		letter-spacing: -0.02em,
-	),
-	heading-2: (
+	login-title: (
 		stack: defaults.$stack-latin,
 		weight: 700,
-		size: 2rem,
-		line-height: 1.15,
-		letter-spacing: -0.01em,
-	),
-	caption: (
-		stack: defaults.$stack-latin,
-		weight: 350,
-		width: 75,
-		size: 0.8125rem,
-		letter-spacing: 0.02em,
-	),
-	label: (
-		stack: defaults.$stack-latin,
-		weight: 600,
-		size: 0.75rem,
-		letter-spacing: 0.08em,
+		size: 4rem,
+		line-height: 1,
+		letter-spacing: 0.05em,
 		text-transform: uppercase,
 	),
-	navigation-main: (
+	login-subtitle: (
+		stack: defaults.$stack-latin,
+		weight: 500,
+		size: 1.4rem,
+		line-height: 1,
+		letter-spacing: 0.15em,
+		text-transform: uppercase,
+	),
+	login-label: (
+		stack: defaults.$stack-latin,
+		weight: 300,
+		size: 1rem,
+		line-height: 1.5,
+		letter-spacing: 0.15em,
+		text-transform: uppercase,
+	),
+	login-input: (
+		stack: defaults.$stack-latin,
 		weight: 200,
-		size: 1.125rem,
+		size: 1.2rem,
+		line-height: 1.5,
+		letter-spacing: 0.15em,
+	),
+	navigation-main: (
+		stack: defaults.$stack-latin,
+		weight: 200,
+		size: 1.4rem,
 		line-height: 1.2,
 		letter-spacing: 0.1em,
 		text-transform: uppercase,
 	),
 	navigation-main-mobile: (
+		stack: defaults.$stack-latin,
 		weight: 300,
-		size: 1.5rem,
+		size: 1.9rem,
 		line-height: 1.2,
 		letter-spacing: 0.1em,
 		text-transform: uppercase,
 	),
 	navigation-label: (
+		stack: defaults.$stack-latin,
 		weight: 300,
 		size: 0.8125rem,
 		line-height: 1.2,
@@ -65,8 +63,9 @@ $typefaces: (
 		text-transform: uppercase,
 	),
 	navigation-label-mobile: (
+		stack: defaults.$stack-latin,
 		weight: 350,
-		size: 0.875rem,
+		size: 1rem,
 		line-height: 1.2,
 		letter-spacing: 0.12em,
 		text-transform: uppercase,

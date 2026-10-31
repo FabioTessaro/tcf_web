@@ -170,8 +170,7 @@ Include it on the card element. The card box stays rectangular. Only the backgro
 | `$lean` | `slash` | `slash` anchors the skew at the top right, `backslash` at the top left. |
 | `$height-estimate` | `8rem` | Rough card height, used for the padding compensation (below). |
 | `$padding-block` | `1rem` | Top and bottom padding. |
-| `$padding-anchor` | `1rem` | Base padding on the anchored side, before compensation. |
-| `$padding-free` | `1rem` | Padding on the opposite side. |
+| `$padding-inline` | `1rem` | Base padding on the free sides, before compensation. |
 | `$background-light` / `$background-dark` | `palette.$light-background` / `palette.$dark-background` | Fill per color scheme. |
 | `$shadow-light` / `$shadow-dark` | `0 0.25rem 0.3rem rgba(0,0,0,.1)` / `rgba(1,1,1,.1)` | Box shadow per color scheme. Use `none` to disable. |
 | `$pseudo` | `before` | `before` or `after`. |
