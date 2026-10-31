@@ -140,13 +140,13 @@
 }
 @media screen and (prefers-color-scheme: dark) {
   .language-switcher-desktop-dropdown-container .language-switcher-desktop-dropdown-card::before {
-    background-color: #1d1d1d;
+    background-color: #303030;
     box-shadow: 0 0.25rem 0.3rem rgba(1, 1, 1, 0.1);
   }
 }
 @media screen and (prefers-color-scheme: light) {
   .language-switcher-desktop-dropdown-container .language-switcher-desktop-dropdown-card::before {
-    background-color: #f1f2f2;
+    background-color: #e0e0e0;
     box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
   }
 }

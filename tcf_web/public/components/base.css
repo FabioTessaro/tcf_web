@@ -1,20 +1,4 @@
 :root {
-  --tf-login-title-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-title-weight: 700;
-  --tf-login-title-width: 100%;
-  --tf-login-title-style: normal;
-  --tf-login-title-size: 4rem;
-  --tf-login-title-line-height: 1;
-  --tf-login-title-letter-spacing: 0.05em;
-  --tf-login-title-transform: uppercase;
-  --tf-login-subtitle-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-subtitle-weight: 500;
-  --tf-login-subtitle-width: 100%;
-  --tf-login-subtitle-style: normal;
-  --tf-login-subtitle-size: 1.4rem;
-  --tf-login-subtitle-line-height: 1;
-  --tf-login-subtitle-letter-spacing: 0.15em;
-  --tf-login-subtitle-transform: uppercase;
   --tf-login-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-login-label-weight: 300;
   --tf-login-label-width: 100%;
@@ -66,22 +50,6 @@
 }
 
 :lang(en-GB), :lang(de-DE), :lang(it-IT) {
-  --tf-login-title-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-title-weight: 700;
-  --tf-login-title-width: 100%;
-  --tf-login-title-style: normal;
-  --tf-login-title-size: 4rem;
-  --tf-login-title-line-height: 1;
-  --tf-login-title-letter-spacing: 0.05em;
-  --tf-login-title-transform: uppercase;
-  --tf-login-subtitle-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-subtitle-weight: 500;
-  --tf-login-subtitle-width: 100%;
-  --tf-login-subtitle-style: normal;
-  --tf-login-subtitle-size: 1.4rem;
-  --tf-login-subtitle-line-height: 1;
-  --tf-login-subtitle-letter-spacing: 0.15em;
-  --tf-login-subtitle-transform: uppercase;
   --tf-login-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-login-label-weight: 300;
   --tf-login-label-width: 100%;
@@ -202,28 +170,6 @@
   --tf-navigation-label-mobile-transform: uppercase;
 }
 
-.tf-login-title {
-  font-family: var(--tf-login-title-stack);
-  font-weight: var(--tf-login-title-weight);
-  font-stretch: var(--tf-login-title-width);
-  font-style: var(--tf-login-title-style);
-  font-size: var(--tf-login-title-size);
-  line-height: var(--tf-login-title-line-height);
-  letter-spacing: var(--tf-login-title-letter-spacing);
-  text-transform: var(--tf-login-title-transform);
-}
-
-.tf-login-subtitle {
-  font-family: var(--tf-login-subtitle-stack);
-  font-weight: var(--tf-login-subtitle-weight);
-  font-stretch: var(--tf-login-subtitle-width);
-  font-style: var(--tf-login-subtitle-style);
-  font-size: var(--tf-login-subtitle-size);
-  line-height: var(--tf-login-subtitle-line-height);
-  letter-spacing: var(--tf-login-subtitle-letter-spacing);
-  text-transform: var(--tf-login-subtitle-transform);
-}
-
 .tf-login-label {
   font-family: var(--tf-login-label-stack);
   font-weight: var(--tf-login-label-weight);
@@ -294,7 +240,9 @@ body {
   margin: 0;
 }
 
-button, input[type=submit], input[type=reset] {
+button,
+input[type=submit],
+input[type=reset] {
   background: none;
   color: inherit;
   border: none;

@@ -1,0 +1,250 @@
+@use "../palette/palette" as palette;
+@use "../layout/layout" as layout;
+@use "../typography/typography" as type;
+@use "../typography/material-symbols" as icons;
+
+@include icons.material-symbols;
+
+// ---------------------------------------------------------------------------
+// Typefaces: pick which typeface each text element uses.
+// Names come from the typeface list in typography/typefaces/_latin.scss
+// (today: body, body-strong, heading-1, heading-2, caption, label).
+// ---------------------------------------------------------------------------
+$typeface-label: login-label;
+$typeface-input: login-input;
+$typeface-error: login-label;
+
+// ---------------------------------------------------------------------------
+// Host
+// ---------------------------------------------------------------------------
+:host {
+	display: block;
+	margin-bottom: 1.25rem;
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-deep;
+	}
+
+	// Tweakable
+	--ease: 0.25s;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+// ---------------------------------------------------------------------------
+// Label
+// ---------------------------------------------------------------------------
+label {
+	@include type.typeface($typeface-label);
+
+	display: block;
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-light;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-light;
+	}
+	cursor: text;
+	transition: color var(--ease);
+}
+
+:host(:focus-within) label {
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-deep;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Input box (underline + focus sweep)
+// ---------------------------------------------------------------------------
+.box {
+	@include layout.flex-container(row, $vertical: center);
+
+	position: relative;
+	@media screen and (prefers-color-scheme: dark) {
+		border-bottom: 1px solid palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		border-bottom: 1px solid palette.$light-primary-deep;
+	}
+}
+
+.box::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+	height: 2px;
+	background: palette.$accent-yellow;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--ease);
+}
+
+:host(:focus-within) .box::after {
+	transform: scaleX(1);
+}
+
+// ---------------------------------------------------------------------------
+// Slotted input (light DOM, so browser autofill keeps working)
+// ---------------------------------------------------------------------------
+::slotted(input) {
+	@include layout.flex-fill; // takes the space left by the action button
+	@include type.typeface($typeface-input);
+
+	padding: 0.65rem 0;
+	background: none;
+	border: 0;
+	border-radius: 0;
+	outline: 0;
+	color: inherit;
+
+	// 16px minimum stops iOS zooming on focus, whatever typeface is chosen
+	font-size: max(16px, var(--tf-#{$typeface-input}-size, 1rem));
+}
+
+// Keep the browser's autofill paint in line with the theme
+::slotted(input:-webkit-autofill) {
+	@media screen and (prefers-color-scheme: dark) {
+		-webkit-text-fill-color: palette.$dark-primary-deep;
+		box-shadow: 0 0 0 100px palette.$dark-surface inset;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		-webkit-text-fill-color: palette.$light-primary-deep;
+		box-shadow: 0 0 0 100px palette.$light-surface inset;
+	}
+	transition: background-color 9999s;
+}
+
+// ---------------------------------------------------------------------------
+// Slotted action button (e.g. show/hide password)
+// ---------------------------------------------------------------------------
+::slotted([slot="action"]) {
+	padding: 0.4rem;
+	background: none;
+	border: 0;
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-light;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-light;
+	}
+	font-size: 1.4rem;
+	cursor: pointer;
+}
+
+::slotted([slot="action"]:hover) {
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-deep;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-deep;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Show/hide password button (built in; shown automatically for password inputs)
+// ---------------------------------------------------------------------------
+.toggle {
+	@include layout.flex-container(row, $horizontal: center, $vertical: center);
+
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	padding: 0;
+	background: none;
+	border: 0;
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-light;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-light;
+	}
+	cursor: pointer;
+}
+
+// A flex rule above would otherwise beat the [hidden] attribute
+.toggle[hidden] {
+	display: none;
+}
+
+.toggle:focus-visible {
+	outline: 2px solid palette.$accent-yellow;
+	outline-offset: -2px;
+}
+
+// Hover only on devices that really hover (avoids a stuck hover colour on touch)
+@media (hover: hover) {
+	.toggle:hover {
+		@media screen and (prefers-color-scheme: dark) {
+			color: palette.$dark-primary-deep;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			color: palette.$light-primary-deep;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Error message
+// ---------------------------------------------------------------------------
+.err {
+	@include type.typeface($typeface-error);
+
+	margin: 0;
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	color: palette.$accent-red;
+	transition: max-height var(--ease), opacity var(--ease), margin var(--ease);
+}
+
+:host([error]) .err {
+	max-height: 4rem;
+	opacity: 1;
+	margin-top: 0.4rem;
+}
+
+// ---------------------------------------------------------------------------
+// Error state
+// ---------------------------------------------------------------------------
+:host([error]) label {
+	color: palette.$accent-red;
+}
+
+:host([error]) .box {
+	border-color: palette.$accent-red;
+	animation: shake 0.3s;
+}
+
+:host([error]) .box::after {
+	background: palette.$accent-red;
+	transform: scaleX(1);
+}
+
+@keyframes shake {
+	25% {
+		transform: translateX(-4px);
+	}
+
+	75% {
+		transform: translateX(4px);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Reduced motion
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation: none !important;
+		transition: none !important;
+	}
+}

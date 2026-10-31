@@ -7,22 +7,6 @@
 @use "defaults";
 
 $typefaces: (
-	login-title: (
-		stack: defaults.$stack-latin,
-		weight: 700,
-		size: 4rem,
-		line-height: 1,
-		letter-spacing: 0.05em,
-		text-transform: uppercase,
-	),
-	login-subtitle: (
-		stack: defaults.$stack-latin,
-		weight: 500,
-		size: 1.4rem,
-		line-height: 1,
-		letter-spacing: 0.15em,
-		text-transform: uppercase,
-	),
 	login-label: (
 		stack: defaults.$stack-latin,
 		weight: 300,
