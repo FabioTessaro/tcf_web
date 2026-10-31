@@ -33,7 +33,7 @@
   }
 }
 :host {
-  --ease: .25s;
+  --ease: 0.25s;
 }
 
 * {
@@ -221,6 +221,61 @@ label {
 }
 @media screen and (hover: hover) and (prefers-color-scheme: light) {
   .toggle:hover {
+    color: #3b3b3b;
+  }
+}
+.foot {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -moz-column-gap: 0.25rem;
+       column-gap: 0.25rem;
+  row-gap: 0.25rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.forgot {
+  font-family: var(--tf-login-label-stack);
+  font-weight: var(--tf-login-label-weight);
+  font-stretch: var(--tf-login-label-width);
+  font-style: var(--tf-login-label-style);
+  font-size: var(--tf-login-label-size);
+  line-height: var(--tf-login-label-line-height);
+  letter-spacing: var(--tf-login-label-letter-spacing);
+  text-transform: var(--tf-login-label-transform);
+  min-height: 2.75rem;
+  margin-left: auto;
+  padding: 0.5rem 0.25rem;
+  background: none;
+  border: 0;
+}
+@media screen and (prefers-color-scheme: dark) {
+  .forgot {
+    color: #d1d3d4;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .forgot {
+    color: #4a4a4a;
+  }
+}
+.forgot {
+  cursor: pointer;
+}
+
+.forgot:focus-visible {
+  outline: 2px solid #f3bb19;
+  outline-offset: -2px;
+}
+
+@media screen and (hover: hover) and (prefers-color-scheme: dark) {
+  .forgot:hover {
+    color: #f1f2f2;
+  }
+}
+@media screen and (hover: hover) and (prefers-color-scheme: light) {
+  .forgot:hover {
     color: #3b3b3b;
   }
 }

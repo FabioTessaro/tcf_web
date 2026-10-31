@@ -1,9 +1,10 @@
 // <login-text-field>  (include this file in <head>; hard deps: jQuery; soft: i18next + jquery-i18next for messages)
 // Slots: "label" · default = a native <input> (stays in the light DOM so browser autofill works) · "action" · "error"
 // The error state clears itself as soon as the user changes the input.
-// Password inputs automatically get a show/hide button (add the attribute no-reveal to turn it off).
+// Password inputs automatically get a show/hide button and a "forgot password" button
+// (attributes no-reveal / no-forgot turn them off).
 // API:   field.input · field.setError(i18nKey | null) · field.toggleReveal([show]) · field.ready (Promise)
-// Events: login-text-field:ready · login-text-field:error {detail:{key}} · login-text-field:reveal {detail:{visible}}
+// Events: login-text-field:ready · login-text-field:error {detail:{key}} · login-text-field:reveal {detail:{visible}} · login-text-field:forgot
 (function () {
 	const NAME = "login-text-field";
 	// Loader: swap these few lines for your component-base helpers.
@@ -37,6 +38,13 @@
 		}
 
 		connectedCallback() {
+			// The built-in button label lives in the shadow DOM, so the field re-localizes it itself
+			if (window.i18next)
+				i18next.on(
+					"languageChanged",
+					(this._lang = this._lang || (() => this.localizeShadow()))
+				);
+
 			if (this.shadowRoot) return; // same node re-inserted (htmx swaps): already built
 			const root = this.attachShadow({ mode: "open" });
 
@@ -56,10 +64,20 @@
 						.find(".toggle")
 						.on("mousedown", (e) => e.preventDefault())
 						.on("click", () => this.toggleReveal());
+
+					// Forgot password: the field only announces the click, the page decides what to do
+					$(root)
+						.find(".forgot")
+						.on("click", () =>
+							this.dispatchEvent(
+								new CustomEvent(NAME + ":forgot", { bubbles: true })
+							)
+						);
 					$(root)
 						.find("slot:not([name])")
-						.on("slotchange", () => this.syncToggle());
-					this.syncToggle();
+						.on("slotchange", () => this.syncPasswordParts());
+					this.syncPasswordParts();
+					this.localizeShadow();
 
 					this._done(this);
 					this.dispatchEvent(new CustomEvent(NAME + ":ready", { bubbles: true }));
@@ -67,16 +85,32 @@
 				.catch((err) => console.error(NAME + ": failed to load assets", err));
 		}
 
+		disconnectedCallback() {
+			if (window.i18next && this._lang) i18next.off("languageChanged", this._lang);
+		}
+
+		// jquery-i18next does not reach into shadow roots, so translate the built-in label here
+		localizeShadow() {
+			if ($.fn.localize && this.shadowRoot)
+				$(this.shadowRoot).find("[data-i18n]").localize();
+		}
+
 		get input() {
 			return this.querySelector("input");
 		}
 
-		// Shows the button only for password inputs (remembered, because the type flips while revealed)
-		syncToggle() {
+		// Shows the show/hide and forgot buttons only for password inputs
+		// (remembered, because the input type flips while the password is revealed)
+		syncPasswordParts() {
 			const input = this.input;
 			if (input && input.type === "password") this._password = true;
-			const visible = this._password && !this.hasAttribute("no-reveal");
-			$(this.shadowRoot).find(".toggle").prop("hidden", !visible);
+			const $root = $(this.shadowRoot);
+			$root
+				.find(".toggle")
+				.prop("hidden", !(this._password && !this.hasAttribute("no-reveal")));
+			$root
+				.find(".forgot")
+				.prop("hidden", !(this._password && !this.hasAttribute("no-forgot")));
 		}
 
 		// show = true | false to force, omit to flip

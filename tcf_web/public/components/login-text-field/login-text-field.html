@@ -2,6 +2,9 @@
 <div class="box">
   <slot></slot>
   <slot name="action"></slot>
-  <button type="button" class="toggle" hidden><span class="material-symbols-sharp icon">visibility</span></button>
+  <button type="button" class="toggle" hidden><span class="icon">visibility</span></button>
 </div>
-<p class="err"><slot name="error"></slot></p>
+<div class="foot">
+  <p class="err"><slot name="error"></slot></p>
+  <button type="button" class="forgot" data-i18n="login-text-field:forgot" hidden>Forgot password?</button>
+</div>

@@ -13,6 +13,7 @@
 $typeface-label: login-label;
 $typeface-input: login-input;
 $typeface-error: login-label;
+$typeface-forgot: login-label;
 
 // ---------------------------------------------------------------------------
 // Host
@@ -183,6 +184,53 @@ label {
 // Hover only on devices that really hover (avoids a stuck hover colour on touch)
 @media (hover: hover) {
 	.toggle:hover {
+		@media screen and (prefers-color-scheme: dark) {
+			color: palette.$dark-primary-deep;
+		}
+		@media screen and (prefers-color-scheme: light) {
+			color: palette.$light-primary-deep;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Footer row: error message on the left, "forgot password" on the right.
+// They share a row and wrap onto separate lines on narrow screens.
+// ---------------------------------------------------------------------------
+.foot {
+	@include layout.flex-container(
+		row,
+		$wrap: true,
+		$gap: 0.25rem,
+		$horizontal: between,
+		$vertical: start
+	);
+}
+
+.forgot {
+	@include type.typeface($typeface-forgot);
+
+	min-height: 2.75rem;
+	margin-left: auto; // stays on the right, also when it wraps below a long message
+	padding: 0.5rem 0.25rem;
+	background: none;
+	border: 0;
+	@media screen and (prefers-color-scheme: dark) {
+		color: palette.$dark-primary-light;
+	}
+	@media screen and (prefers-color-scheme: light) {
+		color: palette.$light-primary-light;
+	}
+	cursor: pointer;
+}
+
+.forgot:focus-visible {
+	outline: 2px solid palette.$accent-yellow;
+	outline-offset: -2px;
+}
+
+@media (hover: hover) {
+	.forgot:hover {
 		@media screen and (prefers-color-scheme: dark) {
 			color: palette.$dark-primary-deep;
 		}

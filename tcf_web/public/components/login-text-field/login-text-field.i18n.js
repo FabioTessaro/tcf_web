@@ -11,6 +11,7 @@ $.localization.register("login-text-field", {
 		},
 		required: "This field is required",
 		invalidEmail: "Enter a valid email address",
+		forgot: "Forgot your password?",
 	},
 	"de-DE": {
 		email: {
@@ -23,7 +24,9 @@ $.localization.register("login-text-field", {
 		},
 		required: "Dieses Feld ist erforderlich",
 		invalidEmail: "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+		forgot: "Passwort vergessen?",
 	},
+
 	"it-IT": {
 		email: {
 			label: "Indirizzo e-mail",
@@ -35,7 +38,9 @@ $.localization.register("login-text-field", {
 		},
 		required: "Questo campo è obbligatorio",
 		invalidEmail: "Inserisci un indirizzo e-mail valido",
+		forgot: "Hai dimenticato la password?",
 	},
+
 	"zh-CN": {
 		email: {
 			label: "电子邮箱",
@@ -47,7 +52,9 @@ $.localization.register("login-text-field", {
 		},
 		required: "此项为必填项",
 		invalidEmail: "请输入有效的电子邮箱地址",
+		forgot: "忘记密码？",
 	},
+
 	"ja-JP": {
 		email: {
 			label: "メールアドレス",
@@ -59,5 +66,6 @@ $.localization.register("login-text-field", {
 		},
 		required: "この項目は必須です",
 		invalidEmail: "有効なメールアドレスを入力してください",
+		forgot: "パスワードをお忘れですか？",
 	},
 });
