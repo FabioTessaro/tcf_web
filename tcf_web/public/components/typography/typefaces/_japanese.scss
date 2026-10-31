@@ -7,30 +7,22 @@
 $typefaces: (
 	navigation-main: (
 		stack: defaults.$stack-japanese,
-		weight: 300,
-		size: 1.0625rem,
-		line-height: 1.27,
-		letter-spacing: 0.1em,
+		size: 1.4rem,
+		line-height: 1,
 	),
 	navigation-main-mobile: (
 		stack: defaults.$stack-japanese,
-		weight: 400,
-		size: 1.4rem,
-		line-height: 1.26,
-		letter-spacing: 0.08em,
+		size: 1.9rem,
+		line-height: 1,
 	),
 	navigation-label: (
 		stack: defaults.$stack-japanese,
-		weight: 350,
-		size: 0.77rem,
-		line-height: 1.3,
-		letter-spacing: 0.08em,
+		size: 0.8rem,
+		line-height: 1.1,
 	),
 	navigation-label-mobile: (
 		stack: defaults.$stack-japanese,
-		weight: 400,
-		size: 0.8125rem,
-		line-height: 1.29,
-		letter-spacing: 0.06em,
+		size: 1rem,
+		line-height: 1.1,
 	),
 );

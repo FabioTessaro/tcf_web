@@ -1,26 +1,10 @@
 :root {
-  --tf-login-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-label-weight: 300;
-  --tf-login-label-width: 100%;
-  --tf-login-label-style: normal;
-  --tf-login-label-size: 1rem;
-  --tf-login-label-line-height: 1.5;
-  --tf-login-label-letter-spacing: 0.15em;
-  --tf-login-label-transform: uppercase;
-  --tf-login-input-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-input-weight: 200;
-  --tf-login-input-width: 100%;
-  --tf-login-input-style: normal;
-  --tf-login-input-size: 1.2rem;
-  --tf-login-input-line-height: 1.5;
-  --tf-login-input-letter-spacing: 0.15em;
-  --tf-login-input-transform: none;
   --tf-navigation-main-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-navigation-main-weight: 200;
   --tf-navigation-main-width: 100%;
   --tf-navigation-main-style: normal;
   --tf-navigation-main-size: 1.4rem;
-  --tf-navigation-main-line-height: 1.2;
+  --tf-navigation-main-line-height: 1;
   --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
   --tf-navigation-main-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -28,15 +12,15 @@
   --tf-navigation-main-mobile-width: 100%;
   --tf-navigation-main-mobile-style: normal;
   --tf-navigation-main-mobile-size: 1.9rem;
-  --tf-navigation-main-mobile-line-height: 1.2;
+  --tf-navigation-main-mobile-line-height: 1;
   --tf-navigation-main-mobile-letter-spacing: 0.1em;
   --tf-navigation-main-mobile-transform: uppercase;
   --tf-navigation-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-navigation-label-weight: 300;
   --tf-navigation-label-width: 100%;
   --tf-navigation-label-style: normal;
-  --tf-navigation-label-size: 0.8125rem;
-  --tf-navigation-label-line-height: 1.2;
+  --tf-navigation-label-size: 0.8rem;
+  --tf-navigation-label-line-height: 1;
   --tf-navigation-label-letter-spacing: 0.12em;
   --tf-navigation-label-transform: uppercase;
   --tf-navigation-label-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -44,34 +28,18 @@
   --tf-navigation-label-mobile-width: 100%;
   --tf-navigation-label-mobile-style: normal;
   --tf-navigation-label-mobile-size: 1rem;
-  --tf-navigation-label-mobile-line-height: 1.2;
+  --tf-navigation-label-mobile-line-height: 1;
   --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
 }
 
 :lang(en-GB), :lang(de-DE), :lang(it-IT) {
-  --tf-login-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-label-weight: 300;
-  --tf-login-label-width: 100%;
-  --tf-login-label-style: normal;
-  --tf-login-label-size: 1rem;
-  --tf-login-label-line-height: 1.5;
-  --tf-login-label-letter-spacing: 0.15em;
-  --tf-login-label-transform: uppercase;
-  --tf-login-input-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --tf-login-input-weight: 200;
-  --tf-login-input-width: 100%;
-  --tf-login-input-style: normal;
-  --tf-login-input-size: 1.2rem;
-  --tf-login-input-line-height: 1.5;
-  --tf-login-input-letter-spacing: 0.15em;
-  --tf-login-input-transform: none;
   --tf-navigation-main-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-navigation-main-weight: 200;
   --tf-navigation-main-width: 100%;
   --tf-navigation-main-style: normal;
   --tf-navigation-main-size: 1.4rem;
-  --tf-navigation-main-line-height: 1.2;
+  --tf-navigation-main-line-height: 1;
   --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
   --tf-navigation-main-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -79,15 +47,15 @@
   --tf-navigation-main-mobile-width: 100%;
   --tf-navigation-main-mobile-style: normal;
   --tf-navigation-main-mobile-size: 1.9rem;
-  --tf-navigation-main-mobile-line-height: 1.2;
+  --tf-navigation-main-mobile-line-height: 1;
   --tf-navigation-main-mobile-letter-spacing: 0.1em;
   --tf-navigation-main-mobile-transform: uppercase;
   --tf-navigation-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-navigation-label-weight: 300;
   --tf-navigation-label-width: 100%;
   --tf-navigation-label-style: normal;
-  --tf-navigation-label-size: 0.8125rem;
-  --tf-navigation-label-line-height: 1.2;
+  --tf-navigation-label-size: 0.8rem;
+  --tf-navigation-label-line-height: 1;
   --tf-navigation-label-letter-spacing: 0.12em;
   --tf-navigation-label-transform: uppercase;
   --tf-navigation-label-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -95,101 +63,79 @@
   --tf-navigation-label-mobile-width: 100%;
   --tf-navigation-label-mobile-style: normal;
   --tf-navigation-label-mobile-size: 1rem;
-  --tf-navigation-label-mobile-line-height: 1.2;
+  --tf-navigation-label-mobile-line-height: 1;
   --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
 }
 
 :lang(zh-CN) {
   --tf-navigation-main-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
-  --tf-navigation-main-weight: 300;
+  --tf-navigation-main-weight: 200;
   --tf-navigation-main-width: 100%;
   --tf-navigation-main-style: normal;
-  --tf-navigation-main-size: 1.0625rem;
-  --tf-navigation-main-line-height: 1.27;
+  --tf-navigation-main-size: 1.4rem;
+  --tf-navigation-main-line-height: 1;
   --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
   --tf-navigation-main-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
-  --tf-navigation-main-mobile-weight: 400;
+  --tf-navigation-main-mobile-weight: 300;
   --tf-navigation-main-mobile-width: 100%;
   --tf-navigation-main-mobile-style: normal;
-  --tf-navigation-main-mobile-size: 1.4rem;
-  --tf-navigation-main-mobile-line-height: 1.26;
-  --tf-navigation-main-mobile-letter-spacing: 0.08em;
+  --tf-navigation-main-mobile-size: 1.9rem;
+  --tf-navigation-main-mobile-line-height: 1;
+  --tf-navigation-main-mobile-letter-spacing: 0.1em;
   --tf-navigation-main-mobile-transform: uppercase;
   --tf-navigation-label-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
-  --tf-navigation-label-weight: 350;
+  --tf-navigation-label-weight: 300;
   --tf-navigation-label-width: 100%;
   --tf-navigation-label-style: normal;
-  --tf-navigation-label-size: 0.77rem;
-  --tf-navigation-label-line-height: 1.3;
-  --tf-navigation-label-letter-spacing: 0.08em;
+  --tf-navigation-label-size: 0.8rem;
+  --tf-navigation-label-line-height: 1.1;
+  --tf-navigation-label-letter-spacing: 0.12em;
   --tf-navigation-label-transform: uppercase;
   --tf-navigation-label-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
-  --tf-navigation-label-mobile-weight: 400;
+  --tf-navigation-label-mobile-weight: 350;
   --tf-navigation-label-mobile-width: 100%;
   --tf-navigation-label-mobile-style: normal;
-  --tf-navigation-label-mobile-size: 0.8125rem;
-  --tf-navigation-label-mobile-line-height: 1.29;
-  --tf-navigation-label-mobile-letter-spacing: 0.06em;
+  --tf-navigation-label-mobile-size: 1rem;
+  --tf-navigation-label-mobile-line-height: 1.1;
+  --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
 }
 
 :lang(ja-JP) {
   --tf-navigation-main-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
-  --tf-navigation-main-weight: 300;
+  --tf-navigation-main-weight: 200;
   --tf-navigation-main-width: 100%;
   --tf-navigation-main-style: normal;
-  --tf-navigation-main-size: 1.0625rem;
-  --tf-navigation-main-line-height: 1.27;
+  --tf-navigation-main-size: 1.4rem;
+  --tf-navigation-main-line-height: 1;
   --tf-navigation-main-letter-spacing: 0.1em;
   --tf-navigation-main-transform: uppercase;
   --tf-navigation-main-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
-  --tf-navigation-main-mobile-weight: 400;
+  --tf-navigation-main-mobile-weight: 300;
   --tf-navigation-main-mobile-width: 100%;
   --tf-navigation-main-mobile-style: normal;
-  --tf-navigation-main-mobile-size: 1.4rem;
-  --tf-navigation-main-mobile-line-height: 1.26;
-  --tf-navigation-main-mobile-letter-spacing: 0.08em;
+  --tf-navigation-main-mobile-size: 1.9rem;
+  --tf-navigation-main-mobile-line-height: 1;
+  --tf-navigation-main-mobile-letter-spacing: 0.1em;
   --tf-navigation-main-mobile-transform: uppercase;
   --tf-navigation-label-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
-  --tf-navigation-label-weight: 350;
+  --tf-navigation-label-weight: 300;
   --tf-navigation-label-width: 100%;
   --tf-navigation-label-style: normal;
-  --tf-navigation-label-size: 0.77rem;
-  --tf-navigation-label-line-height: 1.3;
-  --tf-navigation-label-letter-spacing: 0.08em;
+  --tf-navigation-label-size: 0.8rem;
+  --tf-navigation-label-line-height: 1.1;
+  --tf-navigation-label-letter-spacing: 0.12em;
   --tf-navigation-label-transform: uppercase;
   --tf-navigation-label-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
-  --tf-navigation-label-mobile-weight: 400;
+  --tf-navigation-label-mobile-weight: 350;
   --tf-navigation-label-mobile-width: 100%;
   --tf-navigation-label-mobile-style: normal;
-  --tf-navigation-label-mobile-size: 0.8125rem;
-  --tf-navigation-label-mobile-line-height: 1.29;
-  --tf-navigation-label-mobile-letter-spacing: 0.06em;
+  --tf-navigation-label-mobile-size: 1rem;
+  --tf-navigation-label-mobile-line-height: 1.1;
+  --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
-}
-
-.tf-login-label {
-  font-family: var(--tf-login-label-stack);
-  font-weight: var(--tf-login-label-weight);
-  font-stretch: var(--tf-login-label-width);
-  font-style: var(--tf-login-label-style);
-  font-size: var(--tf-login-label-size);
-  line-height: var(--tf-login-label-line-height);
-  letter-spacing: var(--tf-login-label-letter-spacing);
-  text-transform: var(--tf-login-label-transform);
-}
-
-.tf-login-input {
-  font-family: var(--tf-login-input-stack);
-  font-weight: var(--tf-login-input-weight);
-  font-stretch: var(--tf-login-input-width);
-  font-style: var(--tf-login-input-style);
-  font-size: var(--tf-login-input-size);
-  line-height: var(--tf-login-input-line-height);
-  letter-spacing: var(--tf-login-input-letter-spacing);
-  text-transform: var(--tf-login-input-transform);
 }
 
 .tf-navigation-main {
