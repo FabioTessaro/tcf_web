@@ -5,15 +5,27 @@
 @use "defaults";
 
 $typefaces: (
+	login-field-caption: (
+		weight: 300,
+		size: 0.8rem,
+		line-height: 1,
+		letter-spacing: 0.06em,
+	),
+	login-field-caption-mobile: (
+		weight: 350,
+		size: 1rem,
+		line-height: 1,
+		letter-spacing: 0.04em,
+	),
 	login-field-label: (
 		stack: defaults.$stack-chinese,
-		size: 0.8rem,
+		size: 0.9rem,
 		line-height: 1.1,
 		letter-spacing: 0.08em,
 	),
 	login-field-label-mobile: (
 		stack: defaults.$stack-chinese,
-		size: 1rem,
+		size: 1.1rem,
 		line-height: 1,
 		letter-spacing: 0.06em,
 	),

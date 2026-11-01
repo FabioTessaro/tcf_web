@@ -353,14 +353,28 @@
 }
 
 .error-text {
-  font-family: var(--tf-login-field-label-stack);
-  font-weight: var(--tf-login-field-label-weight);
-  font-stretch: var(--tf-login-field-label-width);
-  font-style: var(--tf-login-field-label-style);
-  font-size: var(--tf-login-field-label-size);
-  line-height: var(--tf-login-field-label-line-height);
-  letter-spacing: var(--tf-login-field-label-letter-spacing);
-  text-transform: var(--tf-login-field-label-transform);
+  font-family: var(--tf-login-field-caption-mobile-stack);
+  font-weight: var(--tf-login-field-caption-mobile-weight);
+  font-stretch: var(--tf-login-field-caption-mobile-width);
+  font-style: var(--tf-login-field-caption-mobile-style);
+  font-size: var(--tf-login-field-caption-mobile-size);
+  line-height: var(--tf-login-field-caption-mobile-line-height);
+  letter-spacing: var(--tf-login-field-caption-mobile-letter-spacing);
+  text-transform: var(--tf-login-field-caption-mobile-transform);
+}
+@media (min-width: 768px) {
+  .error-text {
+    font-family: var(--tf-login-field-caption-stack);
+    font-weight: var(--tf-login-field-caption-weight);
+    font-stretch: var(--tf-login-field-caption-width);
+    font-style: var(--tf-login-field-caption-style);
+    font-size: var(--tf-login-field-caption-size);
+    line-height: var(--tf-login-field-caption-line-height);
+    letter-spacing: var(--tf-login-field-caption-letter-spacing);
+    text-transform: var(--tf-login-field-caption-transform);
+  }
+}
+.error-text {
   display: block;
   padding-top: 0.4rem;
   overflow-wrap: anywhere;

@@ -26,10 +26,10 @@ $pressed-scale: 0.96; // scale while pressed, 1 = no press effect
 
 // --- Icon --------------------------------------------------------------------
 $icon-style: sharp; // sharp | outlined | rounded. Keep the class in primary-button.html in sync
-$icon-size: 1.25rem;
-$icon-gap: 0.6rem; // space between icon and label
+$icon-size: 1.5rem;
+$icon-gap: 0.4rem; // space between icon and label
 $loading-icon-spin: true; // spin the icon-loading glyph while loading (set false if it is not a spinner)
-$loading-icon-spin-duration: 0.9s;
+$loading-icon-spin-duration: 1.5s;
 
 // --- Colours: light scheme ---------------------------------------------------
 $light-fill: palette.$light-primary-medium;

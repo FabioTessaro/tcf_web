@@ -1,9 +1,25 @@
 :root {
+  --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-weight: 300;
+  --tf-login-field-caption-width: 100%;
+  --tf-login-field-caption-style: normal;
+  --tf-login-field-caption-size: 0.8rem;
+  --tf-login-field-caption-line-height: 1;
+  --tf-login-field-caption-letter-spacing: 0.06em;
+  --tf-login-field-caption-transform: none;
+  --tf-login-field-caption-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-mobile-weight: 350;
+  --tf-login-field-caption-mobile-width: 100%;
+  --tf-login-field-caption-mobile-style: normal;
+  --tf-login-field-caption-mobile-size: 1rem;
+  --tf-login-field-caption-mobile-line-height: 1;
+  --tf-login-field-caption-mobile-letter-spacing: 0.04em;
+  --tf-login-field-caption-mobile-transform: none;
   --tf-login-field-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-login-field-label-weight: 300;
   --tf-login-field-label-width: 100%;
   --tf-login-field-label-style: normal;
-  --tf-login-field-label-size: 0.8rem;
+  --tf-login-field-label-size: 0.9rem;
   --tf-login-field-label-line-height: 1;
   --tf-login-field-label-letter-spacing: 0.06em;
   --tf-login-field-label-transform: uppercase;
@@ -11,7 +27,7 @@
   --tf-login-field-label-mobile-weight: 350;
   --tf-login-field-label-mobile-width: 100%;
   --tf-login-field-label-mobile-style: normal;
-  --tf-login-field-label-mobile-size: 1rem;
+  --tf-login-field-label-mobile-size: 1.1rem;
   --tf-login-field-label-mobile-line-height: 1;
   --tf-login-field-label-mobile-letter-spacing: 0.04em;
   --tf-login-field-label-mobile-transform: uppercase;
@@ -66,11 +82,27 @@
 }
 
 :lang(en-GB), :lang(de-DE), :lang(it-IT) {
+  --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-weight: 300;
+  --tf-login-field-caption-width: 100%;
+  --tf-login-field-caption-style: normal;
+  --tf-login-field-caption-size: 0.8rem;
+  --tf-login-field-caption-line-height: 1;
+  --tf-login-field-caption-letter-spacing: 0.06em;
+  --tf-login-field-caption-transform: none;
+  --tf-login-field-caption-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-mobile-weight: 350;
+  --tf-login-field-caption-mobile-width: 100%;
+  --tf-login-field-caption-mobile-style: normal;
+  --tf-login-field-caption-mobile-size: 1rem;
+  --tf-login-field-caption-mobile-line-height: 1;
+  --tf-login-field-caption-mobile-letter-spacing: 0.04em;
+  --tf-login-field-caption-mobile-transform: none;
   --tf-login-field-label-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-login-field-label-weight: 300;
   --tf-login-field-label-width: 100%;
   --tf-login-field-label-style: normal;
-  --tf-login-field-label-size: 0.8rem;
+  --tf-login-field-label-size: 0.9rem;
   --tf-login-field-label-line-height: 1;
   --tf-login-field-label-letter-spacing: 0.06em;
   --tf-login-field-label-transform: uppercase;
@@ -78,7 +110,7 @@
   --tf-login-field-label-mobile-weight: 350;
   --tf-login-field-label-mobile-width: 100%;
   --tf-login-field-label-mobile-style: normal;
-  --tf-login-field-label-mobile-size: 1rem;
+  --tf-login-field-label-mobile-size: 1.1rem;
   --tf-login-field-label-mobile-line-height: 1;
   --tf-login-field-label-mobile-letter-spacing: 0.04em;
   --tf-login-field-label-mobile-transform: uppercase;
@@ -133,11 +165,27 @@
 }
 
 :lang(zh-CN) {
+  --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-weight: 300;
+  --tf-login-field-caption-width: 100%;
+  --tf-login-field-caption-style: normal;
+  --tf-login-field-caption-size: 0.8rem;
+  --tf-login-field-caption-line-height: 1;
+  --tf-login-field-caption-letter-spacing: 0.06em;
+  --tf-login-field-caption-transform: none;
+  --tf-login-field-caption-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-mobile-weight: 350;
+  --tf-login-field-caption-mobile-width: 100%;
+  --tf-login-field-caption-mobile-style: normal;
+  --tf-login-field-caption-mobile-size: 1rem;
+  --tf-login-field-caption-mobile-line-height: 1;
+  --tf-login-field-caption-mobile-letter-spacing: 0.04em;
+  --tf-login-field-caption-mobile-transform: none;
   --tf-login-field-label-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
   --tf-login-field-label-weight: 300;
   --tf-login-field-label-width: 100%;
   --tf-login-field-label-style: normal;
-  --tf-login-field-label-size: 0.8rem;
+  --tf-login-field-label-size: 0.9rem;
   --tf-login-field-label-line-height: 1.1;
   --tf-login-field-label-letter-spacing: 0.08em;
   --tf-login-field-label-transform: uppercase;
@@ -145,7 +193,7 @@
   --tf-login-field-label-mobile-weight: 350;
   --tf-login-field-label-mobile-width: 100%;
   --tf-login-field-label-mobile-style: normal;
-  --tf-login-field-label-mobile-size: 1rem;
+  --tf-login-field-label-mobile-size: 1.1rem;
   --tf-login-field-label-mobile-line-height: 1;
   --tf-login-field-label-mobile-letter-spacing: 0.06em;
   --tf-login-field-label-mobile-transform: uppercase;
@@ -200,11 +248,27 @@
 }
 
 :lang(ja-JP) {
+  --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-weight: 300;
+  --tf-login-field-caption-width: 100%;
+  --tf-login-field-caption-style: normal;
+  --tf-login-field-caption-size: 0.8rem;
+  --tf-login-field-caption-line-height: 1;
+  --tf-login-field-caption-letter-spacing: 0.06em;
+  --tf-login-field-caption-transform: none;
+  --tf-login-field-caption-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-mobile-weight: 350;
+  --tf-login-field-caption-mobile-width: 100%;
+  --tf-login-field-caption-mobile-style: normal;
+  --tf-login-field-caption-mobile-size: 1rem;
+  --tf-login-field-caption-mobile-line-height: 1;
+  --tf-login-field-caption-mobile-letter-spacing: 0.04em;
+  --tf-login-field-caption-mobile-transform: none;
   --tf-login-field-label-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
   --tf-login-field-label-weight: 300;
   --tf-login-field-label-width: 100%;
   --tf-login-field-label-style: normal;
-  --tf-login-field-label-size: 0.8rem;
+  --tf-login-field-label-size: 0.9rem;
   --tf-login-field-label-line-height: 1.1;
   --tf-login-field-label-letter-spacing: 0.08em;
   --tf-login-field-label-transform: uppercase;
@@ -212,7 +276,7 @@
   --tf-login-field-label-mobile-weight: 350;
   --tf-login-field-label-mobile-width: 100%;
   --tf-login-field-label-mobile-style: normal;
-  --tf-login-field-label-mobile-size: 1rem;
+  --tf-login-field-label-mobile-size: 1.1rem;
   --tf-login-field-label-mobile-line-height: 1;
   --tf-login-field-label-mobile-letter-spacing: 0.06em;
   --tf-login-field-label-mobile-transform: uppercase;
@@ -264,6 +328,28 @@
   --tf-navigation-label-mobile-line-height: 1.1;
   --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
+}
+
+.tf-login-field-caption {
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+}
+
+.tf-login-field-caption-mobile {
+  font-family: var(--tf-login-field-caption-mobile-stack);
+  font-weight: var(--tf-login-field-caption-mobile-weight);
+  font-stretch: var(--tf-login-field-caption-mobile-width);
+  font-style: var(--tf-login-field-caption-mobile-style);
+  font-size: var(--tf-login-field-caption-mobile-size);
+  line-height: var(--tf-login-field-caption-mobile-line-height);
+  letter-spacing: var(--tf-login-field-caption-mobile-letter-spacing);
+  text-transform: var(--tf-login-field-caption-mobile-transform);
 }
 
 .tf-login-field-label {

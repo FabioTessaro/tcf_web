@@ -7,16 +7,28 @@
 @use "defaults";
 
 $typefaces: (
-	login-field-label: (
+	login-field-caption: (
 		weight: 300,
 		size: 0.8rem,
+		line-height: 1,
+		letter-spacing: 0.06em,
+	),
+	login-field-caption-mobile: (
+		weight: 350,
+		size: 1rem,
+		line-height: 1,
+		letter-spacing: 0.04em,
+	),
+	login-field-label: (
+		weight: 300,
+		size: 0.9rem,
 		line-height: 1,
 		letter-spacing: 0.06em,
 		text-transform: uppercase,
 	),
 	login-field-label-mobile: (
 		weight: 350,
-		size: 1rem,
+		size: 1.1rem,
 		line-height: 1,
 		letter-spacing: 0.04em,
 		text-transform: uppercase,

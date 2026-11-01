@@ -18,7 +18,8 @@ $label-typeface-mobile: login-field-label-mobile;
 $label-typeface-desktop: login-field-label;
 $input-typeface-mobile: login-field-input-mobile;
 $input-typeface-desktop: login-field-input;
-$error-typeface: login-field-label;
+$error-typeface-mobile: login-field-caption-mobile;
+$error-typeface-desktop: login-field-caption;
 
 // Sizes
 $row-height: 2.25rem; // input row and icon button (44px touch target)
@@ -354,7 +355,10 @@ $shake-duration: 0.4s;
 }
 
 .error-text {
-	@include type.typeface($error-typeface);
+	@include type.typeface($error-typeface-mobile);
+	@include layout.flex-desktop {
+		@include type.typeface($error-typeface-desktop);
+	}
 	display: block;
 	padding-top: $error-offset;
 	overflow-wrap: anywhere;

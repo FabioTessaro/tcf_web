@@ -1,0 +1,64 @@
+.login-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0;
+       column-gap: 0;
+  row-gap: 0;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (prefers-color-scheme: dark) {
+  .login-form {
+    background-color: #1d1d1d;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .login-form {
+    background-color: #f1f2f2;
+  }
+}
+.login-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  -moz-column-gap: 1.5rem;
+       column-gap: 1.5rem;
+  row-gap: 1.5rem;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  isolation: isolate;
+  padding: 3rem 3.3804142396rem;
+}
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform-origin: center;
+  transform: skewX(-10deg);
+}
+@media screen and (prefers-color-scheme: dark) {
+  .login-card::before {
+    background-color: #303030;
+    box-shadow: 0 0.25rem 0.3rem rgba(1, 1, 1, 0.1);
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .login-card::before {
+    background-color: #e0e0e0;
+    box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
+  }
+}
+.login-card {
+  width: 20rem;
+}

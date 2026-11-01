@@ -1,13 +1,5 @@
 {% extends "tcf_web/www/base.html" %}
 
 {% block content %}
-    <login-text-field type="email">
-        <label data-i18n="login-text-field:email.label"></label>
-        <input name="usr" autocomplete="username" data-i18n="[placeholder]login-text-field:email.placeholder">
-    </login-text-field>
-    <login-text-field type="password">
-        <label data-i18n="login-text-field:password.label"></label>
-        <input name="pwd" autocomplete="current-password" data-i18n="[placeholder]login-text-field:password.placeholder">
-    </login-text-field>
-    <primary-button label="primary-button:label" loading-label="primary-button:loading" icon="login" icon-loading="hourglass" icon-position="right"></primary-button>
+    {% include "tcf_web/public/components/login-card/login-card.html" %}
 {% endblock %}
