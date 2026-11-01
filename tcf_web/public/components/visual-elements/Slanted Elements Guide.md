@@ -10,8 +10,9 @@ The brand is built on angled lines. The partials in `scss/visual-elements/` shar
 | `_slanted-card.scss` | `card`: slanted card surface (dropdowns, popovers). |
 | `_slanted-corners.scss` | `corners`: two slanted corner brackets that close into a full frame (buttons, tiles). |
 | `_slanted-highlight.scss` | `highlight`: slanted highlight band that sweeps across the element (buttons, tiles). |
+| `_slanted-ripple.scss` | `ripple`: press ripple that grows from the touch point inside a slanted layer (touch buttons, tiles). |
 
-All five mixins skew a **pseudo-element only**, so text and content are never transformed.
+All six mixins skew a **pseudo-element only**, so text and content are never transformed.
 
 ---
 
@@ -23,6 +24,7 @@ All five mixins skew a **pseudo-element only**, so text and content are never tr
 @use "../visual-elements/slanted-card" as slantedcard;
 @use "../visual-elements/slanted-corners" as slantedcorners;
 @use "../visual-elements/slanted-highlight" as slantedhighlight;
+@use "../visual-elements/slanted-ripple" as slantedripple;
 ```
 
 The brand angle is available as `slanted.$brand-slant` (the indicator partial forwards it), or directly:
@@ -357,7 +359,81 @@ They work like the pill and corners triggers:
 
 ---
 
-## 8. Combining effects on one element
+## 8. `ripple`: press ripple for touch
+
+Include it on the element that is pressed (button, tile). A tinted circle grows from the point that was pressed and fades out, inside a layer that leans at the brand angle. The circle is skewed together with the layer, so the ripple is a slanted ellipse and takes the brand slant too. Use it where there is no hover (touch); pair it with `highlight` for the desktop.
+
+```scss
+// Plays while the element is :active (CSS only, stops when the finger lifts)
+.tile {
+    @include slantedripple.ripple;
+}
+
+// Driven by JS, so a quick tap still plays the whole ripple (what primary-button does)
+.button {
+    @include slantedripple.ripple($trigger: none, $inset: 0 0.24rem);
+    &[data-ripple] { @include slantedripple.reveal; }
+}
+
+// Paired with highlight (highlight on ::after, ripple on ::before)
+.button {
+    @include slantedhighlight.highlight($trigger: none);
+    @include slantedripple.ripple($trigger: none, $host: false);
+}
+```
+
+| Parameter | Default | Meaning |
+| --- | --- | --- |
+| `$slant` | `defaults.$brand-slant` | Lean angle off vertical. |
+| `$lean` | `slash` | `slash` ("/") or `backslash` ("\\"). |
+| `$color` | `currentColor` | Colour of the ripple, so it adapts to light/dark automatically. |
+| `$intensity` | `24%` | Strength of the tint. |
+| `$duration` | `0.6s` | Total time of the effect (grow + fade). |
+| `$easing` | `cubic-bezier(0.2, 0, 0, 1)` | Easing between keyframes. |
+| `$spread` | `60%` | Share of `$duration` spent growing. The rest is the fade-out. |
+| `$radius` | `150%` | Final radius of the circle. `150%` covers the layer from any origin. |
+| `$inset` | `0` | How far the layer extends past the host box (CSS `inset` syntax, negative grows it). |
+| `$trigger` | `active` | `active` or `none`. |
+| `$pseudo` | `before` | `before` or `after`. |
+| `$host` | `true` | Also sets `position: relative` and `isolation: isolate` on the host. |
+| `$z-index` | `-1` | Stacking of the layer. Above `highlight` (`-2`), under content. |
+
+### Origin of the ripple
+
+The layer reads two custom properties from the host, in px from the layer's top-left corner:
+
+```js
+el.style.setProperty("--slanted-ripple-x", x + "px");
+el.style.setProperty("--slanted-ripple-y", y + "px");
+```
+
+They default to `50%`, so without JS the ripple starts in the centre. The layer is skewed, so a point near the top or bottom edge is off by at most `tan(slant) × half the height` (about 0.24rem on a 2.75rem button). Nobody sees it, so no correction is applied.
+
+### Triggers
+
+- `active`: the effect starts when `:active` starts and is cut when it ends. Simple, but a very short tap shows only the start.
+- `none`: emits no trigger rule. Start the effect yourself with the `reveal` mixin under any selector (a class, a data attribute):
+
+```scss
+.item {
+    @include slantedripple.ripple($trigger: none);
+    &.is-pressed { @include slantedripple.reveal; }
+}
+```
+
+`reveal` only sets the custom properties the layer reads (`--slanted-ripple-animation` and `--slanted-ripple-animation-reduced`). The effect is a CSS animation, so it runs once each time the selector starts matching. To replay it while it still matches, remove the class, force a reflow (`el.offsetWidth`) and add it again. Remove it again on `animationend` (`animationName` is `slanted-ripple-run`, or `slanted-ripple-fade` under reduced motion).
+
+### Gotchas
+
+- **Reduced motion:** the growing circle is replaced by a short tint that fades out. The press still gets feedback.
+- **Clipping:** like the other layers, an ancestor with `overflow: hidden` can clip the protruding corners when `$inset` is negative or the host box is not the visible body.
+- **Keyframes:** the mixin writes `@keyframes slanted-ripple-run` and `slanted-ripple-fade` at the top level of the stylesheet that includes it. Including it several times repeats identical copies, which is harmless. Because the compiled CSS of a Shadow DOM component stays in its shadow root, the names never clash with other components.
+- **Host positioning:** same as the pill. If the host is already `position: absolute/fixed/sticky`, pass `$host: false`, and make sure it creates a stacking context (`isolation: isolate`).
+- **Pseudo-element:** it defaults to `::before`, like `pill` and `corners`, so it can't share an element with them (or with `indicator($side: both)`) unless one moves to `$pseudo: after`.
+
+---
+
+## 9. Combining effects on one element
 
 An element has two pseudo-elements, so at most two of these effects can share it, one per pseudo-element.
 
@@ -390,11 +466,20 @@ An element has two pseudo-elements, so at most two of these effects can share it
 
 `highlight` and a single-sided `indicator` both want `::after`, so don't combine them on one element.
 
+`ripple` defaults to `::before`, so it pairs with `highlight` (`::after`). Pass `$host: false` to the second mixin:
+
+```scss
+.button {
+    @include slantedhighlight.highlight($trigger: none);
+    @include slantedripple.ripple($trigger: none, $host: false);
+}
+```
+
 Don't combine `pill` with `indicator($side: both)` on one element, because both want `::before`. The same goes for `pill` and `corners`: put them on different elements, or switch one of them to `$pseudo: after` and don't add an indicator to that element.
 
 The same applies to `card`: inside a card, the options can use `indicator` without any clash, since they're different elements. On the card element itself, `card` uses `::before` by default, so a `corners` frame on the card needs `$pseudo: after`.
 
-## 9. Error messages
+## 10. Error messages
 
 The mixins validate keyword arguments at compile time:
 
@@ -409,4 +494,7 @@ corners: $trigger must be hover, active, focus-visible or none, got `click`.
 highlight: $lean must be slash or backslash, got `left`.
 highlight: $pseudo must be before or after, got `inside`.
 highlight: $trigger must be hover, active, focus-visible or none, got `click`.
+ripple: $lean must be slash or backslash, got `left`.
+ripple: $pseudo must be before or after, got `inside`.
+ripple: $trigger must be active or none, got `hover`.
 ```

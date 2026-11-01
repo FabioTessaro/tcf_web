@@ -1,0 +1,143 @@
+// ============================================================================
+// slanted-ripple: press ripple clipped to a slanted layer
+// ----------------------------------------------------------------------------
+// A tinted circle grows from the point that was pressed and fades out, inside
+// a layer that leans at the brand angle (the circle is skewed with it, so the
+// ripple takes the brand slant too). Meant for touch, where there is no hover.
+//
+// Only a pseudo-element is skewed, so text and content are never transformed.
+// See "Slanted Elements Guide.md", section 8, for the full reference.
+//
+//   .button { @include slantedripple.ripple; }                  // plays while :active
+//
+//   .button {                                                   // driven by JS
+//       @include slantedripple.ripple($trigger: none);
+//       &[data-ripple] { @include slantedripple.reveal; }
+//   }
+//
+// The origin of the ripple comes from two custom properties on the host:
+//   --slanted-ripple-x / --slanted-ripple-y   (default 50% 50%, the centre)
+// Set them from JS on pointerdown, in px relative to the layer's box.
+// ============================================================================
+
+@use "elements-defaults" as defaults;
+
+// ----------------------------------------------------------------------------
+// reveal: starts the ripple. Sets only the custom properties the layer reads,
+// so it can be used under any selector (see $trigger: none).
+// The animation restarts every time the selector starts matching again.
+// ----------------------------------------------------------------------------
+@mixin reveal {
+	--slanted-ripple-animation: slanted-ripple-run;
+	--slanted-ripple-animation-reduced: slanted-ripple-fade;
+}
+
+// ----------------------------------------------------------------------------
+// ripple
+// ----------------------------------------------------------------------------
+@mixin ripple(
+	$slant: defaults.$brand-slant,
+	$lean: slash,
+	$color: currentColor,
+	$intensity: 24%,
+	$duration: 0.6s,
+	$easing: cubic-bezier(0.2, 0, 0, 1),
+	$spread: 60%,
+	$radius: 150%,
+	$inset: 0,
+	$trigger: active,
+	$pseudo: before,
+	$host: true,
+	$z-index: -1
+) {
+	// --- validation -------------------------------------------------------
+	@if $lean != slash and $lean != backslash {
+		@error "ripple: $lean must be slash or backslash, got `#{$lean}`.";
+	}
+	@if $pseudo != before and $pseudo != after {
+		@error "ripple: $pseudo must be before or after, got `#{$pseudo}`.";
+	}
+	@if $trigger != active and $trigger != none {
+		@error "ripple: $trigger must be active or none, got `#{$trigger}`.";
+	}
+
+	$skew: $slant;
+	@if $lean == slash {
+		$skew: -$slant;
+	}
+
+	// --- host -------------------------------------------------------------
+	@if $host {
+		position: relative;
+		isolation: isolate;
+	}
+
+	// --- the layer --------------------------------------------------------
+	&::#{$pseudo} {
+		content: "";
+		position: absolute;
+		inset: $inset;
+		z-index: $z-index;
+		pointer-events: none;
+		background: color-mix(in srgb, #{$color} #{$intensity}, transparent);
+		transform: skewX($skew);
+		opacity: 0;
+		clip-path: circle(0% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+		animation-name: var(--slanted-ripple-animation, none);
+		animation-duration: $duration;
+		animation-timing-function: $easing;
+		animation-iteration-count: 1;
+		animation-fill-mode: none;
+	}
+
+	// Reduced motion: no growing circle, only a short tint that fades out.
+	@media (prefers-reduced-motion: reduce) {
+		&::#{$pseudo} {
+			animation-name: var(--slanted-ripple-animation-reduced, none);
+		}
+	}
+
+	// --- keyframes (identical copies are harmless when the mixin is reused) -
+	@at-root {
+		@keyframes slanted-ripple-run {
+			0% {
+				opacity: 1;
+				clip-path: circle(0% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+			}
+			#{$spread} {
+				opacity: 1;
+				clip-path: circle(
+					$radius at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%)
+				);
+			}
+			100% {
+				opacity: 0;
+				clip-path: circle(
+					$radius at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%)
+				);
+			}
+		}
+
+		@keyframes slanted-ripple-fade {
+			0% {
+				opacity: 1;
+				clip-path: circle(
+					$radius at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%)
+				);
+			}
+			100% {
+				opacity: 0;
+				clip-path: circle(
+					$radius at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%)
+				);
+			}
+		}
+	}
+
+	// --- trigger ----------------------------------------------------------
+	@if $trigger == active {
+		&:active {
+			@include reveal;
+		}
+	}
+}

@@ -1,0 +1,373 @@
+.material-symbols-sharp {
+  font-variation-settings: var(--icon-font-variation-settings, inherit);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-sharp {
+  font-family: "Material Symbols Sharp";
+}
+
+:host {
+  display: inline-flex;
+  flex-direction: row;
+  flex: 0 1 auto;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  width: var(--primary-button-width, auto);
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  --primary-button-fill: #414141;
+  --primary-button-fill-hover: #3b3b3b;
+  --primary-button-fill-pressed: #3b3b3b;
+  --primary-button-fill-loading: #4a4a4a;
+  --primary-button-fill-disabled: #e0e0e0;
+  --primary-button-label: #f1f2f2;
+  --primary-button-label-disabled: #4a4a4a;
+  --primary-button-focus-ring: #414141;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --primary-button-fill: #e6e7e8;
+    --primary-button-fill-hover: #f1f2f2;
+    --primary-button-fill-pressed: #f1f2f2;
+    --primary-button-fill-loading: #d1d3d4;
+    --primary-button-fill-disabled: #303030;
+    --primary-button-label: #1d1d1d;
+    --primary-button-label-disabled: #d1d3d4;
+    --primary-button-focus-ring: #e6e7e8;
+  }
+}
+:host([hidden]) {
+  display: none;
+}
+
+:host([grow]) {
+  flex: 1 1 auto;
+}
+
+.primary-button-container {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  outline: none;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 2.75rem;
+  padding-inline: 1.7424495985rem;
+  color: var(--primary-button-label);
+  cursor: pointer;
+  -moz-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: color 0.3s ease;
+  font-family: var(--tf-navigation-main-stack);
+  font-weight: var(--tf-navigation-main-weight);
+  font-stretch: var(--tf-navigation-main-width);
+  font-style: var(--tf-navigation-main-style);
+  font-size: var(--tf-navigation-main-size);
+  line-height: var(--tf-navigation-main-line-height);
+  letter-spacing: var(--tf-navigation-main-letter-spacing);
+  text-transform: var(--tf-navigation-main-transform);
+}
+@media (max-width: 767.98px) {
+  .primary-button-container {
+    font-family: var(--tf-navigation-main-mobile-stack);
+    font-weight: var(--tf-navigation-main-mobile-weight);
+    font-stretch: var(--tf-navigation-main-mobile-width);
+    font-style: var(--tf-navigation-main-mobile-style);
+    font-size: var(--tf-navigation-main-mobile-size);
+    line-height: var(--tf-navigation-main-mobile-line-height);
+    letter-spacing: var(--tf-navigation-main-mobile-letter-spacing);
+    text-transform: var(--tf-navigation-main-mobile-transform);
+  }
+}
+.primary-button-container {
+  --slanted-highlight-inset: 0 0.2424495985rem;
+  --slanted-highlight-radius: 0;
+  --slanted-highlight-position: 100% 0;
+  --slanted-highlight-duration: 0s;
+}
+.primary-button-container::after {
+  content: "";
+  position: absolute;
+  inset: var(--slanted-highlight-inset);
+  z-index: -2;
+  transform: skewX(-10deg);
+  pointer-events: none;
+  border-radius: var(--slanted-highlight-radius);
+  background-image: linear-gradient(90deg, transparent 0%, transparent 40%, color-mix(in srgb, currentColor 22%, transparent) 50%, transparent 60%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  background-position: var(--slanted-highlight-position);
+  transition: inset 0.3s ease, border-radius 0.3s ease, background-position var(--slanted-highlight-duration) ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary-button-container::after {
+    transition: none;
+  }
+}
+.primary-button-container::before {
+  content: "";
+  position: absolute;
+  inset: 0 0.2424495985rem;
+  z-index: -1;
+  pointer-events: none;
+  background: color-mix(in srgb, currentColor 24%, transparent);
+  transform: skewX(-10deg);
+  opacity: 0;
+  clip-path: circle(0% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+  animation-name: var(--slanted-ripple-animation, none);
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary-button-container::before {
+    animation-name: var(--slanted-ripple-animation-reduced, none);
+  }
+}
+@keyframes slanted-ripple-run {
+  0% {
+    opacity: 1;
+    clip-path: circle(0% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+  }
+  60% {
+    opacity: 1;
+    clip-path: circle(150% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+  }
+  100% {
+    opacity: 0;
+    clip-path: circle(150% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+  }
+}
+@keyframes slanted-ripple-fade {
+  0% {
+    opacity: 1;
+    clip-path: circle(150% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+  }
+  100% {
+    opacity: 0;
+    clip-path: circle(150% at var(--slanted-ripple-x, 50%) var(--slanted-ripple-y, 50%));
+  }
+}
+@media (hover: hover) {
+  .primary-button-container[data-state=active]:hover {
+    --slanted-highlight-inset: 0 0.2424495985rem;
+    --slanted-highlight-radius: 0;
+    --slanted-highlight-position: 0% 0;
+    --slanted-highlight-duration: 0.5s;
+  }
+}
+.primary-button-container[data-state=active]:focus-visible {
+  --slanted-highlight-inset: 0 0.2424495985rem;
+  --slanted-highlight-radius: 0;
+  --slanted-highlight-position: 0% 0;
+  --slanted-highlight-duration: 0.5s;
+}
+.primary-button-container[data-ripple] {
+  --slanted-ripple-animation: slanted-ripple-run;
+  --slanted-ripple-animation-reduced: slanted-ripple-fade;
+}
+.primary-button-container[data-state=loading] {
+  cursor: progress;
+}
+.primary-button-container[data-state=disabled] {
+  cursor: not-allowed;
+  color: var(--primary-button-label-disabled);
+}
+.primary-button-container:not([data-ready]), .primary-button-container:not([data-ready]) * {
+  transition: none !important;
+  animation: none !important;
+}
+
+.primary-button-surface {
+  position: absolute;
+  inset: 0 0.2424495985rem;
+  z-index: -3;
+  pointer-events: none;
+  background: var(--primary-button-fill);
+  transform: skewX(-10deg);
+  transition: background-color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .primary-button-container[data-state=active]:hover .primary-button-surface {
+    background: var(--primary-button-fill-hover);
+  }
+}
+.primary-button-container[data-state=active]:active .primary-button-surface {
+  background: var(--primary-button-fill-pressed);
+}
+
+.primary-button-container[data-state=loading] .primary-button-surface {
+  background: var(--primary-button-fill-loading);
+}
+
+.primary-button-container[data-state=disabled] .primary-button-surface {
+  background: var(--primary-button-fill-disabled);
+}
+
+.primary-button-container:focus-visible .primary-button-surface {
+  outline: 2px solid var(--primary-button-focus-ring);
+  outline-offset: 0.22rem;
+}
+
+.primary-button-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  transition: opacity 0.3s ease, transform 0.12s ease-out;
+}
+
+.primary-button-container[data-state=active]:active .primary-button-content {
+  transform: scale(0.96);
+}
+
+.primary-button-container[data-state=disabled] .primary-button-content {
+  opacity: 0.45;
+}
+
+.primary-button-icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-inline-start: var(--primary-button-icon-start, 0);
+  margin-inline-end: var(--primary-button-icon-end, 0.6rem);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.primary-button-container[data-icon-position=right] {
+  --primary-button-icon-start: 0.6rem;
+  --primary-button-icon-end: 0;
+}
+.primary-button-container[data-icon-position=right] .primary-button-icon {
+  order: 1;
+}
+
+.primary-button-icon.is-empty {
+  --primary-button-icon-start: 0;
+  --primary-button-icon-end: 0;
+  width: 0;
+}
+
+.primary-button-icon-glyph {
+  grid-area: 1/1;
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.primary-button-icon-glyph.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.primary-button-icon-loading {
+  animation: primary-button-icon-spin 0.9s linear infinite paused;
+}
+
+.primary-button-container[data-state=loading] .primary-button-icon-loading {
+  animation-play-state: running;
+}
+
+@keyframes primary-button-icon-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+.primary-button-label {
+  position: relative;
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-block: 0.2em;
+  margin-block: -0.2em;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.primary-button-label[data-animating] .primary-button-label-text {
+  text-overflow: clip;
+}
+
+.primary-button-label-text {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+}
+
+.primary-button-container[data-state=loading] .primary-button-label-rest {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-60%);
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
+}
+
+.primary-button-container:not([data-state=loading]) .primary-button-label-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(60%);
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-button-container,
+  .primary-button-container * {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  .primary-button-icon-loading {
+    animation: none;
+  }
+}

@@ -1,0 +1,440 @@
+@use "sass:math";
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../typography/material-symbols" as icons;
+@use "../layout/layout" as layout;
+
+@use "../visual-elements/elements-defaults" as elements;
+@use "../visual-elements/slanted-highlight" as slantedhighlight;
+@use "../visual-elements/slanted-ripple" as slantedripple;
+
+// ============================================================================
+// primary-button: shadow root styles
+// Edit the variables in this block. Everything below only uses them.
+// Recompile after every change (the component loads primary-button.css).
+// ============================================================================
+
+// --- Typefaces (defined in typography/typefaces/_latin.scss and friends) -----
+$typeface-desktop: navigation-main;
+$typeface-mobile: navigation-main-mobile;
+
+// --- Shape -------------------------------------------------------------------
+$slant: elements.$brand-slant; // lean of the sides ("/"), follows the brand angle
+$height: 2.75rem; // body height (44px touch target)
+$padding-inline: 1.5rem; // space between the slanted side and the content
+$pressed-scale: 0.96; // scale while pressed, 1 = no press effect
+
+// --- Icon --------------------------------------------------------------------
+$icon-style: sharp; // sharp | outlined | rounded. Keep the class in primary-button.html in sync
+$icon-size: 1.25rem;
+$icon-gap: 0.6rem; // space between icon and label
+$loading-icon-spin: true; // spin the icon-loading glyph while loading (set false if it is not a spinner)
+$loading-icon-spin-duration: 0.9s;
+
+// --- Colours: light scheme ---------------------------------------------------
+$light-fill: palette.$light-primary-medium;
+$light-fill-hover: palette.$light-primary-deep;
+$light-fill-pressed: palette.$light-primary-deep;
+$light-fill-loading: palette.$light-primary-light;
+$light-fill-disabled: palette.$light-surface;
+$light-label: palette.$light-background;
+$light-label-disabled: palette.$light-primary-light;
+$light-focus-ring: palette.$light-primary-medium;
+
+// --- Colours: dark scheme ----------------------------------------------------
+$dark-fill: palette.$dark-primary-medium;
+$dark-fill-hover: palette.$dark-primary-deep;
+$dark-fill-pressed: palette.$dark-primary-deep;
+$dark-fill-loading: palette.$dark-primary-light;
+$dark-fill-disabled: palette.$dark-surface;
+$dark-label: palette.$dark-background;
+$dark-label-disabled: palette.$dark-primary-light;
+$dark-focus-ring: palette.$dark-primary-medium;
+
+$disabled-label-opacity: 0.45;
+
+// --- Focus ring (keyboard only) ---------------------------------------------
+$focus-ring-width: 2px;
+$focus-ring-offset: 0.22rem;
+
+// --- Motion: state changes ---------------------------------------------------
+$color-duration: 0.3s; // fill, label colour, disabled fade
+$press-duration: 0.12s; // press scale
+$label-duration: 0.35s; // label slides/fades between label and loading-label
+$label-easing: cubic-bezier(0.4, 0, 0.2, 1);
+$label-shift: 60%; // how far a label travels while sliding out/in (share of its height)
+$width-duration: 0.35s; // the button body morphing to the new label's width
+$icon-duration: 0.35s; // icon appearing, disappearing, swapping
+$icon-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+// --- Motion: desktop hover highlight (slanted-highlight) ---------------------
+$highlight-duration: 0.5s;
+$highlight-easing: ease-in-out;
+$highlight-intensity: 22%;
+$highlight-half-width: 10%;
+
+// --- Motion: touch press ripple (slanted-ripple) -----------------------------
+$ripple-duration: 0.6s;
+$ripple-intensity: 24%;
+$ripple-spread: 60%; // share of the duration spent growing, the rest is the fade-out
+
+// --- Layout defaults (used when the page does not set its own) --------------
+$default-flex-grow: 0;
+$default-flex-shrink: 1;
+$default-flex-basis: auto;
+
+// ============================================================================
+// Derived values (no need to edit)
+// ============================================================================
+
+// The skewed body pokes out of its box by tan(slant) * height / 2 at two corners.
+// The component reserves that space on both sides so the host box is exactly the
+// bounding box of the slanted body: nothing protrudes, and a fixed width means
+// what it says.
+$overhang: math.div(math.tan($slant) * $height, 2);
+
+@include icons.material-symbols($icon-style);
+
+// ============================================================================
+// Host
+// ============================================================================
+
+:host {
+	@include layout.flex-container(row, $inline: true);
+	@include layout.flex-item($default-flex-grow, $default-flex-shrink, $default-flex-basis);
+	position: relative;
+	box-sizing: border-box;
+	min-width: 0;
+	max-width: 100%;
+	width: var(--primary-button-width, auto); // the width="" attribute; page CSS still wins
+	vertical-align: middle;
+	-webkit-tap-highlight-color: transparent;
+
+	--primary-button-fill: #{$light-fill};
+	--primary-button-fill-hover: #{$light-fill-hover};
+	--primary-button-fill-pressed: #{$light-fill-pressed};
+	--primary-button-fill-loading: #{$light-fill-loading};
+	--primary-button-fill-disabled: #{$light-fill-disabled};
+	--primary-button-label: #{$light-label};
+	--primary-button-label-disabled: #{$light-label-disabled};
+	--primary-button-focus-ring: #{$light-focus-ring};
+}
+
+@media (prefers-color-scheme: dark) {
+	:host {
+		--primary-button-fill: #{$dark-fill};
+		--primary-button-fill-hover: #{$dark-fill-hover};
+		--primary-button-fill-pressed: #{$dark-fill-pressed};
+		--primary-button-fill-loading: #{$dark-fill-loading};
+		--primary-button-fill-disabled: #{$dark-fill-disabled};
+		--primary-button-label: #{$dark-label};
+		--primary-button-label-disabled: #{$dark-label-disabled};
+		--primary-button-focus-ring: #{$dark-focus-ring};
+	}
+}
+
+:host([hidden]) {
+	display: none;
+}
+
+// grow attribute: take the free space of a flex row/column
+:host([grow]) {
+	@include layout.flex-item(1, 1, auto);
+}
+
+// ============================================================================
+// The button
+// ============================================================================
+
+.primary-button-container {
+	// reset
+	appearance: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	outline: none;
+	text-decoration: none;
+
+	@include layout.flex-container(row, $horizontal: center, $vertical: center);
+	@include layout.flex-item(1, 1, auto);
+	position: relative;
+	isolation: isolate;
+	box-sizing: border-box;
+	min-width: 0;
+	height: $height;
+	padding-inline: $overhang + $padding-inline;
+	color: var(--primary-button-label);
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	transition: color $color-duration ease;
+
+	@include type.typeface($typeface-desktop);
+	@include layout.flex-mobile {
+		@include type.typeface($typeface-mobile);
+	}
+
+	// --- hover highlight (desktop). Layer on ::after, wired to our own states.
+	@include slantedhighlight.highlight(
+		$slant: $slant,
+		$intensity: $highlight-intensity,
+		$half-width: $highlight-half-width,
+		$duration: $highlight-duration,
+		$easing: $highlight-easing,
+		$rest-inset: 0 $overhang,
+		$hover-inset: 0 $overhang,
+		$rest-radius: 0,
+		$hover-radius: 0,
+		$trigger: none,
+		$host: false
+	);
+
+	// --- press ripple (touch). Layer on ::before, started by the JS ([data-ripple]).
+	@include slantedripple.ripple(
+		$slant: $slant,
+		$intensity: $ripple-intensity,
+		$duration: $ripple-duration,
+		$spread: $ripple-spread,
+		$inset: 0 $overhang,
+		$trigger: none,
+		$host: false
+	);
+
+	@media (hover: hover) {
+		&[data-state="active"]:hover {
+			@include slantedhighlight.reveal(
+				$inset: 0 $overhang,
+				$radius: 0,
+				$duration: $highlight-duration
+			);
+		}
+	}
+
+	&[data-state="active"]:focus-visible {
+		@include slantedhighlight.reveal(
+			$inset: 0 $overhang,
+			$radius: 0,
+			$duration: $highlight-duration
+		);
+	}
+
+	&[data-ripple] {
+		@include slantedripple.reveal;
+	}
+
+	&[data-state="loading"] {
+		cursor: progress;
+	}
+
+	&[data-state="disabled"] {
+		cursor: not-allowed;
+		color: var(--primary-button-label-disabled);
+	}
+
+	// --- no animation until the first render is done ------------------------
+	&:not([data-ready]),
+	&:not([data-ready]) * {
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+// ----------------------------------------------------------------------------
+// Slanted body (fill). It has no content, so it can be skewed itself.
+// z-index -3 keeps it under the highlight (-2) and the ripple (-1).
+// ----------------------------------------------------------------------------
+
+.primary-button-surface {
+	position: absolute;
+	inset: 0 $overhang;
+	z-index: -3;
+	pointer-events: none;
+	background: var(--primary-button-fill);
+	transform: skewX(-$slant);
+	transition: background-color $color-duration ease;
+}
+
+@media (hover: hover) {
+	.primary-button-container[data-state="active"]:hover .primary-button-surface {
+		background: var(--primary-button-fill-hover);
+	}
+}
+
+.primary-button-container[data-state="active"]:active .primary-button-surface {
+	background: var(--primary-button-fill-pressed);
+}
+
+.primary-button-container[data-state="loading"] .primary-button-surface {
+	background: var(--primary-button-fill-loading);
+}
+
+.primary-button-container[data-state="disabled"] .primary-button-surface {
+	background: var(--primary-button-fill-disabled);
+}
+
+// The ring leans with the body because the surface is skewed.
+.primary-button-container:focus-visible .primary-button-surface {
+	outline: $focus-ring-width solid var(--primary-button-focus-ring);
+	outline-offset: $focus-ring-offset;
+}
+
+// ----------------------------------------------------------------------------
+// Content: icon + label
+// ----------------------------------------------------------------------------
+
+.primary-button-content {
+	@include layout.flex-container(row, $horizontal: center, $vertical: center);
+	position: relative;
+	min-width: 0;
+	max-width: 100%;
+	transition: opacity $color-duration ease, transform $press-duration ease-out;
+}
+
+// press feedback: only the content moves, the button keeps its size
+.primary-button-container[data-state="active"]:active .primary-button-content {
+	transform: scale($pressed-scale);
+}
+
+.primary-button-container[data-state="disabled"] .primary-button-content {
+	opacity: $disabled-label-opacity;
+}
+
+// --- icon slot ---------------------------------------------------------------
+// Fixed size, so appearing/disappearing is a plain width + margin transition.
+// The margins come from two custom properties so "right" and "empty" can
+// change them without fighting over specificity.
+
+.primary-button-icon {
+	display: grid;
+	flex: 0 0 auto;
+	width: $icon-size;
+	height: $icon-size;
+	margin-inline-start: var(--primary-button-icon-start, 0);
+	margin-inline-end: var(--primary-button-icon-end, #{$icon-gap});
+	transition: width $icon-duration $icon-easing, margin $icon-duration $icon-easing;
+}
+
+.primary-button-container[data-icon-position="right"] {
+	--primary-button-icon-start: #{$icon-gap};
+	--primary-button-icon-end: 0;
+
+	.primary-button-icon {
+		order: 1;
+	}
+}
+
+.primary-button-icon.is-empty {
+	--primary-button-icon-start: 0;
+	--primary-button-icon-end: 0;
+	width: 0;
+}
+
+// Both glyphs sit in the same grid cell and cross-fade.
+.primary-button-icon-glyph {
+	grid-area: 1 / 1;
+	width: $icon-size;
+	height: $icon-size;
+	font-size: $icon-size;
+	line-height: 1;
+	opacity: 0;
+	transform: scale(0.5) rotate(-90deg);
+	transition: opacity $icon-duration $icon-easing, transform $icon-duration $icon-easing;
+
+	&.is-visible {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@if $loading-icon-spin {
+	// Paused (not removed) when hidden, so it fades out at its current angle instead of snapping back.
+	.primary-button-icon-loading {
+		animation: primary-button-icon-spin $loading-icon-spin-duration linear infinite paused;
+	}
+
+	.primary-button-container[data-state="loading"] .primary-button-icon-loading {
+		animation-play-state: running;
+	}
+
+	@keyframes primary-button-icon-spin {
+		to {
+			rotate: 360deg;
+		}
+	}
+}
+
+// --- label -------------------------------------------------------------------
+// Two layers: label (resting) and loading-label. Only the active one is in the
+// flow, so the wrapper is as wide as the text being shown. The JS animates the
+// wrapper's width between the two measurements (see primary-button.js).
+
+.primary-button-label {
+	position: relative;
+	display: block;
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	// room for descenders and accents while overflow is hidden
+	padding-block: 0.2em;
+	margin-block: -0.2em;
+	transition: width $width-duration $label-easing;
+
+	// while the width animates, ellipsis would flash on and off
+	&[data-animating] .primary-button-label-text {
+		text-overflow: clip;
+	}
+}
+
+@mixin label-layer-inactive($shift) {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY($shift);
+	transition: opacity $label-duration $label-easing, transform $label-duration $label-easing,
+		visibility 0s linear $label-duration;
+}
+
+.primary-button-label-text {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+	transition: opacity $label-duration $label-easing, transform $label-duration $label-easing,
+		visibility 0s linear 0s;
+}
+
+// resting label leaves upwards when loading starts, loading label arrives from below
+.primary-button-container[data-state="loading"] .primary-button-label-rest {
+	@include label-layer-inactive(-$label-shift);
+}
+
+.primary-button-container:not([data-state="loading"]) .primary-button-label-loading {
+	@include label-layer-inactive($label-shift);
+}
+
+// ============================================================================
+// Reduced motion
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+	.primary-button-container,
+	.primary-button-container * {
+		transition-duration: 0s !important;
+		transition-delay: 0s !important;
+	}
+
+	.primary-button-icon-loading {
+		animation: none;
+	}
+}
