@@ -1,0 +1,404 @@
+@use "sass:color";
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../typography/material-symbols" as icons;
+@use "../layout/layout" as layout;
+@use "../visual-elements/slanted-pill" as slantedpill;
+
+// The icon class rule has to be repeated inside the shadow root (see typography/material-symbols.md)
+@include icons.material-symbols;
+
+// =============================================================================
+// Settings: change things here
+// =============================================================================
+
+// Typefaces (defined in typography/typefaces/_latin.scss, _chinese.scss, _japanese.scss).
+// The -mobile ones apply below the flex desktop breakpoint, the others from it up.
+$label-typeface-mobile: login-field-label-mobile;
+$label-typeface-desktop: login-field-label;
+$input-typeface-mobile: login-field-input-mobile;
+$input-typeface-desktop: login-field-input;
+$error-typeface: login-field-label;
+
+// Sizes
+$row-height: 2.75rem; // input row and icon button (44px touch target)
+$icon-size: 24px;
+$line-width: 1px; // resting underline
+$line-width-active: 2px; // highlight (focus and error)
+$label-gap: 0.25rem; // label to input row
+$error-offset: 0.4rem; // underline to error message and forgot button
+$footer-column-gap: 1rem; // error message to forgot button when side by side
+$shake-distance: 6px;
+
+// Motion
+$duration: 0.3s;
+$duration-fast: 0.2s;
+$easing: cubic-bezier(0.4, 0, 0.2, 1);
+$shake-duration: 0.4s;
+
+// =============================================================================
+// Colours: one set of custom properties per colour scheme
+// =============================================================================
+
+@function tone($color, $amount) {
+	@return color.change($color, $alpha: $amount);
+}
+
+@mixin theme-light {
+	--ltf-text: #{palette.$light-primary-deep};
+	--ltf-label: #{tone(palette.$light-primary-deep, 0.7)};
+	--ltf-label-active: #{palette.$light-primary-deep};
+	--ltf-placeholder: #{tone(palette.$light-primary-deep, 0.55)};
+	--ltf-line: #{tone(palette.$light-primary-deep, 0.45)};
+	--ltf-line-hover: #{tone(palette.$light-primary-deep, 0.75)};
+	--ltf-line-active: #{palette.$accent-yellow};
+	--ltf-caret: #{palette.$accent-yellow};
+	--ltf-icon: #{tone(palette.$light-primary-deep, 0.7)};
+	--ltf-icon-active: #{palette.$light-primary-deep};
+	--ltf-error: #{palette.$accent-red};
+	--ltf-error-text: #{palette.$accent-red};
+}
+
+@mixin theme-dark {
+	--ltf-text: #{palette.$dark-primary-deep};
+	--ltf-label: #{tone(palette.$dark-primary-deep, 0.7)};
+	--ltf-label-active: #{palette.$dark-primary-deep};
+	--ltf-placeholder: #{tone(palette.$dark-primary-deep, 0.55)};
+	--ltf-line: #{tone(palette.$dark-primary-deep, 0.45)};
+	--ltf-line-hover: #{tone(palette.$dark-primary-deep, 0.75)};
+	--ltf-line-active: #{palette.$accent-yellow};
+	--ltf-caret: #{palette.$accent-yellow};
+	--ltf-icon: #{tone(palette.$dark-primary-deep, 0.7)};
+	--ltf-icon-active: #{palette.$dark-primary-deep};
+	--ltf-error: #{palette.$accent-red};
+	--ltf-error-text: #{color.scale(palette.$accent-red, $lightness: 35%)};
+}
+
+// =============================================================================
+// Host and container
+// =============================================================================
+
+:host {
+	display: block;
+}
+
+.login-text-field-container {
+	@include layout.flex-direction(column);
+	@include theme-light;
+	color-scheme: light dark;
+	width: 100%;
+
+	@media (prefers-color-scheme: dark) {
+		@include theme-dark;
+	}
+}
+
+// =============================================================================
+// Label (slotted from the page, always on top of the input)
+// =============================================================================
+
+.label {
+	margin-bottom: $label-gap;
+}
+
+::slotted(label) {
+	@include type.typeface($label-typeface-mobile);
+	@include layout.flex-desktop {
+		@include type.typeface($label-typeface-desktop);
+	}
+	display: block;
+	margin: 0;
+	color: var(--ltf-label);
+	cursor: pointer;
+	transition: color $duration $easing;
+}
+
+.is-active ::slotted(label) {
+	color: var(--ltf-label-active);
+}
+
+.is-error ::slotted(label) {
+	color: var(--ltf-error-text);
+}
+
+// =============================================================================
+// Input row: slotted input + icon button, with one underline under both
+// =============================================================================
+
+.input {
+	@include layout.flex-container(row, $vertical: center);
+	position: relative;
+	min-height: $row-height;
+
+	// Resting underline, spans the input and the icon button
+	&::before {
+		content: "";
+		position: absolute;
+		inset: auto 0 0 0;
+		height: $line-width;
+		background-color: var(--ltf-line);
+		transition: background-color $duration $easing;
+	}
+
+	// Highlight: wipes in from the left on focus, and for the error state
+	&::after {
+		content: "";
+		position: absolute;
+		inset: auto 0 0 0;
+		height: $line-width-active;
+		background-color: var(--ltf-line-active);
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path $duration $easing, background-color $duration $easing;
+	}
+
+	@media (hover: hover) {
+		&:hover::before {
+			background-color: var(--ltf-line-hover);
+		}
+	}
+
+	// Replayed by the component every time an error is set
+	&.is-shaking {
+		animation: login-text-field-shake $shake-duration $easing;
+	}
+}
+
+.is-active .input::after {
+	clip-path: inset(0 0 0 0);
+}
+
+.is-error .input {
+	&::before {
+		background-color: var(--ltf-error);
+	}
+
+	&::after {
+		background-color: var(--ltf-error);
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes login-text-field-shake {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	20% {
+		transform: translateX(-$shake-distance);
+	}
+	40% {
+		transform: translateX($shake-distance);
+	}
+	60% {
+		transform: translateX(-$shake-distance * 0.6);
+	}
+	80% {
+		transform: translateX($shake-distance * 0.4);
+	}
+}
+
+::slotted(input) {
+	@include type.typeface($input-typeface-mobile);
+	@include layout.flex-desktop {
+		@include type.typeface($input-typeface-desktop);
+	}
+	@include layout.flex-fill;
+	align-self: stretch;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	outline: none;
+	appearance: none;
+	color: var(--ltf-text);
+	caret-color: var(--ltf-caret);
+}
+
+::slotted(input)::placeholder {
+	color: var(--ltf-placeholder);
+	opacity: 1;
+}
+
+// Keep the browser's autofill tint off the field (the underline is the only chrome)
+::slotted(input:-webkit-autofill) {
+	-webkit-text-fill-color: var(--ltf-text);
+	transition: background-color 600000s 0s;
+}
+
+// Edge draws its own reveal and clear icons; the component has its own
+::slotted(input)::-ms-reveal {
+	display: none;
+}
+
+::slotted(input)::-ms-clear {
+	display: none;
+}
+
+// =============================================================================
+// Show / hide password icon button (only for type="password")
+// =============================================================================
+
+.action {
+	@include layout.flex-auto;
+	display: none;
+}
+
+.is-password .action {
+	display: flex;
+}
+
+.toggle {
+	// Both icons sit in the same grid cell so they can cross-fade in place
+	display: grid;
+	place-items: center;
+	width: $row-height;
+	height: $row-height;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	appearance: none;
+	color: var(--ltf-icon);
+	cursor: pointer;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+	transition: color $duration-fast $easing;
+
+	// Tap pill on mobile only. On desktop the icon just darkens on hover and focus (rules below).
+	@include layout.flex-mobile {
+		@include slantedpill.pill(
+			$trigger: (
+				active,
+				focus-visible,
+			)
+		);
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			color: var(--ltf-icon-active);
+		}
+	}
+
+	&:focus-visible {
+		color: var(--ltf-icon-active);
+	}
+}
+
+.icon {
+	grid-area: 1 / 1;
+	width: 1em;
+	overflow: hidden; // while the icon font loads, the ligature text must not widen the button
+	font-size: $icon-size;
+	transition: opacity $duration-fast ease, transform $duration $easing;
+}
+
+// Password hidden: show the "visibility" icon (action: reveal)
+.icon-show {
+	opacity: 1;
+	transform: none;
+}
+
+.icon-hide {
+	opacity: 0;
+	transform: rotate(-90deg) scale(0.5);
+}
+
+// Password revealed: swap to "visibility_off" (action: hide)
+.is-revealed {
+	.icon-show {
+		opacity: 0;
+		transform: rotate(90deg) scale(0.5);
+	}
+
+	.icon-hide {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+// =============================================================================
+// Footer: error message (left) and forgot-password button (right)
+// =============================================================================
+
+.footer {
+	@include layout.flex-container(row, $wrap: true, $horizontal: between, $vertical: start);
+	@include layout.flex-gap($footer-column-gap, 0);
+
+	// Narrow screens: the button wraps below the error message
+	@include layout.flex-mobile {
+		@include layout.flex-direction(column);
+		@include layout.flex-wrap(false);
+	}
+}
+
+// Error message: the row collapses to zero height and opens when the field is in error
+.error {
+	@include layout.flex-item(1, 1, auto);
+	display: grid;
+	grid-template-rows: 0fr;
+	min-width: 0;
+	transition: grid-template-rows $duration $easing;
+}
+
+.is-error .error {
+	grid-template-rows: 1fr;
+}
+
+.error-clip {
+	min-height: 0;
+	overflow: hidden;
+}
+
+.error-text {
+	@include type.typeface($error-typeface);
+	display: block;
+	padding-top: $error-offset;
+	overflow-wrap: anywhere;
+	color: var(--ltf-error-text);
+	opacity: 0;
+	transform: translateY(-0.4rem);
+	visibility: hidden;
+	// Leaving: fade out, then take the text out of the page (visibility waits for the fade)
+	transition: opacity $duration-fast ease, transform $duration $easing,
+		visibility 0s linear $duration;
+}
+
+.is-error .error-text {
+	opacity: 1;
+	transform: none;
+	visibility: visible;
+	// Entering: wait a moment so the row opens first, then slide the text in
+	transition: opacity $duration $easing 0.08s, transform $duration $easing 0.08s,
+		visibility 0s linear 0s;
+}
+
+// Forgot-password button slot: only for password fields, only when the page provides one
+.extra {
+	@include layout.flex-auto;
+	display: none;
+	margin-left: auto;
+	padding-top: $error-offset;
+}
+
+.is-password.has-button .extra {
+	display: block;
+}
+
+// =============================================================================
+// Reduced motion
+// =============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after,
+	::slotted(*) {
+		transition-duration: 0.01ms !important;
+		transition-delay: 0s !important;
+		animation: none !important;
+	}
+}

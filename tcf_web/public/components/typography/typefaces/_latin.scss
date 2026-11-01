@@ -7,6 +7,32 @@
 @use "defaults";
 
 $typefaces: (
+	login-field-label: (
+		weight: 300,
+		size: 0.8rem,
+		line-height: 1,
+		letter-spacing: 0.06em,
+		text-transform: uppercase,
+	),
+	login-field-label-mobile: (
+		weight: 350,
+		size: 1rem,
+		line-height: 1,
+		letter-spacing: 0.04em,
+		text-transform: uppercase,
+	),
+	login-field-input: (
+		weight: 200,
+		size: 1.4rem,
+		line-height: 1,
+		letter-spacing: 0.02em,
+	),
+	login-field-input-mobile: (
+		weight: 300,
+		size: 1.9rem,
+		line-height: 1,
+		letter-spacing: 0.01em,
+	),
 	navigation-main: (
 		stack: defaults.$stack-latin,
 		weight: 200,

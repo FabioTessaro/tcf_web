@@ -5,6 +5,30 @@
 @use "defaults";
 
 $typefaces: (
+	login-field-label: (
+		stack: defaults.$stack-chinese,
+		size: 0.8rem,
+		line-height: 1.1,
+		letter-spacing: 0.08em,
+	),
+	login-field-label-mobile: (
+		stack: defaults.$stack-chinese,
+		size: 1rem,
+		line-height: 1,
+		letter-spacing: 0.06em,
+	),
+	login-field-input: (
+		stack: defaults.$stack-chinese,
+		size: 1.4rem,
+		line-height: 1.3,
+		letter-spacing: 0.02em,
+	),
+	login-field-input-mobile: (
+		stack: defaults.$stack-chinese,
+		size: 1.9rem,
+		line-height: 1.3,
+		letter-spacing: 0.01em,
+	),
 	navigation-main: (
 		stack: defaults.$stack-japanese,
 		size: 1.4rem,
