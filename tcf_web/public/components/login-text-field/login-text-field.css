@@ -31,8 +31,8 @@
   --ltf-placeholder: rgba(59, 59, 59, 0.55);
   --ltf-line: rgba(59, 59, 59, 0.45);
   --ltf-line-hover: rgba(59, 59, 59, 0.75);
-  --ltf-line-active: #f3bb19;
-  --ltf-caret: #f3bb19;
+  --ltf-line-active: #3b3b3b;
+  --ltf-caret: #3b3b3b;
   --ltf-icon: rgba(59, 59, 59, 0.7);
   --ltf-icon-active: #3b3b3b;
   --ltf-error: #ce202a;
@@ -48,8 +48,8 @@
     --ltf-placeholder: rgba(241, 242, 242, 0.55);
     --ltf-line: rgba(241, 242, 242, 0.45);
     --ltf-line-hover: rgba(241, 242, 242, 0.75);
-    --ltf-line-active: #f3bb19;
-    --ltf-caret: #f3bb19;
+    --ltf-line-active: #f1f2f2;
+    --ltf-caret: #f1f2f2;
     --ltf-icon: rgba(241, 242, 242, 0.7);
     --ltf-icon-active: #f1f2f2;
     --ltf-error: #ce202a;
@@ -58,7 +58,7 @@
 }
 
 .label {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
 }
 
 ::slotted(label) {
@@ -104,7 +104,7 @@
   flex-direction: row;
   align-items: center;
   position: relative;
-  min-height: 2.75rem;
+  min-height: 2.25rem;
 }
 .input::before {
   content: "";
@@ -239,8 +239,8 @@
 .toggle {
   display: grid;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
   margin: 0;
   padding: 0;
   border: 0;
@@ -294,7 +294,7 @@
   grid-area: 1/1;
   width: 1em;
   overflow: hidden;
-  font-size: 24px;
+  font-size: 1.5rem;
   transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

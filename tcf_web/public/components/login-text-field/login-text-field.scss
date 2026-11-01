@@ -21,11 +21,11 @@ $input-typeface-desktop: login-field-input;
 $error-typeface: login-field-label;
 
 // Sizes
-$row-height: 2.75rem; // input row and icon button (44px touch target)
-$icon-size: 24px;
+$row-height: 2.25rem; // input row and icon button (44px touch target)
+$icon-size: 1.5rem; // icon button (and icon font size)
 $line-width: 1px; // resting underline
 $line-width-active: 2px; // highlight (focus and error)
-$label-gap: 0.25rem; // label to input row
+$label-gap: 0; // label to input row
 $error-offset: 0.4rem; // underline to error message and forgot button
 $footer-column-gap: 1rem; // error message to forgot button when side by side
 $shake-distance: 6px;
@@ -51,8 +51,8 @@ $shake-duration: 0.4s;
 	--ltf-placeholder: #{tone(palette.$light-primary-deep, 0.55)};
 	--ltf-line: #{tone(palette.$light-primary-deep, 0.45)};
 	--ltf-line-hover: #{tone(palette.$light-primary-deep, 0.75)};
-	--ltf-line-active: #{palette.$accent-yellow};
-	--ltf-caret: #{palette.$accent-yellow};
+	--ltf-line-active: #{palette.$light-primary-deep};
+	--ltf-caret: #{palette.$light-primary-deep};
 	--ltf-icon: #{tone(palette.$light-primary-deep, 0.7)};
 	--ltf-icon-active: #{palette.$light-primary-deep};
 	--ltf-error: #{palette.$accent-red};
@@ -66,8 +66,8 @@ $shake-duration: 0.4s;
 	--ltf-placeholder: #{tone(palette.$dark-primary-deep, 0.55)};
 	--ltf-line: #{tone(palette.$dark-primary-deep, 0.45)};
 	--ltf-line-hover: #{tone(palette.$dark-primary-deep, 0.75)};
-	--ltf-line-active: #{palette.$accent-yellow};
-	--ltf-caret: #{palette.$accent-yellow};
+	--ltf-line-active: #{palette.$dark-primary-deep};
+	--ltf-caret: #{palette.$dark-primary-deep};
 	--ltf-icon: #{tone(palette.$dark-primary-deep, 0.7)};
 	--ltf-icon-active: #{palette.$dark-primary-deep};
 	--ltf-error: #{palette.$accent-red};
