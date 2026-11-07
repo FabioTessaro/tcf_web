@@ -7,6 +7,32 @@
 @use "defaults";
 
 $typefaces: (
+	login-title: (
+		weight: 300,
+		size: 3rem,
+		line-height: 1,
+		letter-spacing: 0.06em,
+		text-transform: uppercase,
+	),
+	login-title-mobile: (
+		weight: 350,
+		size: 3.4rem,
+		line-height: 1,
+		letter-spacing: 0.04em,
+		text-transform: uppercase,
+	),
+	login-subtitle: (
+		weight: 400,
+		size: 1.3rem,
+		line-height: 1,
+		letter-spacing: 0.06em,
+	),
+	login-subtitle-mobile: (
+		weight: 500,
+		size: 1.5rem,
+		line-height: 1,
+		letter-spacing: 0.04em,
+	),
 	login-field-caption: (
 		weight: 300,
 		size: 0.8rem,
@@ -36,13 +62,13 @@ $typefaces: (
 	login-field-input: (
 		weight: 200,
 		size: 1.4rem,
-		line-height: 1,
+		line-height: 1.3,
 		letter-spacing: 0.02em,
 	),
 	login-field-input-mobile: (
 		weight: 300,
 		size: 1.9rem,
-		line-height: 1,
+		line-height: 1.3,
 		letter-spacing: 0.01em,
 	),
 	navigation-main: (

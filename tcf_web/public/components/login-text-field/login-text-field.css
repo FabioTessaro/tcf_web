@@ -293,6 +293,14 @@
 .icon {
   grid-area: 1/1;
   width: 1em;
+  font-weight: 200;
+}
+@media (max-width: 767.98px) {
+  .icon {
+    font-weight: 300;
+  }
+}
+.icon {
   overflow: hidden;
   font-size: 1.5rem;
   transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);

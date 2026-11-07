@@ -30,14 +30,14 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  -moz-column-gap: 1.5rem;
-       column-gap: 1.5rem;
-  row-gap: 1.5rem;
+  -moz-column-gap: 3.5rem;
+       column-gap: 3.5rem;
+  row-gap: 3.5rem;
   justify-content: center;
   align-items: stretch;
   position: relative;
   isolation: isolate;
-  padding: 3rem 3.3804142396rem;
+  padding: 4rem 4.3804142396rem;
 }
 .login-card::before {
   content: "";
@@ -60,5 +60,216 @@
   }
 }
 .login-card {
-  width: 20rem;
+  width: 22rem;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0.7rem;
+       column-gap: 0.7rem;
+  row-gap: 0.7rem;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  padding-left: 2.5rem;
+}
+.title-container::before {
+  content: "";
+  position: absolute;
+  background-color: #f3bb19;
+  top: 0;
+  bottom: 0;
+  left: 0.6rem;
+  width: 0.2rem;
+  transform: skew(-10deg);
+}
+.title-container > h1 {
+  font-family: var(--tf-login-title-stack);
+  font-weight: var(--tf-login-title-weight);
+  font-stretch: var(--tf-login-title-width);
+  font-style: var(--tf-login-title-style);
+  font-size: var(--tf-login-title-size);
+  line-height: var(--tf-login-title-line-height);
+  letter-spacing: var(--tf-login-title-letter-spacing);
+  text-transform: var(--tf-login-title-transform);
+}
+@media (max-width: 767.98px) {
+  .title-container > h1 {
+    font-family: var(--tf-login-title-mobile-stack);
+    font-weight: var(--tf-login-title-mobile-weight);
+    font-stretch: var(--tf-login-title-mobile-width);
+    font-style: var(--tf-login-title-mobile-style);
+    font-size: var(--tf-login-title-mobile-size);
+    line-height: var(--tf-login-title-mobile-line-height);
+    letter-spacing: var(--tf-login-title-mobile-letter-spacing);
+    text-transform: var(--tf-login-title-mobile-transform);
+  }
+}
+@media screen and (prefers-color-scheme: dark) {
+  .title-container > h1 {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .title-container > h1 {
+    color: #3b3b3b;
+  }
+}
+.title-container > h1 {
+  margin: 0;
+}
+.title-container > h5 {
+  font-family: var(--tf-login-subtitle-stack);
+  font-weight: var(--tf-login-subtitle-weight);
+  font-stretch: var(--tf-login-subtitle-width);
+  font-style: var(--tf-login-subtitle-style);
+  font-size: var(--tf-login-subtitle-size);
+  line-height: var(--tf-login-subtitle-line-height);
+  letter-spacing: var(--tf-login-subtitle-letter-spacing);
+  text-transform: var(--tf-login-subtitle-transform);
+}
+@media (max-width: 767.98px) {
+  .title-container > h5 {
+    font-family: var(--tf-login-subtitle-mobile-stack);
+    font-weight: var(--tf-login-subtitle-mobile-weight);
+    font-stretch: var(--tf-login-subtitle-mobile-width);
+    font-style: var(--tf-login-subtitle-mobile-style);
+    font-size: var(--tf-login-subtitle-mobile-size);
+    line-height: var(--tf-login-subtitle-mobile-line-height);
+    letter-spacing: var(--tf-login-subtitle-mobile-letter-spacing);
+    text-transform: var(--tf-login-subtitle-mobile-transform);
+  }
+}
+@media screen and (prefers-color-scheme: dark) {
+  .title-container > h5 {
+    color: #d1d3d4;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .title-container > h5 {
+    color: #4a4a4a;
+  }
+}
+.title-container > h5 {
+  margin: 0;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+  row-gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.forgot-button {
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+}
+@media (min-width: 768px) {
+  .forgot-button {
+    position: relative;
+    padding-right: 0.2rem;
+  }
+  .forgot-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 1px;
+    background-color: currentColor;
+    opacity: 0;
+    transform: skewX(-10deg);
+    transition: opacity 0.25s ease;
+  }
+  .forgot-button:hover::after {
+    opacity: 1;
+  }
+  .forgot-button .forgot-button-label {
+    transition: transform 0.25s ease;
+  }
+  .forgot-button:hover .forgot-button-label {
+    transform: translateX(-0.4rem);
+  }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .forgot-button::before, .forgot-button::after {
+    transition: none;
+  }
+  .forgot-button .forgot-button-label {
+    transition: none;
+  }
+}
+@media screen and (prefers-color-scheme: dark) {
+  .forgot-button {
+    color: #d1d3d4;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .forgot-button {
+    color: #4a4a4a;
+  }
+}
+.forgot-button {
+  background-color: transparent;
+  border: none;
+  text-align: right;
+  padding: 0;
+  cursor: pointer;
+}
+@media (max-width: 767.98px) {
+  .forgot-button {
+    font-family: var(--tf-login-field-caption-mobile-stack);
+    font-weight: var(--tf-login-field-caption-mobile-weight);
+    font-stretch: var(--tf-login-field-caption-mobile-width);
+    font-style: var(--tf-login-field-caption-mobile-style);
+    font-size: var(--tf-login-field-caption-mobile-size);
+    line-height: var(--tf-login-field-caption-mobile-line-height);
+    letter-spacing: var(--tf-login-field-caption-mobile-letter-spacing);
+    text-transform: var(--tf-login-field-caption-mobile-transform);
+    position: relative;
+    isolation: isolate;
+  }
+  .forgot-button::before {
+    content: "";
+    position: absolute;
+    inset: -0.05rem -0.1rem;
+    z-index: -1;
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+    opacity: 0;
+    transform: skewX(-10deg);
+    transition: opacity 0.15s ease;
+  }
+}
+@media (max-width: 767.98px) and (hover: hover) {
+  .forgot-button:hover::before {
+    opacity: 1;
+  }
+}
+@media (max-width: 767.98px) {
+  .forgot-button:focus-visible::before {
+    opacity: 1;
+  }
+}
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+  .forgot-button::before {
+    transition: none;
+  }
+}
+@media (max-width: 767.98px) {
+  .forgot-button > .forgot-button-label {
+    margin: 0.5rem 1rem;
+  }
 }

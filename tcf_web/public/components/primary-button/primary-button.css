@@ -99,6 +99,7 @@
 }
 @media (max-width: 767.98px) {
   .primary-button-container {
+    height: 3.25rem;
     font-family: var(--tf-navigation-main-mobile-stack);
     font-weight: var(--tf-navigation-main-mobile-weight);
     font-stretch: var(--tf-navigation-main-mobile-width);
@@ -265,6 +266,14 @@
   flex: 0 0 auto;
   width: 1.5rem;
   height: 1.5rem;
+}
+@media (max-width: 767.98px) {
+  .primary-button-icon {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+}
+.primary-button-icon {
   margin-inline-start: var(--primary-button-icon-start, 0);
   margin-inline-end: var(--primary-button-icon-end, 0.4rem);
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -289,6 +298,17 @@
   width: 1.5rem;
   height: 1.5rem;
   font-size: 1.5rem;
+  font-weight: 200;
+}
+@media (max-width: 767.98px) {
+  .primary-button-icon-glyph {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 1.9rem;
+    font-weight: 300;
+  }
+}
+.primary-button-icon-glyph {
   line-height: 1;
   opacity: 0;
   transform: scale(0.5) rotate(-90deg);

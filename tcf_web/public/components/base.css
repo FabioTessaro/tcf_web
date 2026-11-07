@@ -1,4 +1,36 @@
 :root {
+  --tf-login-title-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-title-weight: 300;
+  --tf-login-title-width: 100%;
+  --tf-login-title-style: normal;
+  --tf-login-title-size: 3rem;
+  --tf-login-title-line-height: 1;
+  --tf-login-title-letter-spacing: 0.06em;
+  --tf-login-title-transform: uppercase;
+  --tf-login-title-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-title-mobile-weight: 350;
+  --tf-login-title-mobile-width: 100%;
+  --tf-login-title-mobile-style: normal;
+  --tf-login-title-mobile-size: 3.4rem;
+  --tf-login-title-mobile-line-height: 1;
+  --tf-login-title-mobile-letter-spacing: 0.04em;
+  --tf-login-title-mobile-transform: uppercase;
+  --tf-login-subtitle-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-subtitle-weight: 400;
+  --tf-login-subtitle-width: 100%;
+  --tf-login-subtitle-style: normal;
+  --tf-login-subtitle-size: 1.3rem;
+  --tf-login-subtitle-line-height: 1;
+  --tf-login-subtitle-letter-spacing: 0.06em;
+  --tf-login-subtitle-transform: none;
+  --tf-login-subtitle-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-subtitle-mobile-weight: 500;
+  --tf-login-subtitle-mobile-width: 100%;
+  --tf-login-subtitle-mobile-style: normal;
+  --tf-login-subtitle-mobile-size: 1.5rem;
+  --tf-login-subtitle-mobile-line-height: 1;
+  --tf-login-subtitle-mobile-letter-spacing: 0.04em;
+  --tf-login-subtitle-mobile-transform: none;
   --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-login-field-caption-weight: 300;
   --tf-login-field-caption-width: 100%;
@@ -36,7 +68,7 @@
   --tf-login-field-input-width: 100%;
   --tf-login-field-input-style: normal;
   --tf-login-field-input-size: 1.4rem;
-  --tf-login-field-input-line-height: 1;
+  --tf-login-field-input-line-height: 1.3;
   --tf-login-field-input-letter-spacing: 0.02em;
   --tf-login-field-input-transform: none;
   --tf-login-field-input-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -44,7 +76,7 @@
   --tf-login-field-input-mobile-width: 100%;
   --tf-login-field-input-mobile-style: normal;
   --tf-login-field-input-mobile-size: 1.9rem;
-  --tf-login-field-input-mobile-line-height: 1;
+  --tf-login-field-input-mobile-line-height: 1.3;
   --tf-login-field-input-mobile-letter-spacing: 0.01em;
   --tf-login-field-input-mobile-transform: none;
   --tf-navigation-main-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -82,6 +114,38 @@
 }
 
 :lang(en-GB), :lang(de-DE), :lang(it-IT) {
+  --tf-login-title-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-title-weight: 300;
+  --tf-login-title-width: 100%;
+  --tf-login-title-style: normal;
+  --tf-login-title-size: 3rem;
+  --tf-login-title-line-height: 1;
+  --tf-login-title-letter-spacing: 0.06em;
+  --tf-login-title-transform: uppercase;
+  --tf-login-title-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-title-mobile-weight: 350;
+  --tf-login-title-mobile-width: 100%;
+  --tf-login-title-mobile-style: normal;
+  --tf-login-title-mobile-size: 3.4rem;
+  --tf-login-title-mobile-line-height: 1;
+  --tf-login-title-mobile-letter-spacing: 0.04em;
+  --tf-login-title-mobile-transform: uppercase;
+  --tf-login-subtitle-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-subtitle-weight: 400;
+  --tf-login-subtitle-width: 100%;
+  --tf-login-subtitle-style: normal;
+  --tf-login-subtitle-size: 1.3rem;
+  --tf-login-subtitle-line-height: 1;
+  --tf-login-subtitle-letter-spacing: 0.06em;
+  --tf-login-subtitle-transform: none;
+  --tf-login-subtitle-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-subtitle-mobile-weight: 500;
+  --tf-login-subtitle-mobile-width: 100%;
+  --tf-login-subtitle-mobile-style: normal;
+  --tf-login-subtitle-mobile-size: 1.5rem;
+  --tf-login-subtitle-mobile-line-height: 1;
+  --tf-login-subtitle-mobile-letter-spacing: 0.04em;
+  --tf-login-subtitle-mobile-transform: none;
   --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --tf-login-field-caption-weight: 300;
   --tf-login-field-caption-width: 100%;
@@ -119,7 +183,7 @@
   --tf-login-field-input-width: 100%;
   --tf-login-field-input-style: normal;
   --tf-login-field-input-size: 1.4rem;
-  --tf-login-field-input-line-height: 1;
+  --tf-login-field-input-line-height: 1.3;
   --tf-login-field-input-letter-spacing: 0.02em;
   --tf-login-field-input-transform: none;
   --tf-login-field-input-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -127,7 +191,7 @@
   --tf-login-field-input-mobile-width: 100%;
   --tf-login-field-input-mobile-style: normal;
   --tf-login-field-input-mobile-size: 1.9rem;
-  --tf-login-field-input-mobile-line-height: 1;
+  --tf-login-field-input-mobile-line-height: 1.3;
   --tf-login-field-input-mobile-letter-spacing: 0.01em;
   --tf-login-field-input-mobile-transform: none;
   --tf-navigation-main-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -165,7 +229,39 @@
 }
 
 :lang(zh-CN) {
-  --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-title-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-title-weight: 300;
+  --tf-login-title-width: 100%;
+  --tf-login-title-style: normal;
+  --tf-login-title-size: 3rem;
+  --tf-login-title-line-height: 1;
+  --tf-login-title-letter-spacing: 0.06em;
+  --tf-login-title-transform: uppercase;
+  --tf-login-title-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-title-mobile-weight: 350;
+  --tf-login-title-mobile-width: 100%;
+  --tf-login-title-mobile-style: normal;
+  --tf-login-title-mobile-size: 3.4rem;
+  --tf-login-title-mobile-line-height: 1;
+  --tf-login-title-mobile-letter-spacing: 0.04em;
+  --tf-login-title-mobile-transform: uppercase;
+  --tf-login-subtitle-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-subtitle-weight: 400;
+  --tf-login-subtitle-width: 100%;
+  --tf-login-subtitle-style: normal;
+  --tf-login-subtitle-size: 1.3rem;
+  --tf-login-subtitle-line-height: 1;
+  --tf-login-subtitle-letter-spacing: 0.06em;
+  --tf-login-subtitle-transform: none;
+  --tf-login-subtitle-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-subtitle-mobile-weight: 500;
+  --tf-login-subtitle-mobile-width: 100%;
+  --tf-login-subtitle-mobile-style: normal;
+  --tf-login-subtitle-mobile-size: 1.5rem;
+  --tf-login-subtitle-mobile-line-height: 1;
+  --tf-login-subtitle-mobile-letter-spacing: 0.04em;
+  --tf-login-subtitle-mobile-transform: none;
+  --tf-login-field-caption-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
   --tf-login-field-caption-weight: 300;
   --tf-login-field-caption-width: 100%;
   --tf-login-field-caption-style: normal;
@@ -173,7 +269,7 @@
   --tf-login-field-caption-line-height: 1;
   --tf-login-field-caption-letter-spacing: 0.06em;
   --tf-login-field-caption-transform: none;
-  --tf-login-field-caption-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
   --tf-login-field-caption-mobile-weight: 350;
   --tf-login-field-caption-mobile-width: 100%;
   --tf-login-field-caption-mobile-style: normal;
@@ -186,7 +282,7 @@
   --tf-login-field-label-width: 100%;
   --tf-login-field-label-style: normal;
   --tf-login-field-label-size: 0.9rem;
-  --tf-login-field-label-line-height: 1.1;
+  --tf-login-field-label-line-height: 1;
   --tf-login-field-label-letter-spacing: 0.08em;
   --tf-login-field-label-transform: uppercase;
   --tf-login-field-label-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
@@ -234,7 +330,7 @@
   --tf-navigation-label-width: 100%;
   --tf-navigation-label-style: normal;
   --tf-navigation-label-size: 0.8rem;
-  --tf-navigation-label-line-height: 1.1;
+  --tf-navigation-label-line-height: 1;
   --tf-navigation-label-letter-spacing: 0.12em;
   --tf-navigation-label-transform: uppercase;
   --tf-navigation-label-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
@@ -242,13 +338,45 @@
   --tf-navigation-label-mobile-width: 100%;
   --tf-navigation-label-mobile-style: normal;
   --tf-navigation-label-mobile-size: 1rem;
-  --tf-navigation-label-mobile-line-height: 1.1;
+  --tf-navigation-label-mobile-line-height: 1;
   --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
 }
 
 :lang(ja-JP) {
-  --tf-login-field-caption-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-title-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
+  --tf-login-title-weight: 300;
+  --tf-login-title-width: 100%;
+  --tf-login-title-style: normal;
+  --tf-login-title-size: 3rem;
+  --tf-login-title-line-height: 1;
+  --tf-login-title-letter-spacing: 0.06em;
+  --tf-login-title-transform: uppercase;
+  --tf-login-title-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
+  --tf-login-title-mobile-weight: 350;
+  --tf-login-title-mobile-width: 100%;
+  --tf-login-title-mobile-style: normal;
+  --tf-login-title-mobile-size: 3.4rem;
+  --tf-login-title-mobile-line-height: 1;
+  --tf-login-title-mobile-letter-spacing: 0.04em;
+  --tf-login-title-mobile-transform: uppercase;
+  --tf-login-subtitle-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
+  --tf-login-subtitle-weight: 400;
+  --tf-login-subtitle-width: 100%;
+  --tf-login-subtitle-style: normal;
+  --tf-login-subtitle-size: 1.3rem;
+  --tf-login-subtitle-line-height: 1;
+  --tf-login-subtitle-letter-spacing: 0.06em;
+  --tf-login-subtitle-transform: none;
+  --tf-login-subtitle-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
+  --tf-login-subtitle-mobile-weight: 500;
+  --tf-login-subtitle-mobile-width: 100%;
+  --tf-login-subtitle-mobile-style: normal;
+  --tf-login-subtitle-mobile-size: 1.5rem;
+  --tf-login-subtitle-mobile-line-height: 1;
+  --tf-login-subtitle-mobile-letter-spacing: 0.04em;
+  --tf-login-subtitle-mobile-transform: none;
+  --tf-login-field-caption-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
   --tf-login-field-caption-weight: 300;
   --tf-login-field-caption-width: 100%;
   --tf-login-field-caption-style: normal;
@@ -256,7 +384,7 @@
   --tf-login-field-caption-line-height: 1;
   --tf-login-field-caption-letter-spacing: 0.06em;
   --tf-login-field-caption-transform: none;
-  --tf-login-field-caption-mobile-stack: Noto Sans, Noto Sans SC, Noto Sans JP, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --tf-login-field-caption-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
   --tf-login-field-caption-mobile-weight: 350;
   --tf-login-field-caption-mobile-width: 100%;
   --tf-login-field-caption-mobile-style: normal;
@@ -264,15 +392,15 @@
   --tf-login-field-caption-mobile-line-height: 1;
   --tf-login-field-caption-mobile-letter-spacing: 0.04em;
   --tf-login-field-caption-mobile-transform: none;
-  --tf-login-field-label-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-field-label-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
   --tf-login-field-label-weight: 300;
   --tf-login-field-label-width: 100%;
   --tf-login-field-label-style: normal;
   --tf-login-field-label-size: 0.9rem;
-  --tf-login-field-label-line-height: 1.1;
+  --tf-login-field-label-line-height: 1;
   --tf-login-field-label-letter-spacing: 0.08em;
   --tf-login-field-label-transform: uppercase;
-  --tf-login-field-label-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-field-label-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
   --tf-login-field-label-mobile-weight: 350;
   --tf-login-field-label-mobile-width: 100%;
   --tf-login-field-label-mobile-style: normal;
@@ -280,7 +408,7 @@
   --tf-login-field-label-mobile-line-height: 1;
   --tf-login-field-label-mobile-letter-spacing: 0.06em;
   --tf-login-field-label-mobile-transform: uppercase;
-  --tf-login-field-input-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-field-input-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
   --tf-login-field-input-weight: 200;
   --tf-login-field-input-width: 100%;
   --tf-login-field-input-style: normal;
@@ -288,7 +416,7 @@
   --tf-login-field-input-line-height: 1.3;
   --tf-login-field-input-letter-spacing: 0.02em;
   --tf-login-field-input-transform: none;
-  --tf-login-field-input-mobile-stack: Noto Sans SC, Noto Sans, Noto Sans JP, system-ui, PingFang SC, Microsoft YaHei, sans-serif;
+  --tf-login-field-input-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
   --tf-login-field-input-mobile-weight: 300;
   --tf-login-field-input-mobile-width: 100%;
   --tf-login-field-input-mobile-style: normal;
@@ -317,7 +445,7 @@
   --tf-navigation-label-width: 100%;
   --tf-navigation-label-style: normal;
   --tf-navigation-label-size: 0.8rem;
-  --tf-navigation-label-line-height: 1.1;
+  --tf-navigation-label-line-height: 1;
   --tf-navigation-label-letter-spacing: 0.12em;
   --tf-navigation-label-transform: uppercase;
   --tf-navigation-label-mobile-stack: Noto Sans JP, Noto Sans, Noto Sans SC, system-ui, Hiragino Sans, Meiryo, sans-serif;
@@ -325,9 +453,53 @@
   --tf-navigation-label-mobile-width: 100%;
   --tf-navigation-label-mobile-style: normal;
   --tf-navigation-label-mobile-size: 1rem;
-  --tf-navigation-label-mobile-line-height: 1.1;
+  --tf-navigation-label-mobile-line-height: 1;
   --tf-navigation-label-mobile-letter-spacing: 0.12em;
   --tf-navigation-label-mobile-transform: uppercase;
+}
+
+.tf-login-title {
+  font-family: var(--tf-login-title-stack);
+  font-weight: var(--tf-login-title-weight);
+  font-stretch: var(--tf-login-title-width);
+  font-style: var(--tf-login-title-style);
+  font-size: var(--tf-login-title-size);
+  line-height: var(--tf-login-title-line-height);
+  letter-spacing: var(--tf-login-title-letter-spacing);
+  text-transform: var(--tf-login-title-transform);
+}
+
+.tf-login-title-mobile {
+  font-family: var(--tf-login-title-mobile-stack);
+  font-weight: var(--tf-login-title-mobile-weight);
+  font-stretch: var(--tf-login-title-mobile-width);
+  font-style: var(--tf-login-title-mobile-style);
+  font-size: var(--tf-login-title-mobile-size);
+  line-height: var(--tf-login-title-mobile-line-height);
+  letter-spacing: var(--tf-login-title-mobile-letter-spacing);
+  text-transform: var(--tf-login-title-mobile-transform);
+}
+
+.tf-login-subtitle {
+  font-family: var(--tf-login-subtitle-stack);
+  font-weight: var(--tf-login-subtitle-weight);
+  font-stretch: var(--tf-login-subtitle-width);
+  font-style: var(--tf-login-subtitle-style);
+  font-size: var(--tf-login-subtitle-size);
+  line-height: var(--tf-login-subtitle-line-height);
+  letter-spacing: var(--tf-login-subtitle-letter-spacing);
+  text-transform: var(--tf-login-subtitle-transform);
+}
+
+.tf-login-subtitle-mobile {
+  font-family: var(--tf-login-subtitle-mobile-stack);
+  font-weight: var(--tf-login-subtitle-mobile-weight);
+  font-stretch: var(--tf-login-subtitle-mobile-width);
+  font-style: var(--tf-login-subtitle-mobile-style);
+  font-size: var(--tf-login-subtitle-mobile-size);
+  line-height: var(--tf-login-subtitle-mobile-line-height);
+  letter-spacing: var(--tf-login-subtitle-mobile-letter-spacing);
+  text-transform: var(--tf-login-subtitle-mobile-transform);
 }
 
 .tf-login-field-caption {

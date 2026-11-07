@@ -5,22 +5,40 @@
 @use "defaults";
 
 $typefaces: (
+	login-title: (
+		stack: defaults.$stack-chinese,
+		size: 3rem,
+		line-height: 1,
+	),
+	login-title-mobile: (
+		stack: defaults.$stack-chinese,
+		size: 3.4rem,
+		line-height: 1,
+	),
+	login-subtitle: (
+		stack: defaults.$stack-chinese,
+		size: 1.3rem,
+		line-height: 1,
+	),
+	login-subtitle-mobile: (
+		stack: defaults.$stack-chinese,
+		size: 1.5rem,
+		line-height: 1,
+	),
 	login-field-caption: (
-		weight: 300,
+		stack: defaults.$stack-chinese,
 		size: 0.8rem,
 		line-height: 1,
-		letter-spacing: 0.06em,
 	),
 	login-field-caption-mobile: (
-		weight: 350,
+		stack: defaults.$stack-chinese,
 		size: 1rem,
 		line-height: 1,
-		letter-spacing: 0.04em,
 	),
 	login-field-label: (
 		stack: defaults.$stack-chinese,
 		size: 0.9rem,
-		line-height: 1.1,
+		line-height: 1,
 		letter-spacing: 0.08em,
 	),
 	login-field-label-mobile: (
@@ -54,11 +72,11 @@ $typefaces: (
 	navigation-label: (
 		stack: defaults.$stack-chinese,
 		size: 0.8rem,
-		line-height: 1.1,
+		line-height: 1,
 	),
 	navigation-label-mobile: (
 		stack: defaults.$stack-chinese,
 		size: 1rem,
-		line-height: 1.1,
+		line-height: 1,
 	),
 );

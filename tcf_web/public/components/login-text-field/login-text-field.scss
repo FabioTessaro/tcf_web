@@ -292,6 +292,10 @@ $shake-duration: 0.4s;
 .icon {
 	grid-area: 1 / 1;
 	width: 1em;
+	font-weight: 200;
+	@include layout.flex-mobile {
+		font-weight: 300;
+	}
 	overflow: hidden; // while the icon font loads, the ligature text must not widen the button
 	font-size: $icon-size;
 	transition: opacity $duration-fast ease, transform $duration $easing;

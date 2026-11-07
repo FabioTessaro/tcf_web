@@ -21,12 +21,14 @@ $typeface-mobile: navigation-main-mobile;
 // --- Shape -------------------------------------------------------------------
 $slant: elements.$brand-slant; // lean of the sides ("/"), follows the brand angle
 $height: 2.75rem; // body height (44px touch target)
+$height-mobile: 3.25rem; // height for mobile devices
 $padding-inline: 1.5rem; // space between the slanted side and the content
 $pressed-scale: 0.96; // scale while pressed, 1 = no press effect
 
 // --- Icon --------------------------------------------------------------------
 $icon-style: sharp; // sharp | outlined | rounded. Keep the class in primary-button.html in sync
 $icon-size: 1.5rem;
+$icon-size-mobile: 1.9rem;
 $icon-gap: 0.4rem; // space between icon and label
 $loading-icon-spin: true; // spin the icon-loading glyph while loading (set false if it is not a spinner)
 $loading-icon-spin-duration: 1.5s;
@@ -174,6 +176,7 @@ $overhang: math.div(math.tan($slant) * $height, 2);
 
 	@include type.typeface($typeface-desktop);
 	@include layout.flex-mobile {
+		height: $height-mobile;
 		@include type.typeface($typeface-mobile);
 	}
 
@@ -312,6 +315,10 @@ $overhang: math.div(math.tan($slant) * $height, 2);
 	flex: 0 0 auto;
 	width: $icon-size;
 	height: $icon-size;
+	@include layout.flex-mobile {
+		width: $icon-size-mobile;
+		height: $icon-size-mobile;
+	}
 	margin-inline-start: var(--primary-button-icon-start, 0);
 	margin-inline-end: var(--primary-button-icon-end, #{$icon-gap});
 	transition: width $icon-duration $icon-easing, margin $icon-duration $icon-easing;
@@ -338,6 +345,13 @@ $overhang: math.div(math.tan($slant) * $height, 2);
 	width: $icon-size;
 	height: $icon-size;
 	font-size: $icon-size;
+	font-weight: 200;
+	@include layout.flex-mobile {
+		width: $icon-size-mobile;
+		height: $icon-size-mobile;
+		font-size: $icon-size-mobile;
+		font-weight: 300;
+	}
 	line-height: 1;
 	opacity: 0;
 	transform: scale(0.5) rotate(-90deg);
