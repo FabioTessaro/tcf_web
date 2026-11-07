@@ -627,3 +627,113 @@ input[type=reset] {
   cursor: pointer;
   outline: inherit;
 }
+
+.forgot-button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+}
+@media screen and (prefers-color-scheme: dark) {
+  .forgot-button {
+    color: #d1d3d4;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .forgot-button {
+    color: #4a4a4a;
+  }
+}
+@media (min-width: 768px) {
+  .forgot-button {
+    position: relative;
+    padding-right: 0.1rem;
+  }
+  .forgot-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 1px;
+    background-color: currentColor;
+    opacity: 0;
+    transform: skewX(-10deg);
+    transition: opacity 0.25s ease;
+  }
+  .forgot-button:hover::after {
+    opacity: 1;
+  }
+  .forgot-button .forgot-button-label {
+    transition: transform 0.25s ease;
+  }
+  .forgot-button:hover .forgot-button-label {
+    transform: translateX(-0.3rem);
+  }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .forgot-button::before, .forgot-button::after {
+    transition: none;
+  }
+  .forgot-button .forgot-button-label {
+    transition: none;
+  }
+}
+@media (max-width: 767.98px) {
+  .forgot-button {
+    font-family: var(--tf-login-field-caption-mobile-stack);
+    font-weight: var(--tf-login-field-caption-mobile-weight);
+    font-stretch: var(--tf-login-field-caption-mobile-width);
+    font-style: var(--tf-login-field-caption-mobile-style);
+    font-size: var(--tf-login-field-caption-mobile-size);
+    line-height: var(--tf-login-field-caption-mobile-line-height);
+    letter-spacing: var(--tf-login-field-caption-mobile-letter-spacing);
+    text-transform: var(--tf-login-field-caption-mobile-transform);
+    position: relative;
+    isolation: isolate;
+  }
+  .forgot-button::before {
+    content: "";
+    position: absolute;
+    inset: -0.05rem -0.1rem;
+    z-index: -1;
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+    opacity: 0;
+    transform: skewX(-10deg);
+    transition: opacity 0.15s ease;
+  }
+}
+@media (max-width: 767.98px) and (hover: hover) {
+  .forgot-button:hover::before {
+    opacity: 1;
+  }
+}
+@media (max-width: 767.98px) {
+  .forgot-button:focus-visible::before {
+    opacity: 1;
+  }
+}
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+  .forgot-button::before {
+    transition: none;
+  }
+}
+@media (max-width: 767.98px) {
+  .forgot-button > .forgot-button-label {
+    margin: 0.5rem 1rem;
+  }
+}

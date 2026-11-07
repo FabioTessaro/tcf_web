@@ -9,6 +9,7 @@ ALLOWED_PREFIXES = {
 	"desk",
 	"drive",
 	"meet",
+	"insights",
 	"login",
 	"raven",
 	"update-password",

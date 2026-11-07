@@ -1,5 +1,19 @@
 {% extends "tcf_web/www/base.html" %}
 
 {% block content %}
-    {% include "tcf_web/public/components/login-card/login-card.html" %}
+    <login-card>
+        <span slot="title" data-i18n="login-card:title"></span>
+        <span slot="subtitle" data-i18n="login-card:subtitle"></span>
+
+        <login-text-field slot="email" type="email">
+            <label data-i18n="login-text-field:email.label"></label>
+            <input name="usr" autocomplete="username" data-i18n="[placeholder]login-text-field:email.placeholder">
+        </login-text-field>
+
+        <login-text-field slot="password" type="password">
+            <label data-i18n="login-text-field:password.label"></label>
+            <input name="pwd" autocomplete="current-password" data-i18n="[placeholder]login-text-field:password.placeholder">
+            <button class="forgot-button" type="button"><div class="forgot-button-label" data-i18n="login-card:forgotPassword"></div></button>
+        </login-text-field>
+    </login-card>
 {% endblock %}

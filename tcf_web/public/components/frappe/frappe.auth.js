@@ -29,5 +29,27 @@ $.api.extend("auth", function (ctx) {
 					return ctx.session.refresh();
 				});
 		},
+
+		forgot: function (username) {
+			const user = String(username == null ? "" : username).trim();
+			if (!user) {
+				return Promise.reject(
+					toError({ httpStatus: 400, message: "A user is required." })
+				);
+			}
+			return ctx.sdk.call
+				.post("frappe.core.doctype.user.user.reset_password", { user: user })
+				.catch(function (err) {
+					throw toError(err);
+				})
+				.then(function (res) {
+					if (res && res.message === "not allowed") {
+						throw toError({
+							httpStatus: 403,
+							message: "Password reset is not allowed for this account.",
+						});
+					}
+				});
+		},
 	};
 });
