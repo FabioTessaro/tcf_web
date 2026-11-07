@@ -125,12 +125,12 @@
 }
 @media screen and (max-width: 767.98px) and (prefers-color-scheme: dark) {
   .login-card {
-    background-color: #303030;
+    background-color: #1d1d1d;
   }
 }
 @media screen and (max-width: 767.98px) and (prefers-color-scheme: light) {
   .login-card {
-    background-color: #e0e0e0;
+    background-color: #f1f2f2;
   }
 }
 

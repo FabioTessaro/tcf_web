@@ -5,97 +5,93 @@ $.localization.register("login-card", {
 		forgotPassword: "Forgot your password?",
 		continue: "Continue",
 		loading: "Signing in…",
-		backToLogin: "Back to log in",
+		backToLogin: "Return to log in",
 		forgot: {
 			title: "Reset your password",
-			subtitle: "Enter your email address and we'll send you a link to reset it.",
-			submit: "Reset",
+			subtitle: "It happens, we'll help you get back in.",
+			submit: "Send link",
 			loading: "Sending…",
 		},
 		sent: {
 			title: "Check your inbox",
-			subtitle:
-				"If an account exists for this email address, we've sent you a link to reset your password.",
+			subtitle: "If your account exists, we'll send instructions to help you regain access.",
 		},
 	},
-
 	"de-DE": {
 		title: "Anmelden",
-		subtitle: "Ihr Arbeitsplatz. Alles an einem Ort.",
+		subtitle: "Ihr Arbeitsbereich. Alles an einem Ort.",
 		forgotPassword: "Passwort vergessen?",
 		continue: "Weiter",
 		loading: "Anmeldung läuft…",
 		backToLogin: "Zurück zur Anmeldung",
 		forgot: {
 			title: "Passwort zurücksetzen",
-			subtitle:
-				"Geben Sie Ihre E-Mail-Adresse ein, und wir senden Ihnen einen Link zum Zurücksetzen.",
+			subtitle: "Kein Problem, wir helfen Ihnen wieder hinein.",
 			submit: "Link senden",
 			loading: "Wird gesendet…",
 		},
 		sent: {
-			title: "Posteingang prüfen",
+			title: "Prüfen Sie Ihren Posteingang",
 			subtitle:
-				"Falls zu dieser E-Mail-Adresse ein Konto existiert, haben wir Ihnen einen Link zum Zurücksetzen Ihres Passworts gesendet.",
+				"Falls ein Konto existiert, senden wir Ihnen eine Anleitung zur Wiederherstellung Ihres Zugangs.",
 		},
 	},
 
 	"it-IT": {
 		title: "Accedi",
-		subtitle: "Il tuo spazio di lavoro, tutto in un unico luogo.",
-		forgotPassword: "Password dimenticata?",
+		subtitle: "Il tuo spazio di lavoro, tutto in un unico posto.",
+		forgotPassword: "Hai dimenticato la password?",
 		continue: "Continua",
 		loading: "Accesso in corso…",
 		backToLogin: "Torna all'accesso",
 		forgot: {
 			title: "Reimposta la password",
-			subtitle: "Inserisci il tuo indirizzo email e ti invieremo un link per reimpostarla.",
+			subtitle: "Nessun problema, ti aiuteremo a rientrare.",
 			submit: "Invia link",
 			loading: "Invio in corso…",
 		},
 		sent: {
-			title: "Controlla la posta",
-			subtitle:
-				"Se esiste un account associato a questo indirizzo email, ti abbiamo inviato un link per reimpostare la password.",
+			title: "Controlla la tua casella di posta",
+			subtitle: "Se esiste un account, ti invieremo le istruzioni per recuperare l'accesso.",
 		},
 	},
 
 	"zh-CN": {
 		title: "登录",
-		subtitle: "您的工作空间，尽在一处。",
+		subtitle: "您的工作空间，一切尽在其中。",
 		forgotPassword: "忘记密码？",
 		continue: "继续",
 		loading: "正在登录…",
 		backToLogin: "返回登录",
 		forgot: {
 			title: "重置密码",
-			subtitle: "请输入您的邮箱地址，我们将向您发送重置链接。",
-			submit: "发送重置链接",
+			subtitle: "别担心，我们会帮您重新找回访问权限。",
+			submit: "发送链接",
 			loading: "正在发送…",
 		},
 		sent: {
 			title: "请查收邮件",
-			subtitle: "如果该邮箱地址已注册账户，我们已向您发送了重置密码的链接。",
+			subtitle: "如果该邮箱存在关联账户，我们将发送相关说明，帮助您恢复访问权限。",
 		},
 	},
 
 	"ja-JP": {
 		title: "ログイン",
-		subtitle: "すべてがひとつにつながるワークスペース。",
+		subtitle: "すべてがひとつにまとまる、あなたのワークスペース。",
 		forgotPassword: "パスワードをお忘れですか？",
-		continue: "続ける",
+		continue: "続行",
 		loading: "ログイン中…",
 		backToLogin: "ログインに戻る",
 		forgot: {
 			title: "パスワードの再設定",
-			subtitle: "メールアドレスを入力してください。再設定用のリンクをお送りします。",
-			submit: "再設定リンクを送信",
+			subtitle: "ご安心ください。再びアクセスできるようサポートします。",
+			submit: "リンクを送信",
 			loading: "送信中…",
 		},
 		sent: {
 			title: "メールをご確認ください",
 			subtitle:
-				"このメールアドレスのアカウントが存在する場合、パスワード再設定用のリンクを送信しました。",
+				"アカウントが存在する場合、アクセスを再開するための手順をメールでお送りします。",
 		},
 	},
 });

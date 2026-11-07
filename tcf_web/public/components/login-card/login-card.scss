@@ -150,10 +150,10 @@ $reposition-easing: cubic-bezier(0.2, 0, 0, 1);
 			$mobile-padding-inline
 			calc(#{$mobile-padding-block} + env(safe-area-inset-bottom, 0px));
 		@media screen and (prefers-color-scheme: dark) {
-			background-color: palette.$dark-surface;
+			background-color: palette.$dark-background;
 		}
 		@media screen and (prefers-color-scheme: light) {
-			background-color: palette.$light-surface;
+			background-color: palette.$light-background;
 		}
 	}
 }
