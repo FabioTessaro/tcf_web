@@ -76,7 +76,7 @@ fixtures = [
 
 # Renderer
 # ----------
-page_renderer = "tcf_web.patches.portal_gate.TCFPortalGate"
+# page_renderer = "tcf_web.patches.portal_gate.TCFPortalGate"
 
 # Generators
 # ----------
