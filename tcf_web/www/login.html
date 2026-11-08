@@ -5,15 +5,15 @@
         <span slot="title" data-i18n="login-card:title"></span>
         <span slot="subtitle" data-i18n="login-card:subtitle"></span>
 
-        <login-text-field slot="email" type="email">
-            <label data-i18n="login-text-field:email.label"></label>
-            <input name="usr" autocomplete="username" data-i18n="[placeholder]login-text-field:email.placeholder">
-        </login-text-field>
+        <text-field slot="email" type="email">
+            <label data-i18n="text-field:email.label"></label>
+            <input name="usr" autocomplete="username" data-i18n="[placeholder]text-field:email.placeholder">
+        </text-field>
 
-        <login-text-field slot="password" type="password">
-            <label data-i18n="login-text-field:password.label"></label>
-            <input name="pwd" autocomplete="current-password" data-i18n="[placeholder]login-text-field:password.placeholder">
+        <text-field slot="password" type="password">
+            <label data-i18n="text-field:password.label"></label>
+            <input name="pwd" autocomplete="current-password" data-i18n="[placeholder]text-field:password.placeholder">
             <button class="forgot-button" type="button"><div class="forgot-button-label" data-i18n="login-card:forgotPassword"></div></button>
-        </login-text-field>
+        </text-field>
     </login-card>
 {% endblock %}

@@ -74,6 +74,10 @@ language — nothing else needs to change.
 `body`, `body-strong`, `heading-1`, `heading-2`, `caption`, `label`. The full
 list and its values live in `typefaces/_latin.scss`.
 
+The HR app (tcf_hr, Vue) has its own family, each with a `-mobile` twin and Chinese and Japanese overrides:
+`app-title`, `app-heading`, `app-body`, `app-label`, `app-nav`, `app-button`, `app-pill`, `app-caption`.
+They reach the app through `tokens/tokens.css`; the Vue app picks desktop or mobile with a media query (see `tcf_hr/frontend/src/styles/typography.css`).
+
 ### Overriding one property locally
 
 Fine for a one-off. If you do it often for the same typeface, add a new

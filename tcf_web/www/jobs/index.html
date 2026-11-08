@@ -1,0 +1,28 @@
+{% extends "tcf_web/www/base.html" %}
+
+{% block content %}
+    {% include "tcf_web/templates/includes/navbar.html" %}
+
+    <jobs-list page="{{ page }}" pages="{{ pages }}" query="{{ query | e }}">
+        <span slot="title" data-i18n="jobs:list.title"></span>
+        <span slot="subtitle" data-i18n="jobs:list.subtitle"></span>
+
+        <form slot="search" class="jobs-search" action="/jobs" method="get">
+            <text-field type="text">
+                <label data-i18n="jobs:search.label"></label>
+                <input name="query" value="{{ query | e }}" maxlength="100" autocomplete="off" data-i18n="[placeholder]jobs:search.placeholder">
+            </text-field>
+            <primary-button type="submit" label="jobs:search.submit" icon="search" icon-position="right"></primary-button>
+        </form>
+
+        {% for job in openings %}
+            <job-card
+                href="/{{ job.route | e }}"
+                job-title="{{ job.job_title | e }}"
+                company="{{ (job.company or '') | e }}"
+                location="{{ (job.location or '') | e }}"
+                employment-type="{{ (job.employment_type or '') | e }}"
+                posted="{{ frappe.utils.getdate(job.posted_on) if job.posted_on else '' }}"></job-card>
+        {% endfor %}
+    </jobs-list>
+{% endblock %}

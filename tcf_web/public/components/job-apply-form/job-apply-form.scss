@@ -1,0 +1,201 @@
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+:host {
+	display: block;
+	// Page background follows the theme through the shared tokens (light/dark)
+	min-height: 100vh;
+	min-height: 100dvh;
+	background-color: var(--tcf-background);
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.apply-form {
+	box-sizing: border-box;
+	max-width: 38rem;
+	margin: 0 auto;
+	padding: 6rem 2rem 4rem;
+	@include layout.flex-mobile {
+		padding: 5rem 0 0;
+	}
+}
+
+// Desktop: the slanted card. Mobile: flat, full width.
+.card {
+	position: relative;
+	isolation: isolate;
+	padding: 3rem 4.4rem;
+	@include layout.flex-mobile {
+		padding: 2rem 1.5rem;
+	}
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-color: var(--tcf-surface);
+		box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
+		transform: skewX(calc(-1 * var(--tcf-slant)));
+		@include layout.flex-mobile {
+			transform: none;
+			box-shadow: none;
+		}
+	}
+}
+
+.head {
+	position: relative;
+	padding-left: 2.5rem;
+
+	&::before {
+		content: "";
+		position: absolute;
+		background-color: var(--tcf-accent-yellow);
+		top: 0;
+		bottom: 0;
+		left: 0.6rem;
+		width: 0.2rem;
+		transform: skew(calc(-1 * var(--tcf-slant)));
+	}
+
+	h1 {
+		@include type.typeface(login-title);
+		@include layout.flex-mobile {
+			@include type.typeface(login-title-mobile);
+		}
+		color: var(--tcf-primary-deep);
+		margin: 0;
+		overflow-wrap: break-word;
+	}
+
+	h5 {
+		@include type.typeface(login-subtitle);
+		@include layout.flex-mobile {
+			@include type.typeface(login-subtitle-mobile);
+		}
+		color: var(--tcf-primary-light);
+		margin: 0.7rem 0 0;
+		overflow-wrap: anywhere;
+	}
+}
+
+.field {
+	margin-top: 2rem;
+
+	label {
+		display: block;
+		@include type.typeface(login-field-label);
+		@include layout.flex-mobile {
+			@include type.typeface(login-field-label-mobile);
+		}
+		color: var(--tcf-primary-light);
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	textarea {
+		display: block;
+		box-sizing: border-box;
+		width: 100%;
+		margin: 0;
+		padding: 0.6rem 0;
+		background: transparent;
+		border: none;
+		border-bottom: 1px solid var(--tcf-primary-light);
+		border-radius: var(--tcf-radius);
+		outline: none;
+		@include type.typeface(login-field-input);
+		@include layout.flex-mobile {
+			@include type.typeface(login-field-input-mobile);
+		}
+		color: var(--tcf-primary-deep);
+
+		&:focus {
+			border-bottom-color: var(--tcf-accent-yellow);
+			box-shadow: 0 1px 0 var(--tcf-accent-yellow);
+		}
+	}
+
+	textarea {
+		min-height: 7rem;
+		resize: vertical;
+	}
+
+	input[type="file"] {
+		display: block;
+		width: 100%;
+		margin: 0.4rem 0 0;
+		@include type.typeface(login-field-caption);
+		color: var(--tcf-primary-deep);
+
+		&::file-selector-button {
+			margin-right: 1rem;
+			padding: 0.5rem 1.2rem;
+			background: transparent;
+			border: 1px solid var(--tcf-primary-light);
+			border-radius: var(--tcf-radius);
+			color: var(--tcf-primary-deep);
+			font: inherit;
+			cursor: pointer;
+		}
+	}
+
+	&.is-error {
+		input,
+		textarea {
+			border-bottom-color: var(--tcf-accent-red);
+			box-shadow: none;
+		}
+	}
+}
+
+.hint,
+.error {
+	margin: 0.4rem 0 0;
+	@include type.typeface(login-field-caption);
+}
+
+.hint {
+	color: var(--tcf-primary-light);
+}
+
+.error {
+	min-height: 1.2em;
+	color: var(--tcf-accent-red);
+}
+
+// Off-screen, not display:none, so bots that skip hidden fields still fill it
+.trap {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.form-error {
+	margin: 2rem 0 0;
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-accent-red);
+}
+
+.row-submit {
+	margin-top: 3rem;
+}
+
+.back-link {
+	display: inline-block;
+	margin-top: 2rem;
+	text-decoration: none;
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-light);
+	&:hover,
+	&:focus-visible {
+		color: var(--tcf-primary-deep);
+	}
+}

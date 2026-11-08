@@ -1,0 +1,134 @@
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+:host {
+	display: block;
+	// Page background follows the theme through the shared tokens (light/dark)
+	min-height: 100vh;
+	min-height: 100dvh;
+	background-color: var(--tcf-background);
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.jobs {
+	box-sizing: border-box;
+	max-width: 72rem;
+	margin: 0 auto;
+	padding: 6rem 2rem 4rem;
+	@include layout.flex-mobile {
+		padding: 5rem 1.5rem 3rem;
+	}
+}
+
+// Heading, same look as login-card
+.head {
+	position: relative;
+	padding-left: 2.5rem;
+
+	&::before {
+		content: "";
+		position: absolute;
+		background-color: var(--tcf-accent-yellow);
+		top: 0;
+		bottom: 0;
+		left: 0.6rem;
+		width: 0.2rem;
+		transform: skew(calc(-1 * var(--tcf-slant)));
+	}
+
+	h1 {
+		@include type.typeface(login-title);
+		@include layout.flex-mobile {
+			@include type.typeface(login-title-mobile);
+		}
+		color: var(--tcf-primary-deep);
+		margin: 0;
+		overflow-wrap: break-word;
+	}
+
+	h5 {
+		@include type.typeface(login-subtitle);
+		@include layout.flex-mobile {
+			@include type.typeface(login-subtitle-mobile);
+		}
+		color: var(--tcf-primary-light);
+		margin: 0.7rem 0 0;
+		overflow-wrap: break-word;
+	}
+}
+
+// The page slots a <form> with a field and a button: field wide, button as wide as it needs
+.search {
+	margin-top: 3rem;
+}
+
+::slotted(form) {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 1.5rem;
+	@include layout.flex-mobile {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 2rem;
+	margin-top: 3rem;
+	padding: 0 1rem;
+	@include layout.flex-desktop {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.empty {
+	margin: 3rem 0 0;
+	@include type.typeface(login-subtitle);
+	color: var(--tcf-primary-light);
+}
+
+.pager {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
+	margin-top: 3rem;
+}
+
+.pager a {
+	position: relative;
+	isolation: isolate;
+	padding: 0.5rem 1.2rem;
+	text-decoration: none;
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-deep);
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border: 1px solid var(--tcf-primary-light);
+		transform: skewX(calc(-1 * var(--tcf-slant)));
+	}
+
+	&:hover::before,
+	&:focus-visible::before {
+		background-color: var(--tcf-surface);
+	}
+
+	&[aria-disabled="true"] {
+		opacity: 0.4;
+		pointer-events: none;
+	}
+}
+
+.count {
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-light);
+}

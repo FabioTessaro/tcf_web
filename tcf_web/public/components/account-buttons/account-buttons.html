@@ -1,0 +1,15 @@
+<!--
+	<account-buttons> structure. Fetched by account-buttons.js and placed inside the component's Shadow DOM.
+	A plain fragment: no <html>/<head>, no Jinja.
+
+	The desktop link and the mobile link below are the prototype of ONE entry, with the defaults for a guest.
+	account-buttons.js clones the pair once per entry the server returns ($.api.session.entries) and sets href,
+	icon, label, data-account-entry and hx-boost on each clone.
+-->
+<div class="account-buttons-container">
+    <a href="/login" class="account-buttons-desktop-container" data-account-entry="login">
+        <span class="material-symbols-sharp account-buttons-desktop-icon">login</span>
+        <div class="account-buttons-desktop-label" data-i18n="account-buttons:entries.login"></div>
+    </a>
+    <a href="/login" class="account-buttons-mobile-container" data-account-entry="login" data-i18n="account-buttons:entries.login"></a>
+</div>

@@ -91,16 +91,18 @@ fixtures = [
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "tcf_web.utils.jinja_methods",
-# 	"filters": "tcf_web.utils.jinja_filters"
-# }
+jinja = {
+	"methods": ["tcf_web.jobs.safe_html"],
+}
 
 # Installation
 # ------------
 
 # before_install = "tcf_web.install.before_install"
 # after_install = "tcf_web.install.after_install"
+
+# hrms ships its Job Application web form as standard JSON; keep it unpublished after every migrate
+after_migrate = ["tcf_web.patches.unpublish_job_application_web_form.execute"]
 
 # Uninstallation
 # ------------

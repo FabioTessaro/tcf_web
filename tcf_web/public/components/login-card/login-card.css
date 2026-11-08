@@ -2,7 +2,7 @@
   display: block;
 }
 
-::slotted(login-text-field) {
+::slotted(text-field) {
   min-width: 0;
   max-width: 100%;
 }

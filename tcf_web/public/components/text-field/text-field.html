@@ -1,0 +1,24 @@
+<div class="text-field-container">
+    <div class="label">
+        <slot name="label"></slot>
+    </div>
+    <div class="input">
+        <slot></slot>
+        <div class="action">
+            <button type="button" class="toggle">
+                <span class="material-symbols-sharp icon icon-show">visibility</span>
+                <span class="material-symbols-sharp icon icon-hide">visibility_off</span>
+            </button>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="error">
+            <div class="error-clip">
+                <span class="error-text"></span>
+            </div>
+        </div>
+        <div class="extra">
+            <slot name="button"></slot>
+        </div>
+    </div>
+</div>

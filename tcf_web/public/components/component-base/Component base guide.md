@@ -2,7 +2,7 @@
 
 ## 1. What you get
 
-`component-base.js` is the shared plumbing for the site's web components (Shadow DOM + jQuery). Each component (`<nav-bar>`, `<navbar-toggle>`, `<portal-button>`, ...) uses it instead of carrying its own copy of the same code. It gives you:
+`component-base.js` is the shared plumbing for the site's web components (Shadow DOM + jQuery). Each component (`<nav-bar>`, `<navbar-toggle>`, `<account-buttons>`, ...) uses it instead of carrying its own copy of the same code. It gives you:
 
 - **Path and tag detection:** where the component's files are, and which tag name it registers.
 - **File loading:** html, css and svg fetched once for all instances, plus the component's `.i18n.js`.
@@ -221,7 +221,7 @@ Pass the component's top element inside the shadow root, not the `ShadowRoot` it
 
 - **jQuery ignores shadow roots as event targets.** `.on()` on a `ShadowRoot` silently does nothing, and `.empty()` and `.html()` do nothing there too. Use `.find()` on it, build once, and bind on an element inside it (or on the host).
 - **Keep selectors simple when you `.find()` inside a shadow root.** Under jsdom (jQuery 3.7.1 and 4.0.0), `.find()` on an element inside a shadow tree returned nothing for any selector with a combinator or whitespace (`.a .b`, `.a > .b`, `.a, .b`), while native `querySelectorAll` found them. Single selectors (`.a`, `a[href]`) and lists without spaces (`.a,.b`) worked, and so did delegated handlers (`.on("click", ".a .b", fn)`). I could not check a real browser, but the safe form costs nothing: use a single class per `.find()`, chain `.find(".mid").find(".a")` for descendants, and write lists as `.a,.b`.
-- **Use a native listener for `focusin` and `focusout` inside a shadow root.** Under jQuery 3.7.1 (tested in jsdom) a jQuery `focusin` handler on an element inside a shadow root never fired, while jQuery 4.0.0 did. jQuery 3 simulates `focusin` by listening for `focus` on the document, where the event has been retargeted to the shadow host, so it never reaches handlers inside the shadow root. `click`, `keydown`, `pointerdown`, `pointerenter` and `contextmenu` are fine. Bind `focusin` with `addEventListener` and remove it in `disconnectedCallback`, as `portal-button.js` does.
+- **Use a native listener for `focusin` and `focusout` inside a shadow root.** Under jQuery 3.7.1 (tested in jsdom) a jQuery `focusin` handler on an element inside a shadow root never fired, while jQuery 4.0.0 did. jQuery 3 simulates `focusin` by listening for `focus` on the document, where the event has been retargeted to the shadow host, so it never reaches handlers inside the shadow root. `click`, `keydown`, `pointerdown`, `pointerenter` and `contextmenu` are fine. Bind `focusin` with `addEventListener` and remove it in `disconnectedCallback`, as `account-buttons.js` does.
 - **Write for jQuery 3 and 4.** jQuery 4 removed `$.trim`, `$.isArray`, `$.parseJSON` and other old helpers. Use the native versions (`String.prototype.trim`, `Array.isArray`, `JSON.parse`).
 - **Call `locate` at the top level.** `document.currentScript` only exists while a script's top level runs. If it is missing, `locate` falls back to finding a script tag named `<name>.js`, so keep file names equal to the component name.
 - **`.i18n.js` needs `$.localization` loaded first.** Otherwise it is skipped with a warning.

@@ -24,7 +24,7 @@
 
 	/* ==========================================================================
 	   EDIT HERE (1/3): validation
-	   Return an error key (see login-text-field) or null when the value is fine.
+	   Return an error key (see text-field) or null when the value is fine.
 	   ========================================================================== */
 
 	var ADMIN_USER = "Administrator"; // the only user that may log in without an email
@@ -281,7 +281,7 @@
 			return $(this._root).find(".login-card-container").first();
 		}
 
-		// The two fields are supplied by the page (<login-text-field slot="email|password">).
+		// The two fields are supplied by the page (<text-field slot="email|password">).
 		// They are looked up each time, because the parser may still be adding them when the card builds.
 		_field(slot) {
 			return $(this).children('[slot="' + slot + '"]')[0] || null;
@@ -320,20 +320,19 @@
 		}
 
 		// The fields' labels, placeholders and forgot button are page elements. If they use
-		// login-text-field's keys, those strings are only registered when each login-text-field
+		// text-field's keys, those strings are only registered when each text-field
 		// builds itself. Translate the page elements again once all of them have built.
 		_translateWhenFieldsReady() {
 			var self = this;
 
 			function built(field) {
 				return !!(
-					field.shadowRoot &&
-					field.shadowRoot.querySelector(".login-text-field-container")
+					field.shadowRoot && field.shadowRoot.querySelector(".text-field-container")
 				);
 			}
 
 			function ready(field) {
-				return customElements.whenDefined("login-text-field").then(function () {
+				return customElements.whenDefined("text-field").then(function () {
 					return new Promise(function (resolve) {
 						if (built(field)) {
 							resolve();
@@ -353,12 +352,12 @@
 			function run() {
 				if (!self._field("email") || !self._field("password")) {
 					console.error(
-						'[login-card] Missing <login-text-field slot="email"> and/or <login-text-field slot="password">.'
+						'[login-card] Missing <text-field slot="email"> and/or <text-field slot="password">.'
 					);
 				}
 				var pending = [];
 				$(self)
-					.children("login-text-field")
+					.children("text-field")
 					.each(function () {
 						pending.push(ready(this));
 					});
@@ -451,7 +450,7 @@
 			});
 
 			// Button is disabled exactly while a field shows an error
-			$host.on("login-text-field:statuschange" + ns, function () {
+			$host.on("text-field:statuschange" + ns, function () {
 				self._syncButtons();
 			});
 

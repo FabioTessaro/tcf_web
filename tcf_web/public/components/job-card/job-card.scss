@@ -1,0 +1,104 @@
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+// Colours, slant and spacing come from tokens/tokens.css (the page loads it), so the card
+// follows the colour scheme without its own media queries.
+
+:host {
+	display: block;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.card {
+	display: block;
+	position: relative;
+	isolation: isolate;
+	padding: 1.5rem 2.5rem;
+	text-decoration: none;
+	color: var(--tcf-primary-deep);
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+	@include layout.flex-mobile {
+		padding: 1.25rem 2rem;
+	}
+
+	// The slanted surface
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-color: var(--tcf-surface);
+		box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
+		transform: skewX(calc(-1 * var(--tcf-slant)));
+		transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+	}
+
+	// The yellow bar, same as the headings
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 1.2rem;
+		width: 0.2rem;
+		background-color: var(--tcf-accent-yellow);
+		transform: skewX(calc(-1 * var(--tcf-slant)));
+	}
+
+	&:hover::before,
+	&:focus-visible::before {
+		transform: skewX(calc(-1 * var(--tcf-slant))) translateX(0.4rem);
+	}
+}
+
+.title {
+	display: block;
+	@include type.typeface(login-subtitle);
+	@include layout.flex-mobile {
+		@include type.typeface(login-subtitle-mobile);
+	}
+	color: var(--tcf-primary-deep);
+	overflow-wrap: anywhere;
+}
+
+.company {
+	display: block;
+	margin-top: 0.4rem;
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-light);
+}
+
+.meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 1rem;
+	margin-top: 1rem;
+}
+
+.pill {
+	display: inline-block;
+	position: relative;
+	isolation: isolate;
+	padding: 0.15rem 0.9rem;
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-deep);
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border: 1px solid var(--tcf-primary-light);
+		transform: skewX(calc(-1 * var(--tcf-slant)));
+	}
+}
+
+.posted {
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-light);
+}

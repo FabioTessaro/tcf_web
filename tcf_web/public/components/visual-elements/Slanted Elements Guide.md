@@ -198,7 +198,7 @@ Include it on the element to frame (button, tile, card). Two opposite L-shaped b
 
 ```scss
 // Small brackets at rest, closing into a full frame on hover
-.portal-button {
+.account-buttons {
     @include slantedcorners.corners;
 }
 
@@ -281,7 +281,7 @@ Include it on the element the band should run through (button, tile, link). On t
 
 ```scss
 // Hover sweep behind a button
-.portal-button {
+.account-buttons {
     @include slantedhighlight.highlight;
 }
 
@@ -296,7 +296,7 @@ Include it on the element the band should run through (button, tile, link). On t
 }
 
 // Paired with corners (corners on ::before, highlight on ::after)
-.portal-button {
+.account-buttons {
     @include slantedcorners.corners;
     @include slantedhighlight.highlight($host: false);   // corners already sets the host
 }
@@ -449,7 +449,7 @@ An element has two pseudo-elements, so at most two of these effects can share it
 `corners` also defaults to `::before`, so it pairs with a single-sided `indicator`:
 
 ```scss
-.portal-button {
+.account-buttons {
     @include slantedcorners.corners;
     @include slanted.indicator($side: right);
 }
@@ -458,7 +458,7 @@ An element has two pseudo-elements, so at most two of these effects can share it
 `highlight` defaults to `::after`, so it pairs with `corners` (or `pill`), which use `::before`. Pass `$host: false` to the second mixin, since the first already sets the host:
 
 ```scss
-.portal-button {
+.account-buttons {
     @include slantedcorners.corners;
     @include slantedhighlight.highlight($host: false);
 }

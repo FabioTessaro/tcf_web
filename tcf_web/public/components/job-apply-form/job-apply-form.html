@@ -1,0 +1,74 @@
+<div class="apply-form">
+    <div class="card">
+
+        <!-- Form -->
+        <form class="form" novalidate data-state="form">
+            <div class="head">
+                <h1 data-i18n="jobs:apply.title"></h1>
+                <h5><span data-i18n="jobs:apply.for"></span> <span class="opening-title"></span></h5>
+            </div>
+
+            <div class="field" data-field="applicant_name">
+                <label for="applicant_name" data-i18n="jobs:apply.name.label"></label>
+                <input id="applicant_name" name="applicant_name" type="text" maxlength="140" autocomplete="name" data-i18n="[placeholder]jobs:apply.name.placeholder">
+                <p class="error"></p>
+            </div>
+
+            <div class="field" data-field="email_id">
+                <label for="email_id" data-i18n="jobs:apply.email.label"></label>
+                <input id="email_id" name="email_id" type="email" maxlength="140" autocomplete="email" data-i18n="[placeholder]jobs:apply.email.placeholder">
+                <p class="error"></p>
+            </div>
+
+            <div class="field" data-field="phone_number">
+                <label for="phone_number" data-i18n="jobs:apply.phone.label"></label>
+                <input id="phone_number" name="phone_number" type="tel" maxlength="30" autocomplete="tel" data-i18n="[placeholder]jobs:apply.phone.placeholder">
+                <p class="error"></p>
+            </div>
+
+            <div class="field" data-field="cover_letter">
+                <label for="cover_letter" data-i18n="jobs:apply.cover.label"></label>
+                <textarea id="cover_letter" name="cover_letter" maxlength="3000" data-i18n="[placeholder]jobs:apply.cover.placeholder"></textarea>
+                <p class="error"></p>
+            </div>
+
+            <div class="field" data-field="resume">
+                <label for="resume" data-i18n="jobs:apply.resume.label"></label>
+                <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                <p class="hint" data-i18n="jobs:apply.resume.hint"></p>
+                <p class="error"></p>
+            </div>
+
+            <!-- Honeypot: real visitors never see it -->
+            <div class="trap" aria-hidden="true">
+                <input name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <p class="form-error" role="alert" hidden></p>
+
+            <div class="row-submit">
+                <primary-button class="submit" label="jobs:apply.submit" loading-label="jobs:apply.sending"
+                    icon="send" icon-loading="hourglass" icon-position="right"></primary-button>
+            </div>
+        </form>
+
+        <!-- Sent -->
+        <div class="sent" data-state="sent" hidden>
+            <div class="head">
+                <h1 data-i18n="jobs:apply.sent.title"></h1>
+                <h5 data-i18n="jobs:apply.sent.subtitle"></h5>
+            </div>
+            <a class="back-link" href="/jobs" data-i18n="jobs:apply.back"></a>
+        </div>
+
+        <!-- Closed, missing or unpublished opening -->
+        <div class="unavailable" data-state="unavailable" hidden>
+            <div class="head">
+                <h1 data-i18n="jobs:apply.unavailable.title"></h1>
+                <h5 data-i18n="jobs:apply.unavailable.subtitle"></h5>
+            </div>
+            <a class="back-link" href="/jobs" data-i18n="jobs:apply.back"></a>
+        </div>
+
+    </div>
+</div>

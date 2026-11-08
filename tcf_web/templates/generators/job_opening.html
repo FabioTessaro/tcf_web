@@ -1,0 +1,28 @@
+{% extends "tcf_web/www/base.html" %}
+
+{# Overrides hrms' templates/generators/job_opening.html (Jinja searches the latest installed app first).
+   hrms' JobOpening.get_context turns `posted_on` into text ("2 days ago"), so the date comes from `doc`. #}
+{% block content %}
+    {% include "tcf_web/templates/includes/navbar.html" %}
+
+    {% set salary_text %}{% if publish_salary_range and (lower_range or upper_range) -%}
+        {%- if lower_range %}{{ frappe.format_value(frappe.utils.flt(lower_range), currency=currency) }}{% endif -%}
+        {%- if lower_range and upper_range %} - {% endif -%}
+        {%- if upper_range %}{{ frappe.format_value(frappe.utils.flt(upper_range), currency=currency) }}{% endif -%}
+        {%- if salary_per %} / {{ salary_per | lower }}{% endif -%}
+    {%- endif %}{% endset %}
+
+    <job-detail
+        job-title="{{ job_title | e }}"
+        company="{{ (company or '') | e }}"
+        posted="{{ frappe.utils.getdate(doc.posted_on) if doc.posted_on else '' }}"
+        location="{{ (location or '') | e }}"
+        department="{{ (department or '') | e }}"
+        employment-type="{{ (employment_type or '') | e }}"
+        salary="{{ salary_text | trim | e }}"
+        closes="{{ frappe.utils.getdate(closes_on) if status == 'Open' and closes_on else '' }}"
+        status="{{ status | e }}"
+        apply-href="/apply?opening={{ name | urlencode }}">
+        {% if description %}<div>{{ safe_html(description) }}</div>{% endif %}
+    </job-detail>
+{% endblock %}

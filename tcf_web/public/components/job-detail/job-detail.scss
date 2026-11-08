@@ -1,0 +1,115 @@
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+
+:host {
+	display: block;
+	// Page background follows the theme through the shared tokens (light/dark)
+	min-height: 100vh;
+	min-height: 100dvh;
+	background-color: var(--tcf-background);
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.detail {
+	box-sizing: border-box;
+	max-width: 60rem;
+	margin: 0 auto;
+	padding: 6rem 2rem 4rem;
+	@include layout.flex-mobile {
+		padding: 5rem 1.5rem 3rem;
+	}
+}
+
+.back {
+	display: inline-block;
+	margin: 0 0 2rem 2.5rem;
+	text-decoration: none;
+	@include type.typeface(login-field-caption);
+	color: var(--tcf-primary-light);
+	&:hover,
+	&:focus-visible {
+		color: var(--tcf-primary-deep);
+	}
+}
+
+.head {
+	position: relative;
+	padding-left: 2.5rem;
+
+	&::before {
+		content: "";
+		position: absolute;
+		background-color: var(--tcf-accent-yellow);
+		top: 0;
+		bottom: 0;
+		left: 0.6rem;
+		width: 0.2rem;
+		transform: skew(calc(-1 * var(--tcf-slant)));
+	}
+
+	h1 {
+		@include type.typeface(login-title);
+		@include layout.flex-mobile {
+			@include type.typeface(login-title-mobile);
+		}
+		color: var(--tcf-primary-deep);
+		margin: 0;
+		overflow-wrap: break-word;
+	}
+
+	h5 {
+		@include type.typeface(login-subtitle);
+		@include layout.flex-mobile {
+			@include type.typeface(login-subtitle-mobile);
+		}
+		color: var(--tcf-primary-light);
+		margin: 0.7rem 0 0;
+		overflow-wrap: break-word;
+	}
+}
+
+.facts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	gap: 1.5rem 2rem;
+	margin: 3rem 0 0;
+	padding: 0 0 0 2.5rem;
+}
+
+.fact {
+	min-width: 0;
+
+	dt {
+		@include type.typeface(login-field-caption);
+		color: var(--tcf-primary-light);
+	}
+
+	dd {
+		margin: 0.25rem 0 0;
+		@include type.typeface(login-subtitle);
+		color: var(--tcf-primary-deep);
+		overflow-wrap: anywhere;
+	}
+}
+
+.description {
+	margin-top: 3rem;
+	padding-left: 2.5rem;
+	color: var(--tcf-primary-medium);
+	line-height: 1.6;
+	overflow-wrap: break-word;
+}
+
+.action {
+	margin: 3rem 0 0 2.5rem;
+	max-width: 22rem;
+}
+
+.closed {
+	margin: 0;
+	@include type.typeface(login-subtitle);
+	color: var(--tcf-primary-light);
+}

@@ -2,6 +2,8 @@ import frappe
 from frappe.sessions import get_csrf_token
 from frappe.utils import get_fullname
 
+from tcf_web.entries import get_entries
+
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_session():
@@ -17,6 +19,7 @@ def get_session():
 		"is_guest": is_guest,
 		"full_name": None if is_guest else get_fullname(user),
 		"roles": frappe.get_roles(user),
+		"entries": get_entries(user),
 		"lang": frappe.local.lang,
 		"csrf_token": None if is_guest else get_csrf_token(),
 	}

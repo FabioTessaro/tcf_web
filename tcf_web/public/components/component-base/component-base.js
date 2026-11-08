@@ -1,7 +1,7 @@
 /*!
  * component-base.js: shared helpers for the site's web components (Shadow DOM + jQuery)
  *
- * Every component (nav-bar, navbar-toggle, portal-button, ...) uses this file for the plumbing that would
+ * Every component (nav-bar, navbar-toggle, account-buttons, ...) uses this file for the plumbing that would
  * otherwise be copied into each of them. It knows nothing about any particular component, so a component
  * can be used anywhere, with or without a <nav-bar> around it.
  *

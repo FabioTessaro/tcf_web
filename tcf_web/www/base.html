@@ -16,6 +16,7 @@
     <script src="/assets/tcf_web/components/localization/localization.js"></script>
     <script src="/assets/tcf_web/components/navigation/navigation.js" defer></script>
     <script src="/assets/tcf_web/components/component-base/component-base.js"></script>
+    <script src="/assets/tcf_web/components/jobs/jobs.i18n.js"></script>
 
     <!-- Import of the custom components definitions -->
     <script type="module" src="/assets/tcf_web/components/splash/splash.js"></script>
@@ -23,16 +24,26 @@
     <script type="module" src="/assets/tcf_web/components/frappe/frappe.auth.js"></script>
     <script type="module" src="/assets/tcf_web/components/navbar/navbar.js"></script>
     <script type="module" src="/assets/tcf_web/components/navbar-button/navbar-button.js"></script>
-    <script type="module" src="/assets/tcf_web/components/portal-button/portal-button.js"></script>
+    <script type="module" src="/assets/tcf_web/components/account-buttons/account-buttons.js"></script>
     <script type="module" src="/assets/tcf_web/components/navbar-toggle/navbar-toggle.js"></script>
     <script type="module" src="/assets/tcf_web/components/language-switcher/language-switcher.js"></script>
-    <script type="module" src="/assets/tcf_web/components/login-text-field/login-text-field.js"></script>
+    <script type="module" src="/assets/tcf_web/components/text-field/text-field.js"></script>
     <script type="module" src="/assets/tcf_web/components/primary-button/primary-button.js"></script>
     <script type="module" src="/assets/tcf_web/components/hero-video/hero-video.js"></script>
     <script type="module" src="/assets/tcf_web/components/login-card/login-card.js"></script>
+    <script type="module" src="/assets/tcf_web/components/password-card/password-card.js"></script>
+    <script type="module" src="/assets/tcf_web/components/job-card/job-card.js"></script>
+    <script type="module" src="/assets/tcf_web/components/jobs-list/jobs-list.js"></script>
+    <script type="module" src="/assets/tcf_web/components/job-detail/job-detail.js"></script>
+    <script type="module" src="/assets/tcf_web/components/job-apply-form/job-apply-form.js"></script>
 
     <!-- Import of stylesheets -->
+    <!-- Typefaces: the Noto Sans family the typography tokens name (Latin, Chinese, Japanese; variable weight, Latin also width) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wdth,wght@62.5..100,100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/assets/tcf_web/components/tokens/tokens.css"/>
     <link rel="stylesheet" href="/assets/tcf_web/components/base.css"/>
 </head>
 <body hx-boost="true" hx-target="#page-container" hx-select="#page-container" hx-swap="outerHTML">

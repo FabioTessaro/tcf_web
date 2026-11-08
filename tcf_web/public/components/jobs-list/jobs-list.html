@@ -1,0 +1,18 @@
+<div class="jobs">
+    <header class="head">
+        <h1><slot name="title"></slot></h1>
+        <h5><slot name="subtitle"></slot></h5>
+    </header>
+
+    <div class="search"><slot name="search"></slot></div>
+
+    <div class="grid"><slot></slot></div>
+
+    <p class="empty" data-i18n="jobs:list.empty" hidden></p>
+
+    <nav class="pager" hidden>
+        <a class="prev" data-i18n="jobs:pager.previous"></a>
+        <span class="count"></span>
+        <a class="next" data-i18n="jobs:pager.next"></a>
+    </nav>
+</div>

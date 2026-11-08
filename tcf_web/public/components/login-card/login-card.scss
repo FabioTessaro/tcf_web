@@ -52,7 +52,7 @@ $reposition-easing: cubic-bezier(0.2, 0, 0, 1);
 
 // The fields are supplied by the page. They may shrink below their own content width,
 // so the card width always wins.
-::slotted(login-text-field) {
+::slotted(text-field) {
 	min-width: 0;
 	max-width: 100%;
 }
@@ -341,7 +341,7 @@ $reposition-easing: cubic-bezier(0.2, 0, 0, 1);
 	}
 }
 
-// The forgot-password button is supplied by the page (inside the slotted login-text-field),
+// The forgot-password button is supplied by the page (inside the slotted text-field),
 // so it is styled in the page stylesheet, not here.
 // The back link below belongs to this component: slanted indicator on desktop, slanted pill on mobile.
 .back-link {

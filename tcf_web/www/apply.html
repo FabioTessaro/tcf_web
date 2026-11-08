@@ -1,0 +1,10 @@
+{% extends "tcf_web/www/base.html" %}
+
+{% block content %}
+    {% include "tcf_web/templates/includes/navbar.html" %}
+
+    <job-apply-form
+        opening="{{ opening | e }}"
+        opening-title="{{ opening_title | e }}"
+        {% if not opening %}unavailable{% endif %}></job-apply-form>
+{% endblock %}

@@ -22,6 +22,7 @@ const session = {
 	isGuest: true,
 	fullName: null,
 	roles: [],
+	entries: [],
 	lang: null,
 	csrf: null,
 	failed: false,
@@ -54,6 +55,7 @@ function applySession(data) {
 	session.isGuest = data.is_guest;
 	session.fullName = data.full_name;
 	session.roles = data.roles;
+	session.entries = data.entries || [];
 	session.lang = data.lang;
 	session.csrf = data.csrf_token;
 	session.failed = false;

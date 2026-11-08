@@ -1,0 +1,81 @@
+@use "sass:map";
+@use "../palette/palette" as palette;
+@use "../typography/typography" as type;
+@use "../layout/layout" as layout;
+@use "../visual-elements/elements-defaults" as defaults;
+
+// Brand tokens as plain CSS custom properties, for code that cannot use the scss
+// partials (the tcf_hr Vue app). Values come from the partials, so there is one source.
+// Compile on its own: this file does not depend on base.scss.
+
+:root {
+	// Light and dark palette. Same names as the scss variables, with the -- prefix.
+	--tcf-light-primary-deep: #{palette.$light-primary-deep};
+	--tcf-light-primary-medium: #{palette.$light-primary-medium};
+	--tcf-light-primary-light: #{palette.$light-primary-light};
+	--tcf-light-surface: #{palette.$light-surface};
+	--tcf-light-background: #{palette.$light-background};
+
+	--tcf-dark-primary-deep: #{palette.$dark-primary-deep};
+	--tcf-dark-primary-medium: #{palette.$dark-primary-medium};
+	--tcf-dark-primary-light: #{palette.$dark-primary-light};
+	--tcf-dark-surface: #{palette.$dark-surface};
+	--tcf-dark-background: #{palette.$dark-background};
+
+	--tcf-accent-green: #{palette.$accent-green};
+	--tcf-accent-white: #{palette.$accent-white};
+	--tcf-accent-red: #{palette.$accent-red};
+	--tcf-accent-yellow: #{palette.$accent-yellow};
+
+	// Brand angle: every slanted element leans this far off vertical.
+	--tcf-slant: #{defaults.$brand-slant};
+
+	// Square corners: the brand uses slants, never rounded corners.
+	--tcf-radius: 0;
+
+	// Spacing steps, taken from the distances login-card and the pills already use.
+	--tcf-space-xs: 0.5rem;
+	--tcf-space-sm: 1rem;
+	--tcf-space-md: 1.5rem;
+	--tcf-space-lg: 2rem;
+	--tcf-space-xl: 3.5rem;
+	--tcf-space-xxl: 4rem;
+
+	// Desktop starts here (layout.$flex-desktop-breakpoint). Custom properties cannot be used
+	// in @media, so a script reads this value; CSS writes the number itself.
+	--tcf-desktop-min-width: #{map.get(layout.$flex-breakpoints, layout.$flex-desktop-breakpoint)};
+
+	// Motion: shared durations and easings (the values the navbar buttons already use: 0.3s and 0.5s).
+	// Components with a prefers-reduced-motion rule switch these off themselves.
+	--tcf-motion-fast: 150ms;
+	--tcf-motion-base: 300ms;
+	--tcf-motion-slow: 500ms;
+	--tcf-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--tcf-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+// Semantic roles that follow the user's colour scheme.
+:root {
+	--tcf-primary-deep: var(--tcf-light-primary-deep);
+	--tcf-primary-medium: var(--tcf-light-primary-medium);
+	--tcf-primary-light: var(--tcf-light-primary-light);
+	--tcf-surface: var(--tcf-light-surface);
+	--tcf-background: var(--tcf-light-background);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+	:root {
+		--tcf-primary-deep: var(--tcf-dark-primary-deep);
+		--tcf-primary-medium: var(--tcf-dark-primary-medium);
+		--tcf-primary-light: var(--tcf-dark-primary-light);
+		--tcf-surface: var(--tcf-dark-surface);
+		--tcf-background: var(--tcf-dark-background);
+	}
+}
+
+// Typeface tokens (--tf-*), the same ones base.css carries.
+:root {
+	@include type.tokens;
+}
+
+@include type.language-tokens;

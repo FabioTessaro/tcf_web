@@ -1,0 +1,224 @@
+.material-symbols-sharp {
+  font-variation-settings: var(--icon-font-variation-settings, inherit);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-sharp {
+  font-family: "Material Symbols Sharp";
+}
+
+:host {
+  display: contents;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.account-buttons-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.account-buttons-desktop-container, .account-buttons-desktop-container:link, .account-buttons-desktop-container:visited, .account-buttons-desktop-container:hover, .account-buttons-desktop-container:active, .account-buttons-desktop-container:focus {
+  text-decoration: none;
+}
+@media screen and (prefers-color-scheme: dark) {
+  .account-buttons-desktop-container, .account-buttons-desktop-container:link, .account-buttons-desktop-container:visited, .account-buttons-desktop-container:hover, .account-buttons-desktop-container:active, .account-buttons-desktop-container:focus {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .account-buttons-desktop-container, .account-buttons-desktop-container:link, .account-buttons-desktop-container:visited, .account-buttons-desktop-container:hover, .account-buttons-desktop-container:active, .account-buttons-desktop-container:focus {
+    color: #3b3b3b;
+  }
+}
+.account-buttons-desktop-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  -moz-column-gap: 0.2rem;
+       column-gap: 0.2rem;
+  row-gap: 0.2rem;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 767.98px) {
+  .account-buttons-desktop-container {
+    display: none;
+  }
+}
+.account-buttons-desktop-container {
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  isolation: isolate;
+  --slanted-corners-length: 0.4rem;
+  --slanted-corners-inset: -0.12rem -0.5rem;
+}
+.account-buttons-desktop-container::before {
+  content: "";
+  position: absolute;
+  inset: var(--slanted-corners-inset);
+  z-index: -1;
+  transform: skewX(-10deg);
+  pointer-events: none;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left top, left top, right bottom, right bottom;
+  background-size: var(--slanted-corners-length) 1px, 1px var(--slanted-corners-length), var(--slanted-corners-length) 1px, 1px var(--slanted-corners-length);
+  transition: inset 0.3s ease, background-size 0.3s ease;
+}
+@media (hover: hover) {
+  .account-buttons-desktop-container:hover {
+    --slanted-corners-length: 50%;
+    --slanted-corners-inset: -0.15rem -0.7rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-buttons-desktop-container::before {
+    transition: none;
+  }
+}
+.account-buttons-desktop-container {
+  --slanted-highlight-inset: -0.12rem -0.5rem;
+  --slanted-highlight-radius: 1.2rem;
+  --slanted-highlight-position: 100% 0;
+  --slanted-highlight-duration: 0s;
+}
+.account-buttons-desktop-container::after {
+  content: "";
+  position: absolute;
+  inset: var(--slanted-highlight-inset);
+  z-index: -2;
+  transform: skewX(-10deg);
+  pointer-events: none;
+  border-radius: var(--slanted-highlight-radius);
+  background-image: linear-gradient(90deg, transparent 0%, transparent 40%, color-mix(in srgb, currentColor 22%, transparent) 50%, transparent 60%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  background-position: var(--slanted-highlight-position);
+  transition: inset 0.3s ease, border-radius 0.3s ease, background-position var(--slanted-highlight-duration) ease-in-out;
+}
+@media (hover: hover) {
+  .account-buttons-desktop-container:hover {
+    --slanted-highlight-inset: -0.15rem -0.7rem;
+    --slanted-highlight-radius: 0;
+    --slanted-highlight-position: 0% 0;
+    --slanted-highlight-duration: 0.5s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-buttons-desktop-container::after {
+    transition: none;
+  }
+}
+.account-buttons-desktop-container > .account-buttons-desktop-label {
+  font-family: var(--tf-navigation-label-stack);
+  font-weight: var(--tf-navigation-label-weight);
+  font-stretch: var(--tf-navigation-label-width);
+  font-style: var(--tf-navigation-label-style);
+  font-size: var(--tf-navigation-label-size);
+  line-height: var(--tf-navigation-label-line-height);
+  letter-spacing: var(--tf-navigation-label-letter-spacing);
+  text-transform: var(--tf-navigation-label-transform);
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+.account-buttons-desktop-container > .account-buttons-desktop-icon {
+  font-weight: 200;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+.account-buttons-desktop-container:hover > .account-buttons-desktop-label {
+  transform: scale(1.06);
+}
+.account-buttons-desktop-container:hover > .account-buttons-desktop-icon {
+  transform: scale(1.06);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  .account-buttons-mobile-container, .account-buttons-mobile-container:link, .account-buttons-mobile-container:visited, .account-buttons-mobile-container:hover, .account-buttons-mobile-container:active, .account-buttons-mobile-container:focus {
+    color: #f1f2f2;
+  }
+}
+@media screen and (prefers-color-scheme: light) {
+  .account-buttons-mobile-container, .account-buttons-mobile-container:link, .account-buttons-mobile-container:visited, .account-buttons-mobile-container:hover, .account-buttons-mobile-container:active, .account-buttons-mobile-container:focus {
+    color: #3b3b3b;
+  }
+}
+.account-buttons-mobile-container, .account-buttons-mobile-container:link, .account-buttons-mobile-container:visited, .account-buttons-mobile-container:hover, .account-buttons-mobile-container:active, .account-buttons-mobile-container:focus {
+  text-decoration: none;
+}
+.account-buttons-mobile-container {
+  font-family: var(--tf-navigation-label-mobile-stack);
+  font-weight: var(--tf-navigation-label-mobile-weight);
+  font-stretch: var(--tf-navigation-label-mobile-width);
+  font-style: var(--tf-navigation-label-mobile-style);
+  font-size: var(--tf-navigation-label-mobile-size);
+  line-height: var(--tf-navigation-label-mobile-line-height);
+  letter-spacing: var(--tf-navigation-label-mobile-letter-spacing);
+  text-transform: var(--tf-navigation-label-mobile-transform);
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  transition: transform 0.15s ease;
+  position: relative;
+  isolation: isolate;
+}
+.account-buttons-mobile-container::before {
+  content: "";
+  position: absolute;
+  inset: -0.05rem -0.1rem;
+  z-index: -1;
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 0;
+  transform: skewX(-10deg);
+  transition: opacity 0.15s ease;
+}
+.account-buttons-mobile-container:active::before {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .account-buttons-mobile-container:hover::before {
+    opacity: 1;
+  }
+}
+.account-buttons-mobile-container:focus-visible::before {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-buttons-mobile-container::before {
+    transition: none;
+  }
+}
+@media (min-width: 768px) {
+  .account-buttons-mobile-container {
+    display: none;
+  }
+}
+.account-buttons-mobile-container {
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.account-buttons-mobile-container:active {
+  transform: scale(1.06);
+}

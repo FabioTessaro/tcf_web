@@ -1,0 +1,24 @@
+<article class="detail">
+    <a class="back" href="/jobs" data-i18n="jobs:detail.back"></a>
+
+    <header class="head">
+        <h1 class="title"></h1>
+        <h5 class="byline"></h5>
+    </header>
+
+    <dl class="facts">
+        <div class="fact" data-field="location"><dt data-i18n="jobs:detail.location"></dt><dd></dd></div>
+        <div class="fact" data-field="department"><dt data-i18n="jobs:detail.department"></dt><dd></dd></div>
+        <div class="fact" data-field="employment-type"><dt data-i18n="jobs:detail.employmentType"></dt><dd></dd></div>
+        <div class="fact" data-field="salary"><dt data-i18n="jobs:detail.salary"></dt><dd></dd></div>
+        <div class="fact" data-field="closes"><dt data-i18n="jobs:detail.closes"></dt><dd></dd></div>
+    </dl>
+
+    <!-- The description: sanitised rich text from the page -->
+    <div class="description"><slot></slot></div>
+
+    <div class="action">
+        <primary-button class="apply" label="jobs:detail.apply" icon="arrow_forward" icon-position="right"></primary-button>
+        <p class="closed" data-i18n="jobs:detail.closed" hidden></p>
+    </div>
+</article>

@@ -1,0 +1,296 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--tcf-background);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.apply-form {
+  box-sizing: border-box;
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+}
+@media (max-width: 767.98px) {
+  .apply-form {
+    padding: 5rem 0 0;
+  }
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  padding: 3rem 4.4rem;
+}
+@media (max-width: 767.98px) {
+  .card {
+    padding: 2rem 1.5rem;
+  }
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--tcf-surface);
+  box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
+  transform: skewX(calc(-1 * var(--tcf-slant)));
+}
+@media (max-width: 767.98px) {
+  .card::before {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.head {
+  position: relative;
+  padding-left: 2.5rem;
+}
+.head::before {
+  content: "";
+  position: absolute;
+  background-color: var(--tcf-accent-yellow);
+  top: 0;
+  bottom: 0;
+  left: 0.6rem;
+  width: 0.2rem;
+  transform: skew(calc(-1 * var(--tcf-slant)));
+}
+.head h1 {
+  font-family: var(--tf-login-title-stack);
+  font-weight: var(--tf-login-title-weight);
+  font-stretch: var(--tf-login-title-width);
+  font-style: var(--tf-login-title-style);
+  font-size: var(--tf-login-title-size);
+  line-height: var(--tf-login-title-line-height);
+  letter-spacing: var(--tf-login-title-letter-spacing);
+  text-transform: var(--tf-login-title-transform);
+}
+@media (max-width: 767.98px) {
+  .head h1 {
+    font-family: var(--tf-login-title-mobile-stack);
+    font-weight: var(--tf-login-title-mobile-weight);
+    font-stretch: var(--tf-login-title-mobile-width);
+    font-style: var(--tf-login-title-mobile-style);
+    font-size: var(--tf-login-title-mobile-size);
+    line-height: var(--tf-login-title-mobile-line-height);
+    letter-spacing: var(--tf-login-title-mobile-letter-spacing);
+    text-transform: var(--tf-login-title-mobile-transform);
+  }
+}
+.head h1 {
+  color: var(--tcf-primary-deep);
+  margin: 0;
+  overflow-wrap: break-word;
+}
+.head h5 {
+  font-family: var(--tf-login-subtitle-stack);
+  font-weight: var(--tf-login-subtitle-weight);
+  font-stretch: var(--tf-login-subtitle-width);
+  font-style: var(--tf-login-subtitle-style);
+  font-size: var(--tf-login-subtitle-size);
+  line-height: var(--tf-login-subtitle-line-height);
+  letter-spacing: var(--tf-login-subtitle-letter-spacing);
+  text-transform: var(--tf-login-subtitle-transform);
+}
+@media (max-width: 767.98px) {
+  .head h5 {
+    font-family: var(--tf-login-subtitle-mobile-stack);
+    font-weight: var(--tf-login-subtitle-mobile-weight);
+    font-stretch: var(--tf-login-subtitle-mobile-width);
+    font-style: var(--tf-login-subtitle-mobile-style);
+    font-size: var(--tf-login-subtitle-mobile-size);
+    line-height: var(--tf-login-subtitle-mobile-line-height);
+    letter-spacing: var(--tf-login-subtitle-mobile-letter-spacing);
+    text-transform: var(--tf-login-subtitle-mobile-transform);
+  }
+}
+.head h5 {
+  color: var(--tcf-primary-light);
+  margin: 0.7rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.field {
+  margin-top: 2rem;
+}
+.field label {
+  display: block;
+  font-family: var(--tf-login-field-label-stack);
+  font-weight: var(--tf-login-field-label-weight);
+  font-stretch: var(--tf-login-field-label-width);
+  font-style: var(--tf-login-field-label-style);
+  font-size: var(--tf-login-field-label-size);
+  line-height: var(--tf-login-field-label-line-height);
+  letter-spacing: var(--tf-login-field-label-letter-spacing);
+  text-transform: var(--tf-login-field-label-transform);
+}
+@media (max-width: 767.98px) {
+  .field label {
+    font-family: var(--tf-login-field-label-mobile-stack);
+    font-weight: var(--tf-login-field-label-mobile-weight);
+    font-stretch: var(--tf-login-field-label-mobile-width);
+    font-style: var(--tf-login-field-label-mobile-style);
+    font-size: var(--tf-login-field-label-mobile-size);
+    line-height: var(--tf-login-field-label-mobile-line-height);
+    letter-spacing: var(--tf-login-field-label-mobile-letter-spacing);
+    text-transform: var(--tf-login-field-label-mobile-transform);
+  }
+}
+.field label {
+  color: var(--tcf-primary-light);
+}
+.field input[type=text],
+.field input[type=email],
+.field input[type=tel],
+.field textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0.6rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--tcf-primary-light);
+  border-radius: var(--tcf-radius);
+  outline: none;
+  font-family: var(--tf-login-field-input-stack);
+  font-weight: var(--tf-login-field-input-weight);
+  font-stretch: var(--tf-login-field-input-width);
+  font-style: var(--tf-login-field-input-style);
+  font-size: var(--tf-login-field-input-size);
+  line-height: var(--tf-login-field-input-line-height);
+  letter-spacing: var(--tf-login-field-input-letter-spacing);
+  text-transform: var(--tf-login-field-input-transform);
+}
+@media (max-width: 767.98px) {
+  .field input[type=text],
+  .field input[type=email],
+  .field input[type=tel],
+  .field textarea {
+    font-family: var(--tf-login-field-input-mobile-stack);
+    font-weight: var(--tf-login-field-input-mobile-weight);
+    font-stretch: var(--tf-login-field-input-mobile-width);
+    font-style: var(--tf-login-field-input-mobile-style);
+    font-size: var(--tf-login-field-input-mobile-size);
+    line-height: var(--tf-login-field-input-mobile-line-height);
+    letter-spacing: var(--tf-login-field-input-mobile-letter-spacing);
+    text-transform: var(--tf-login-field-input-mobile-transform);
+  }
+}
+.field input[type=text],
+.field input[type=email],
+.field input[type=tel],
+.field textarea {
+  color: var(--tcf-primary-deep);
+}
+.field input[type=text]:focus,
+.field input[type=email]:focus,
+.field input[type=tel]:focus,
+.field textarea:focus {
+  border-bottom-color: var(--tcf-accent-yellow);
+  box-shadow: 0 1px 0 var(--tcf-accent-yellow);
+}
+.field textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+.field input[type=file] {
+  display: block;
+  width: 100%;
+  margin: 0.4rem 0 0;
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+  color: var(--tcf-primary-deep);
+}
+.field input[type=file]::file-selector-button {
+  margin-right: 1rem;
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--tcf-primary-light);
+  border-radius: var(--tcf-radius);
+  color: var(--tcf-primary-deep);
+  font: inherit;
+  cursor: pointer;
+}
+.field.is-error input,
+.field.is-error textarea {
+  border-bottom-color: var(--tcf-accent-red);
+  box-shadow: none;
+}
+
+.hint,
+.error {
+  margin: 0.4rem 0 0;
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+}
+
+.hint {
+  color: var(--tcf-primary-light);
+}
+
+.error {
+  min-height: 1.2em;
+  color: var(--tcf-accent-red);
+}
+
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-error {
+  margin: 2rem 0 0;
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+  color: var(--tcf-accent-red);
+}
+
+.row-submit {
+  margin-top: 3rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: none;
+  font-family: var(--tf-login-field-caption-stack);
+  font-weight: var(--tf-login-field-caption-weight);
+  font-stretch: var(--tf-login-field-caption-width);
+  font-style: var(--tf-login-field-caption-style);
+  font-size: var(--tf-login-field-caption-size);
+  line-height: var(--tf-login-field-caption-line-height);
+  letter-spacing: var(--tf-login-field-caption-letter-spacing);
+  text-transform: var(--tf-login-field-caption-transform);
+  color: var(--tcf-primary-light);
+}
+.back-link:hover, .back-link:focus-visible {
+  color: var(--tcf-primary-deep);
+}

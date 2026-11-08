@@ -50,6 +50,7 @@ One stable object that is mutated in place, so it is safe to keep a reference to
 | `isGuest` | `true` when nobody is logged in |
 | `fullName` | Display name, `null` for guests |
 | `roles` | Array of role names (`["Guest"]` for guests) |
+| `entries` | Account buttons for the navbar, decided by the server (`tcf_web/entries.py`); see the account-buttons guide |
 | `lang` | Language code Frappe resolved for this request |
 | `csrf` | CSRF token, `null` for guests |
 | `failed` | `true` if the last session load failed |
@@ -143,6 +144,7 @@ def get_session():
 		"is_guest": is_guest,
 		"full_name": None if is_guest else frappe.utils.get_fullname(user),
 		"roles": frappe.get_roles(user),
+		"entries": get_entries(user),
 		"lang": frappe.local.lang,
 		"csrf_token": None if is_guest else get_csrf_token(),
 	}

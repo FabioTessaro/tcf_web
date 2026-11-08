@@ -1,20 +1,6 @@
 {% extends "tcf_web/www/base.html" %}
 
 {% block content %}
-    <nav-bar>
-        <navbar-button href="/" i18n="navbar-button:home">Home</navbar-button>
-        <navbar-button href="/" i18n="navbar-button:contacts">Contacts</navbar-button>
-        <navbar-button href="/" i18n="navbar-button:company">Company</navbar-button>
-        <navbar-toggle navbar-role="toggle-open"></navbar-toggle>
-        <navbar-toggle navbar-role="toggle-close"></navbar-toggle>
-        <portal-button navbar-role="utility"></portal-button>
-        <language-switcher navbar-role="utility">
-            <option value="en-GB">English</option>
-            <option value="de-DE">Deutsch</option>
-            <option value="it-IT">Italiano</option>
-            <option value="zh-CN">中文</option>
-            <option value="ja-JP">日本語</option>
-        </language-switcher>
-    </nav-bar>
+    {% include "tcf_web/templates/includes/navbar.html" %}
     <hero-video></hero-video>
 {% endblock %}
